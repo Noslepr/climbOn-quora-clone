@@ -15,5 +15,5 @@ class Question(db.Model):
             'id': self.id,
             'user_id': self.user.to_dict(),
             'question': self.question,
-            'answers': [answer.to_dict for answer in self.answers]
+            'answers': [answer.to_dict() for answer in self.answers]
         }
