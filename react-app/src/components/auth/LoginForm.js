@@ -18,6 +18,11 @@ const LoginForm = () => {
     }
   };
 
+  const demoLogin = (e) => {
+    e.preventDefault();
+    dispatch(login('watson@soriano.com', 'password'))
+  }
+
   const updateEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -57,6 +62,7 @@ const LoginForm = () => {
           onChange={updatePassword}
         />
         <button type='submit'>Login</button>
+        <button onClick={demoLogin}>Demo Login</button>
       </div>
     </form>
   );
