@@ -3,16 +3,20 @@ from app.models import db, User
 
 # Adds a demo user, you can add other users here if you want
 def seed_users():
-    demo = User(
-        full_name='Demo Man', email='demo@aa.io', password='password')
-    marnie = User(
-        full_name='marnie', email='marnie@aa.io', password='password')
-    bobbie = User(
-        full_name='bobbie', email='bobbie@aa.io', password='password')
+    users = [
+        User(full_name='Hrodebert Elder', email='Hrodeber@Elder.com', password='password', credentials='Beginner climber 6mo experience'),
+        User(full_name='Ortwin Amatore', email='ortwin@amatore.com', password='password', credentials='Intermediate climber 3yrs experience'),
+        User(full_name='Anil Warrick', email='Anil@Warrick.com', password='password', credentials='New climber'),
+        User(full_name='Watson Soriano', email='watson@soriano.com', password='password', credentials='Professional climber 15yrs Bouldering specialist'),
+        User(full_name='Nadab Severins', email='Nadab@Severins.com', password='password', credentials='v0 gumby'),
+        User(full_name='Neilos Thornton', email='Neilos@Thornton.com', password='password', credentials='Intermediate climber V6 boulderer'),
+        User(full_name='Severina Georgiev', email='Severina@Georgiev.com', password='password', credentials='Beginner climber'),
+        User(full_name='Pipin Oliversen', email='Pipin@Oliversen.com', password='password', credentials='5.12a redpoint outdoor'),
+        User(full_name='Flaka Meeuwes', email='Flaka@Meeuwes.com', password='password', credentials='Just starting out'),
+    ]
 
-    db.session.add(demo)
-    db.session.add(marnie)
-    db.session.add(bobbie)
+    for user in users:
+        db.session.add(user)
 
     db.session.commit()
 
