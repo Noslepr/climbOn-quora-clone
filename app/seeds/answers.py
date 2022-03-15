@@ -1,6 +1,6 @@
 from app.models import db, Answer
 
-def seeds_answers():
+def seed_answers():
     answers = [
         Answer(user_id = 4, question_id = 1, answer = 'You can mostly just wear whatever you like, maybe wear some long sleeves and pants if you want to protect from scrapes.'),
         Answer(user_id = 2, question_id = 1, answer = 'It mostly depends on where you are climbing. You might want to consider bugs or other wildlife.'),

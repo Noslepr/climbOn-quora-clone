@@ -1,6 +1,6 @@
 from app.models import db, Question
 
-def seeds_questions():
+def seed_questions():
     questions = [
         # Beginner questions
         Question(user_id = 1, question = 'What kind of clothes should I wear when I go outdoor rock climbing?'),
