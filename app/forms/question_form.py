@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField
-from wtforms.validators import DataRequired,  ValidationError
+from wtforms.validators import DataRequired,  ValidationError, Length
 from app.models import Question
 
 def question_starts_with(form, field):
@@ -19,5 +19,16 @@ def question_ends_with(form, field):
     if not question.endswith('?'):
         raise ValidationError('Please make sure your question ends with ?.')
 
+def question_long_enough(form, field):
+    question = field.data
+
+    if len(question) < 15:
+        raise ValidationError('Please make sure your question is long enough.')
+
 class QuestionForm(FlaskForm):
-    question = StringField('question', validators=[DataRequired(), question_starts_with, question_ends_with])
+    question = StringField('question', validators=[
+        DataRequired(),
+        question_starts_with,
+        question_ends_with,
+        question_long_enough
+    ])

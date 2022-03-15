@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify, request
-from flask_login import login_required
 from app.models import db, Question
 from app.forms.question_form import QuestionForm
 from app.api.auth_routes import validation_errors_to_error_messages
@@ -51,7 +50,7 @@ def patch_question():
 
         db.session.commit()
 
-        return {'question': question.to_dict()}
+        return { 'question': question.to_dict() }
 
     else:
         return { 'errors': validation_errors_to_error_messages(form.errors) }
@@ -63,8 +62,8 @@ def delete_question():
     data = request.json
     question_id = data['question_id']
     question = Question.query.get(question_id)
-    
+
     db.session.delete(question)
     db.session.commit()
 
-    return {'message': 'Question sucessfully deleted'}
+    return { 'message': 'Question sucessfully deleted.' }
