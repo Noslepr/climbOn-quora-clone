@@ -1,26 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { postQuestion } from '../../store/questions';
+import { postQuestion, patchQuestion } from '../../store/questions';
 
 
-export const PostQuestion = ({setShowQuestionModal}) => {
+export const PostQuestion = ({setShowQuestionModal, setShowEditQuestionModal, currentQuestion, currentQuestionId, option}) => {
     const dispatch = useDispatch()
     const [question, setQuestion] = useState('')
     const [errors, setErrors] = useState([])
 
+    useEffect(() => {
+        if (currentQuestion) {
+            setQuestion(currentQuestion)
+        }
+    }, [])
+
     const handleQuestion = async (e) => {
         e.preventDefault()
-        const response = await dispatch(postQuestion(question))
-        if (response.errors) {
-            setErrors(response.errors)
-            return
-        } else {
-            setShowQuestionModal(false)
+        
+        if (option === 'post') {
+            const response = await dispatch(postQuestion(question))
+            if (response.errors) {
+                setErrors(response.errors)
+                return
+            } else {
+                setShowQuestionModal(false)
+            }
+
+        } else if (option === 'edit') {
+            const response = await dispatch(patchQuestion(question, currentQuestionId))
+            if (response.errors) {
+                setErrors(response.errors)
+                return
+            } else {
+                setShowEditQuestionModal(false)
+            }
         }
     }
-    // useEffect(() => {
-    //     console.log(errors)
-    // }, [errors])
 
     return (
         <>

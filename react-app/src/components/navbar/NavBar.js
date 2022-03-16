@@ -21,7 +21,10 @@ export const NavBar = ({user}) => {
 
             {showQuestionModal &&
                 <Modal onClose={() => setShowQuestionModal(false)}>
-                    <PostQuestion setShowQuestionModal={setShowQuestionModal}/>
+                    <PostQuestion
+                        setShowQuestionModal={setShowQuestionModal}
+                        option='post'
+                    />
                 </Modal>
             }
         </nav>
