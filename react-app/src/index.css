@@ -1,1 +1,20 @@
 /* TODO Add site wide styles */
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@600&display=swap');
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+}
+
+:root {
+    background-color: rgb(242,242,242);
+}
+
+#background-img {
+    background-image: url('quora-splash-background.png');
+}
+
+button:hover {
+    cursor: pointer;
+}
