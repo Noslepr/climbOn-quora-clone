@@ -15,6 +15,7 @@ const LoginForm = () => {
     e.preventDefault();
     const data = await dispatch(login(email, password));
     if (data) {
+      console.log(data)
       setErrors(data);
     }
   };
@@ -36,6 +37,14 @@ const LoginForm = () => {
     return <Redirect to='/' />;
   }
 
+  const authBtn = document.querySelector('.auth-btn')
+  if (email && password) {
+    console.log('in if')
+    authBtn.classList.remove('not-clickable')
+  } else if (authBtn) {
+      authBtn.classList.add('not-clickable')
+  }
+
   return (
     <div id='login-page'>
       <div id='splash-container'>
@@ -51,11 +60,11 @@ const LoginForm = () => {
           </div>
           <form id='login-right'onSubmit={onLogin}>
             <label id='login-label'>Login</label>
-            <div>
+            {/* <div>
               {errors.map((error, ind) => (
-                <div key={ind}>{error}</div>
+                <div key={ind}>{error.email}</div>
               ))}
-            </div>
+            </div> */}
             <div className='label-field'>
               <label htmlFor='email' className='login-labels'>Email</label>
               <input
@@ -80,7 +89,7 @@ const LoginForm = () => {
               {/* <button onClick={demoLogin}>Demo Login</button> */}
             </div>
             <div id='btn-container'>
-              <button type='submit' className='auth-btn'>Login</button>
+              <button type='submit' className='auth-btn not-clickable'>Login</button>
             </div>
           </form>
         </div>

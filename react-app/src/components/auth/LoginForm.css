@@ -130,13 +130,17 @@
 
 .auth-btn {
     background-color: rgb(170, 189, 252);
-    height: 38px;
-    width: 78px;
+    height: 42px;
+    width: 82px;
     border-radius: 30px;
     border: none;
     color: white;
     font-size: 15px;
     font-weight: 600;
+}
+
+.not-clickable {
+    pointer-events: none;
 }
 
 #splash-footer {
