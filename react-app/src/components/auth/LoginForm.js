@@ -39,7 +39,6 @@ const LoginForm = () => {
 
   const authBtn = document.querySelector('.auth-btn')
   if (email && password) {
-    console.log('in if')
     authBtn.classList.remove('not-clickable')
   } else if (authBtn) {
       authBtn.classList.add('not-clickable')
