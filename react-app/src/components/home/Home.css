@@ -1,0 +1,13 @@
+#home-page {
+    display: flex;
+    justify-content: center;
+}
+
+.questions-container {
+    height: 100px;
+    width: 300px;
+    border: 1px solid black;
+    margin: 10px;
+    list-style: none;
+    text-align: center;
+}
