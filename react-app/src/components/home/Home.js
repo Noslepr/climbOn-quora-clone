@@ -9,7 +9,6 @@ export const HomePage = ({ user }) => {
 
     useEffect(() => {
         dispatch(getQuestions())
-
     }, [dispatch])
 
     const shuffleIds = arr => {
@@ -22,11 +21,23 @@ export const HomePage = ({ user }) => {
         return arr
     }
 
+    const handleEdit = (e) => {
+        e.preventDefault()
+        
+    }
+
     return (
         <>
             <ul>
                 {shuffleIds(arrayOfIds).map(id => (
-                    <li key={`${id}-question`}>{questions[id].question}</li>
+                    <>
+                        <li key={`${id}-question`}>
+                            {questions[id].question}
+                            {questions[id].user.id === user.id && (
+                                <button onClick={handleEdit}>edit</button>
+                            )}
+                        </li>
+                    </>
                 ))}
             </ul>
         </>

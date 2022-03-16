@@ -1,19 +1,29 @@
-
-import React from 'react';
-// import { NavLink } from 'react-router-dom';
-// import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import LogoutButton from '../auth/LogoutButton';
+import { PostQuestion } from '../postQuestion/PostQuestion'
+import { Modal } from '../../context/Modal'
+import './NavBar.css'
 
-const NavBar = ({ user }) => {
-  return (
-    <nav>
-      <ul>
-        <li>
-          <LogoutButton />
-        </li>
-      </ul>
-    </nav>
-  );
+export const NavBar = ({user}) => {
+    const [showQuestionModal, setShowQuestionModal] = useState(false)
+
+
+    const askQuestion = e => {
+        e.preventDefault()
+        setShowQuestionModal(true)
+    }
+
+    return (
+        <nav id='nav-bar'>
+
+            <LogoutButton />
+            <button onClick={askQuestion}>Add question</button>
+
+            {showQuestionModal &&
+                <Modal onClose={() => setShowQuestionModal(false)}>
+                    <PostQuestion setShowQuestionModal={setShowQuestionModal}/>
+                </Modal>
+            }
+        </nav>
+    )
 }
-
-export default NavBar;

@@ -13,7 +13,7 @@ class Question(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'user_id': self.user.to_dict(),
+            'user': self.user.to_dict(),
             'question': self.question,
             'answers': [answer.to_dict() for answer in self.answers]
         }

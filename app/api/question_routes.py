@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from flask_login import current_user
 from app.models import db, Question
 from app.forms.question_form import QuestionForm
 from app.api.auth_routes import validation_errors_to_error_messages
@@ -16,12 +17,13 @@ def get_all_questions():
 def post_question():
 
     data = request.json
+    user_id = current_user.get_id()
     form = QuestionForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if form.validate_on_submit():
         question = Question(
-            user_id = data['user_id'],
+            user_id = user_id,
             question = data['question']
         )
 
