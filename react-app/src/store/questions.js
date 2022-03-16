@@ -7,7 +7,22 @@ const getQuestionsAction = (questions) => ({
 
 
 
+export const postQuestion = (question) => async (dispatch) => {
+    const res = await fetch('/api/questions/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            question
+        })
+    })
 
+    if (res.ok) {
+        const data = await res.json();
+        console.log(data)
+        dispatch(getQuestionsAction(data))
+        return data
+    }
+}
 
 export const getQuestions = () => async (dispatch) => {
     const res = await fetch('/api/questions/', {
@@ -19,7 +34,6 @@ export const getQuestions = () => async (dispatch) => {
 
     if (res.ok) {
         const data = await res.json();
-        console.log(data)
         dispatch(getQuestionsAction(data))
         return data
     }

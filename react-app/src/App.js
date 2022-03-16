@@ -3,10 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import LoginForm from './components/auth/LoginForm';
 import SignUpForm from './components/auth/SignUpForm';
-import NavBar from './components/navbar/NavBar';
+import { NavBar } from './components/navbar/NavBar';
 import ProtectedRoute from './components/auth/ProtectedRoute';
-// import UsersList from './components/UsersList';
-// import User from './components/User';
 import { authenticate } from './store/session';
 import { HomePage } from './components/home/Home';
 
@@ -37,27 +35,6 @@ function App() {
   return (
     <BrowserRouter>
       {user && <NavBar user={user} />}
-      {/* { user ?
-        <NavBar user={user}/>
-        :
-        <ul>
-          <li>
-            <NavLink to='/' exact={true} activeClassName='active'>
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to='/login' exact={true} activeClassName='active'>
-              Login
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to='/sign-up' exact={true} activeClassName='active'>
-              Sign Up
-            </NavLink>
-          </li>
-        </ul>
-      } */}
       <Switch>
         <Route path='/login' exact={true}>
           <LoginForm />
@@ -65,12 +42,6 @@ function App() {
         <Route path='/sign-up' exact={true}>
           <SignUpForm />
         </Route>
-        {/* <ProtectedRoute path='/users' exact={true} >
-          <UsersList/>
-        </ProtectedRoute>
-        <ProtectedRoute path='/users/:userId' exact={true} >
-          <User />
-        </ProtectedRoute> */}
         <ProtectedRoute path='/' exact={true} >
           <HomePage user={user}/>
         </ProtectedRoute>

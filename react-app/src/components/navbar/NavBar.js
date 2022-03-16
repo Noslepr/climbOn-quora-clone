@@ -1,19 +1,13 @@
-
 import React from 'react';
-// import { NavLink } from 'react-router-dom';
-// import { useSelector } from 'react-redux';
 import LogoutButton from '../auth/LogoutButton';
+import './NavBar.css'
 
-const NavBar = ({ user }) => {
-  return (
-    <nav>
-      <ul>
-        <li>
-          <LogoutButton />
-        </li>
-      </ul>
-    </nav>
-  );
+export const NavBar = ({user}) => {
+
+    return (
+        <nav id='nav-bar'>
+
+            <LogoutButton />
+        </nav>
+    )
 }
-
-export default NavBar;
