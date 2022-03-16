@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getQuestions } from '../../store/questions';
 
-export const HomePage = ({}) => {
+export const HomePage = ({ user }) => {
     const dispatch = useDispatch()
     const questions = useSelector(({questions}) => questions)
     const arrayOfIds = Object.keys(questions)
@@ -10,7 +10,7 @@ export const HomePage = ({}) => {
     useEffect(() => {
         dispatch(getQuestions())
 
-    }, [])
+    }, [dispatch])
 
     const shuffleIds = arr => {
         for (let i = 0; i < arr.length; i++) {
