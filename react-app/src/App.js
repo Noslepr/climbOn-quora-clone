@@ -49,7 +49,7 @@ function App() {
           <HomePage user={user}/>
         </ProtectedRoute>
         <ProtectedRoute path='/question/:id' exact={true}>
-          <Question />
+          <Question user={user}/>
         </ProtectedRoute>
       </Switch>
     </BrowserRouter>

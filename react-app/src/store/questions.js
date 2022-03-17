@@ -2,6 +2,9 @@ const GET_QUESTIONS = 'questions/GET_QUESTIONS'
 const POST_QUESTION = 'questions/POST_QUESTION'
 const PATCH_QUESTION = 'questions/PATCH_QUESTION'
 const DELETE_QUESTION = 'questions/DELETE_QUESTION'
+const POST_ANSWER = 'answers/POST_ANSWER'
+const PATCH_ANSWER = 'answers/PATCH_ANSWER'
+const DELETE_ANSWER = 'answers/DELETE_ANSWER'
 
 const getQuestionsAction = (questions) => ({
     type: GET_QUESTIONS,
@@ -21,6 +24,21 @@ const patchQuestionAction = (question) => ({
 const deleteQuestionAction = (id) => ({
     type: DELETE_QUESTION,
     payload: id
+})
+
+export const postAnswerAction = (answer, questionId) => ({
+    type: POST_ANSWER,
+    payload: { answer, questionId }
+})
+
+const patchAnswerAction = (answer) => ({
+    type: PATCH_ANSWER,
+    payload: answer
+})
+
+const deleteAnswerAction = (answer) => ({
+    type: DELETE_ANSWER,
+    payload: answer
 })
 
 export const getQuestions = () => async (dispatch) => {
@@ -116,6 +134,11 @@ export default function reducer(state = {}, action) {
         case DELETE_QUESTION:
             newState = {...state}
             delete newState[action.payload.id]
+            return newState
+
+        case POST_ANSWER:
+            newState = {...state}
+            newState[action.payload.questionId].answers.unshift(action.payload.answer)
             return newState
         default:
             return state;
