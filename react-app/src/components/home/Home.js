@@ -59,17 +59,17 @@ export const HomePage = ({ user }) => {
                 {shuffleIds(arrayOfIds).map(id => {
                     if (parseInt(id) !== currentQuestionId) {
                         return (
-                            <Link to={`/question/${id}`}>
-                                <li key={`${id}-question`} className='questions-container'>
+                            <li key={`${id}-question`} className='questions-container'>
+                                <Link to={`/question/${id}`}>
                                     <div>{questions[id].question}</div>
-                                    {questions[id].user.id === user.id && (
-                                        <>
-                                            <button onClick={(e) => handleEdit(e, id)}>Edit</button>
-                                            <button onClick={(e) => handleDelete(e, id)}>Delete</button>
-                                        </>
-                                    )}
-                                </li>
-                            </Link>
+                                </Link>
+                                {questions[id].user.id === user.id && (
+                                    <>
+                                        <button onClick={(e) => handleEdit(e, id)}>Edit</button>
+                                        <button onClick={(e) => handleDelete(e, id)}>Delete</button>
+                                    </>
+                                )}
+                            </li>
                         )
                     } else return null
                 })}

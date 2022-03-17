@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import LogoutButton from '../auth/LogoutButton';
 import { PostQuestion } from '../postQuestion/PostQuestion'
 import { Modal } from '../../context/Modal'
@@ -15,9 +16,13 @@ export const NavBar = ({user}) => {
 
     return (
         <nav id='nav-bar'>
-
-            <LogoutButton />
-            <button onClick={askQuestion}>Add question</button>
+            <Link to='/'>
+                <div id='logo'>climbOn</div>
+            </Link>
+            <div>
+                <LogoutButton />
+                <button onClick={askQuestion}>Add question</button>
+            </div>
 
             {showQuestionModal &&
                 <Modal onClose={() => setShowQuestionModal(false)}>
