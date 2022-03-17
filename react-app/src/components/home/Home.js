@@ -39,12 +39,22 @@ export const HomePage = ({ user }) => {
         e.preventDefault()
         const idToInt = parseInt(id)
         dispatch(deleteQuestion(idToInt))
+        setCurrentQuestionId(null)
     }
 
     return (
         <div id='home-page'>
             <ul>
-                {currentQuestionId && <li className='questions-container'>{questions[currentQuestionId].question}</li>}
+                {currentQuestionId &&
+                    <li
+                        className='questions-container'>{questions[currentQuestionId].question}
+                        {//questions[id].user.id === user.id && (
+                            <>
+                                <button onClick={(e) => handleEdit(e, currentQuestionId)}>Edit</button>
+                                <button onClick={(e) => handleDelete(e, currentQuestionId)}>Delete</button>
+                            </>
+                        }
+                    </li>}
                 {shuffleIds(arrayOfIds).map(id => {
                     if (parseInt(id) !== currentQuestionId) {
                         return (
