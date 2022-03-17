@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getQuestions } from '../../store/questions';
+import { getQuestions, deleteQuestion } from '../../store/questions';
 import { Modal } from '../../context/Modal';
 import { PostQuestion } from '../postQuestion/PostQuestion';
 import './Home.css'
@@ -38,17 +38,18 @@ export const HomePage = ({ user }) => {
     const handleDelete = (e, id) => {
         e.preventDefault()
         const idToInt = parseInt(id)
+        dispatch(deleteQuestion(idToInt))
     }
 
     return (
         <div id='home-page'>
             <ul>
-                {currentQuestionId && <li>{questions[currentQuestionId].question}</li>}
+                {currentQuestionId && <li className='questions-container'>{questions[currentQuestionId].question}</li>}
                 {shuffleIds(arrayOfIds).map(id => {
                     if (parseInt(id) !== currentQuestionId) {
                         return (
                             <li key={`${id}-question`} className='questions-container'>
-                                {questions[id].question}
+                                <div>{questions[id].question}</div>
                                 {questions[id].user.id === user.id && (
                                     <>
                                         <button onClick={(e) => handleEdit(e, id)}>Edit</button>

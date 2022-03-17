@@ -1,6 +1,7 @@
 const GET_QUESTIONS = 'questions/GET_QUESTIONS'
 const POST_QUESTION = 'questions/POST_QUESTION'
 const PATCH_QUESTION = 'questions/PATCH_QUESTION'
+const DELETE_QUESTION = 'questions/DELETE_QUESTION'
 
 const getQuestionsAction = (questions) => ({
     type: GET_QUESTIONS,
@@ -15,6 +16,11 @@ const postQuestionAction = (question) => ({
 const patchQuestionAction = (question) => ({
     type: PATCH_QUESTION,
     payload: question
+})
+
+const deleteQuestionAction = (id) => ({
+    type: DELETE_QUESTION,
+    payload: id
 })
 
 export const getQuestions = () => async (dispatch) => {
@@ -64,13 +70,28 @@ export const patchQuestion = (question, id) => async (dispatch) => {
 
     if (res.ok) {
         const data = await res.json();
-        console.log('in thunk', data)
         if (data.errors) {
             return data;
         } else {
             dispatch(patchQuestionAction(data))
             return data
         }
+    }
+}
+
+export const deleteQuestion = (question_id) => async (dispatch) => {
+    const res = await fetch('/api/questions/', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            question_id
+        })
+    })
+
+    if (res.ok) {
+        const data = await res.json();
+        dispatch(deleteQuestionAction(data))
+        return null
     }
 }
 
@@ -92,6 +113,10 @@ export default function reducer(state = {}, action) {
             newState[action.payload.question.id] = action.payload.question
             return newState
 
+        case DELETE_QUESTION:
+            newState = {...state}
+            delete newState[action.payload.id]
+            return newState
         default:
             return state;
     }
