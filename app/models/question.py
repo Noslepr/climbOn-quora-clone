@@ -8,7 +8,7 @@ class Question(db.Model):
     question = db.Column(db.String(1000), nullable=False)
 
     user = db.relationship('User', back_populates='questions')
-    answers = db.relationship('Answer', back_populates='question')
+    answers = db.relationship('Answer', back_populates='question', cascade='all, delete-orphan')
 
     def to_dict(self):
         return {

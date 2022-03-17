@@ -1,0 +1,16 @@
+#home-page {
+    display: flex;
+    justify-content: center;
+}
+
+.questions-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100px;
+    width: 300px;
+    border: 1px solid black;
+    margin: 10px;
+    list-style: none;
+    text-align: center;
+}

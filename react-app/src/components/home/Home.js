@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getQuestions } from '../../store/questions';
+import { getQuestions, deleteQuestion } from '../../store/questions';
 import { Modal } from '../../context/Modal';
 import { PostQuestion } from '../postQuestion/PostQuestion';
+import './Home.css'
 
 export const HomePage = ({ user }) => {
     const dispatch = useDispatch()
@@ -14,8 +15,7 @@ export const HomePage = ({ user }) => {
 
     useEffect(() => {
         dispatch(getQuestions())
-        console.log('currentQuestion:', currentQuestion)
-    }, [dispatch, currentQuestion])
+    }, [dispatch])
 
     const shuffleIds = arr => {
         for (let i = 0; i < arr.length; i++) {
@@ -35,21 +35,30 @@ export const HomePage = ({ user }) => {
         setCurrentQuestionId(idToInt)
     }
 
+    const handleDelete = (e, id) => {
+        e.preventDefault()
+        const idToInt = parseInt(id)
+        dispatch(deleteQuestion(idToInt))
+    }
+
     return (
-        <>
+        <div id='home-page'>
             <ul>
-                {currentQuestionId && <li>{questions[currentQuestionId].question}</li>}
+                {currentQuestionId && <li className='questions-container'>{questions[currentQuestionId].question}</li>}
                 {shuffleIds(arrayOfIds).map(id => {
-                    if (id != currentQuestionId) {
+                    if (parseInt(id) !== currentQuestionId) {
                         return (
-                            <li key={`${id}-question`}>
-                                {questions[id].question}
+                            <li key={`${id}-question`} className='questions-container'>
+                                <div>{questions[id].question}</div>
                                 {questions[id].user.id === user.id && (
-                                    <button onClick={(e) => handleEdit(e, id)}>Edit</button>
+                                    <>
+                                        <button onClick={(e) => handleEdit(e, id)}>Edit</button>
+                                        <button onClick={(e) => handleDelete(e, id)}>Delete</button>
+                                    </>
                                 )}
                             </li>
                         )
-                    }
+                    } else return null
                 })}
             </ul>
             { showEditQuestionModal &&
@@ -62,6 +71,6 @@ export const HomePage = ({ user }) => {
                     />
                 </Modal>
             }
-        </>
+        </div>
     )
 }

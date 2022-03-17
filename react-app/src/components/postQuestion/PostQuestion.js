@@ -12,11 +12,11 @@ export const PostQuestion = ({setShowQuestionModal, setShowEditQuestionModal, cu
         if (currentQuestion) {
             setQuestion(currentQuestion)
         }
-    }, [])
+    }, [currentQuestion])
 
     const handleQuestion = async (e) => {
         e.preventDefault()
-        
+
         if (option === 'post') {
             const response = await dispatch(postQuestion(question))
             if (response.errors) {
