@@ -14,6 +14,6 @@ class Answer(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'user_id': self.user.to_dict(),
+            'user': self.user.to_dict(),
             'answer': self.answer
         }

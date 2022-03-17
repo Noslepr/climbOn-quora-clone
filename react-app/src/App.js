@@ -7,6 +7,8 @@ import { NavBar } from './components/navbar/NavBar';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import { authenticate } from './store/session';
 import { HomePage } from './components/home/Home';
+import { Question } from './components/question/Question';
+import { getQuestions } from './store/questions';
 
 function App() {
   const user = useSelector(({session}) => session.user)
@@ -16,6 +18,7 @@ function App() {
   useEffect(() => {
     (async() => {
       await dispatch(authenticate());
+      await dispatch(getQuestions())
       setLoaded(true);
     })();
   }, [dispatch]);
@@ -44,6 +47,9 @@ function App() {
         </Route>
         <ProtectedRoute path='/' exact={true} >
           <HomePage user={user}/>
+        </ProtectedRoute>
+        <ProtectedRoute path='/question/:id' exact={true}>
+          <Question />
         </ProtectedRoute>
       </Switch>
     </BrowserRouter>
