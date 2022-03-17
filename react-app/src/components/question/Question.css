@@ -34,7 +34,8 @@
 }
 
 #post-answer:hover {
-    background-color: rgb(223, 223, 223);;
+    background-color: rgb(223, 223, 223);
+    cursor: pointer;
 }
 
 #post-answer-text {
@@ -66,14 +67,66 @@
     padding: 20px;
 }
 
+#error {
+    color: red;
+    background-color: white;
+    border-bottom: 1px solid rgb(170, 170, 170);
+    padding: 16px;
+}
+
+#answer-form {
+    height: 100%;
+}
+
+#post-answer-field {
+    border: none;
+    height: 100%;
+    width: 100%;
+    font-size: 17px;
+    padding: 16px;
+    resize: none;
+}
+
+#post-answer-field:focus {
+    outline: none;
+}
+
 #post-answer-box-footer {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 10px;
     height: 46px;
     background-color: rgb(235, 235, 235);
     border-top: 1px solid rgb(170, 170, 170);
+}
+
+#post-answer-btn {
+    border: none;
+    font-size: 15px;
+    height: 30px;
+    width: 60px;
+    border-radius: 15px;
+    background-color: #2e69ff;
+    color: white;
+}
+
+#post-answer-cancel-btn {
+    border: none;
+    font-size: 15px;
+    background-color: rgb(235, 235, 235);
+    height: 30px;
+    width: 70px;
+    border-radius: 15px;
+    color: #636466;
+}
+
+#post-answer-cancel-btn:hover {
+    background-color: rgb(214, 214, 214);
+}
+
+.fa-ellipsis-stroke {
+    font-size: 20px;
+    color: #636466;
 }
 
 #num-answers {

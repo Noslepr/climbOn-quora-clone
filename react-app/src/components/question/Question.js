@@ -1,18 +1,52 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { postAnswer } from "../../store/answers";
 import './Question.css'
 
 export const Question = ({ user }) => {
+    const dispatch = useDispatch()
     const { id : questionId } = useParams()
+    const questions = useSelector(({questions}) => questions)
+
+    const [answer, setAnswer] = useState('')
     const [showAnswerBox, setShowAnswerBox] = useState(false)
-    const question = useSelector(({questions}) => questions[questionId])
+    const [showErrors, setShowErrors] = useState(false)
+    const [error, setError] = useState('')
+    const question = questions[questionId]
+
+    const handleAnswerSubmit = async (e) => {
+        e.preventDefault()
+        const response = await dispatch(postAnswer(answer, questionId))
+        if (response.errors) {
+            setError(response.errors[0].answer)
+            setShowErrors(true)
+        } else {
+            closeAnswerBox()
+        }
+    }
+    
+    useEffect(() => {
+        if (answer.length >= 15) {
+            setShowErrors(false)
+            setError('')
+        }
+    }, [answer])
 
     const openAnswerBox = () => {
         setShowAnswerBox(true)
         const answerElement = document.querySelector('#post-answer')
         answerElement.style.opacity = '.5'
         answerElement.style.pointerEvents = 'none'
+    }
+
+    const closeAnswerBox = () => {
+        setShowAnswerBox(false)
+        const answerElement = document.querySelector('#post-answer')
+        answerElement.style.opacity = '1'
+        answerElement.style.removeProperty('pointer-events')
+        setAnswer('')
+        setError('')
     }
 
     return (
@@ -22,25 +56,34 @@ export const Question = ({ user }) => {
                     <div id="question-header">{question.question}</div>
                     <div id="question-footer-icons">
                         <div id="post-answer" onClick={openAnswerBox}>
-                            <i class="fa-solid fa-pen-to-square square"></i>
+                            <i className="fa-solid fa-pen-to-square square"></i>
                             <div className="answers-text" id='post-answer-text'>Answer</div>
                         </div>
                     </div>
                 {showAnswerBox && (
                     <div id="post-answer-box-container">
                         <div id="post-answer-box-header">
-                            <img src='test.png'></img>
+                            <img ></img>
                             <div>
                                 <div>{user.full_name}</div>
                                 <div>Edit credential</div>
                             </div>
                         </div>
+                        {showErrors && (
+                            <div id="error">{error}</div>
+                        )}
+                        <form id='answer-form'>
+                            <textarea
+                                type='text'
+                                id="post-answer-field"
+                                placeholder="Write your answer"
+                                value={answer}
+                                onChange={(e) => setAnswer(e.target.value)}
+                            />
+                        </form>
                         <div id="post-answer-box-footer">
-                            <div id="post-answer-box-footer-left">
-                                <button>Post</button>
-                                <button>Cancel</button>
-                            </div>
-                            <div id="post-answer-box-footer-right"><i class="fa-solid fa-ellipsis-stroke"></i></div>
+                            <button id='post-answer-btn' onClick={handleAnswerSubmit}>Post</button>
+                            <button id='post-answer-cancel-btn' onClick={closeAnswerBox}>Cancel</button>
                         </div>
                     </div>
                 )}
