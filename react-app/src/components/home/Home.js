@@ -16,7 +16,7 @@ export const HomePage = ({ user }) => {
     useEffect(() => {
         dispatch(getQuestions())
     }, [dispatch])
-
+        // comment
     const shuffleIds = arr => {
         for (let i = 0; i < arr.length; i++) {
             let j = Math.floor(Math.random() * (arr.length - 1))
