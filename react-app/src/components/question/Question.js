@@ -29,13 +29,19 @@ export const Question = ({ user }) => {
                 {showAnswerBox && (
                     <div id="post-answer-box-container">
                         <div id="post-answer-box-header">
-                            <img src='defaultUser.jpg'></img>
+                            <img src='test.png'></img>
                             <div>
                                 <div>{user.full_name}</div>
                                 <div>Edit credential</div>
                             </div>
                         </div>
-
+                        <div id="post-answer-box-footer">
+                            <div id="post-answer-box-footer-left">
+                                <button>Post</button>
+                                <button>Cancel</button>
+                            </div>
+                            <div id="post-answer-box-footer-right"><i class="fa-solid fa-ellipsis-stroke"></i></div>
+                        </div>
                     </div>
                 )}
                 </div>
