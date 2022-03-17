@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getQuestions, deleteQuestion } from '../../store/questions';
 import { Modal } from '../../context/Modal';
 import { PostQuestion } from '../postQuestion/PostQuestion';
@@ -13,10 +14,10 @@ export const HomePage = ({ user }) => {
     const [currentQuestionId, setCurrentQuestionId] = useState(null)
     const arrayOfIds = Object.keys(questions)
 
-    useEffect(() => {
-        dispatch(getQuestions())
-    }, [dispatch])
-    
+    // useEffect(() => {
+    //     dispatch(getQuestions())
+    // }, [dispatch])
+
     const shuffleIds = arr => {
         for (let i = 0; i < arr.length; i++) {
             let j = Math.floor(Math.random() * (arr.length - 1))
@@ -58,15 +59,17 @@ export const HomePage = ({ user }) => {
                 {shuffleIds(arrayOfIds).map(id => {
                     if (parseInt(id) !== currentQuestionId) {
                         return (
-                            <li key={`${id}-question`} className='questions-container'>
-                                <div>{questions[id].question}</div>
-                                {questions[id].user.id === user.id && (
-                                    <>
-                                        <button onClick={(e) => handleEdit(e, id)}>Edit</button>
-                                        <button onClick={(e) => handleDelete(e, id)}>Delete</button>
-                                    </>
-                                )}
-                            </li>
+                            <Link to={`/question/${id}`}>
+                                <li key={`${id}-question`} className='questions-container'>
+                                    <div>{questions[id].question}</div>
+                                    {questions[id].user.id === user.id && (
+                                        <>
+                                            <button onClick={(e) => handleEdit(e, id)}>Edit</button>
+                                            <button onClick={(e) => handleDelete(e, id)}>Delete</button>
+                                        </>
+                                    )}
+                                </li>
+                            </Link>
                         )
                     } else return null
                 })}
