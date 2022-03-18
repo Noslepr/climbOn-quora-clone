@@ -22,8 +22,7 @@ export const postAnswer = ( answer, question_id ) => async (dispatch) => {
     }
 }
 
-export const patchAnswer = ( answer, answer_id ) => async (dispatch) => {
-    console.log('in thunk')
+export const patchAnswer = ( answer, answer_id, questionId ) => async (dispatch) => {
     const res = await fetch('/api/answers/', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -35,11 +34,11 @@ export const patchAnswer = ( answer, answer_id ) => async (dispatch) => {
 
     if (res.ok) {
         const data = await res.json();
-        console.log(data)
+        console.log('data in thunk',data)
         if (data.errors) {
             return data;
         } else {
-            // dispatch(patchAnswerAction(data.answer, question_id))
+            dispatch(patchAnswerAction(data.answer.answer, data.answer.id, parseInt(questionId)))
             return data
         }
     }

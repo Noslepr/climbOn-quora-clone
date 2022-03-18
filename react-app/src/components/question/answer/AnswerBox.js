@@ -2,22 +2,29 @@ import React, { useEffect, useState } from "react";
 // import { useState } from "react";
 
 
-export const AnswerBox = ({ user, showErrors, error, setShowErrors, setError, answerObj, handleAnswerSubmit, handleEditAnswerSubmit, closeAnswerBox, closeEditAnswerBox, option }) => {
-    let answerId
+export const AnswerBox = ({ user, showErrors, error, savedAnswer, trigger, setTrigger, setShowErrors, setError, answerObj, handleAnswerSubmit, handleEditAnswerSubmit, closeAnswerBox, closeEditAnswerBox, option }) => {
+    const [answerId, setAnswerId] = useState(null)
     const [answer, setAnswer] = useState('')
+    // const [count, setCount] = useState(0)
 
     useEffect(() => {
-        console.log(answerObj)
-        if (answerObj) {
+        console.log(answer.length)
+        if (answerObj && !error) {
             setAnswer(answerObj.answer)
-            answerId = answerObj.id
+            setAnswerId(answerObj.id)
+        } else if (trigger) {
+            setAnswer(savedAnswer)
         }
     }, [])
+    useEffect(() => {
+        console.log('in useEffect',answer)
+    }, [answer])
 
     useEffect(() => {
-        if (answer.length >= 15) {
+        if (answer?.length >= 15) {
             setShowErrors(false)
             setError('')
+            setTrigger(true)
         }
     }, [answer])
 

@@ -18,6 +18,8 @@ export const Question = ({ user }) => {
     const [error, setError] = useState('')
     const [showDropdown, setShowDropdown] = useState(null)
     const [showEditAnswerBox, setShowEditAnswerBox] = useState(null)
+    const [savedAnswer, setSavedAnswer] = useState('')
+    const [trigger, setTrigger] = useState(false)
 
     const handleAnswerSubmit = async (sentAnswer) => {
         // e.preventDefault()
@@ -32,8 +34,8 @@ export const Question = ({ user }) => {
     }
 
     const handleEditAnswerSubmit = async (answer, answerId) => {
-        console.log('in handle edit answer submit')
-        const response = await dispatch(patchAnswer(answer, answerId))
+        setSavedAnswer(answer)
+        const response = await dispatch(patchAnswer(answer, answerId, questionId))
         if (response.errors) {
             setError(response.errors[0].answer)
             setShowErrors(true)
@@ -75,7 +77,6 @@ export const Question = ({ user }) => {
             document.removeEventListener('click', func)
         }
         if (showDropdown || showDropdown === 0) {
-            console.log('adding eventlistener')
             document.addEventListener('click', func)
         }
     }, [showDropdown])
@@ -118,10 +119,7 @@ export const Question = ({ user }) => {
                             <div className="list-answer-header">
                                 <div className="list-answer-user">{answerObj.user.full_name}</div>
                                 {answerObj.user.id === user.id && (
-                                    <i class="fa-solid fa-ellipsis" onClick={() => {
-                                        console.log(idx)
-                                        setShowDropdown(idx)
-                                    }}></i>
+                                    <i className="fa-solid fa-ellipsis" onClick={() => setShowDropdown(idx)}></i>
                                 )}
                                 {(showDropdown === idx) && (
                                     <ul id='answer-dropdown-menu'>
@@ -129,9 +127,9 @@ export const Question = ({ user }) => {
                                             setShowEditAnswerBox(idx)
                                             // setAnswer(answerObj.answer)
                                         }}>
-                                            <i class="fa-light fa-pen icon"></i>Edit answer
+                                            <i className="fa-light fa-pen icon"></i>Edit answer
                                         </li>
-                                        <li className="dropdown-list-item red"><i class="fa-regular fa-trash-can icon"></i>Delete answer</li>
+                                        <li className="dropdown-list-item red"><i className="fa-regular fa-trash-can icon"></i>Delete answer</li>
                                     </ul>
                                 )}
                             </div>
@@ -145,9 +143,12 @@ export const Question = ({ user }) => {
                                     error={error}
                                     setShowErrors={setShowErrors}
                                     setError={setError}
+                                    trigger={trigger}
+                                    setTrigger={setTrigger}
                                     // answer={answer}
                                     answerObj={answerObj}
                                     // setAnswer={setAnswer}
+                                    savedAnswer={savedAnswer}
                                     handleEditAnswerSubmit={handleEditAnswerSubmit}
                                     closeEditAnswerBox={closeEditAnswerBox}
                                     option='edit'

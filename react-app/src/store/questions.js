@@ -31,9 +31,9 @@ export const postAnswerAction = (answer, questionId) => ({
     payload: { answer, questionId }
 })
 
-export const patchAnswerAction = (answer) => ({
+export const patchAnswerAction = (answer, answerId, questionId) => ({
     type: PATCH_ANSWER,
-    payload: answer
+    payload: { answer, answerId, questionId}
 })
 
 export const deleteAnswerAction = (answer) => ({
@@ -139,6 +139,15 @@ export default function reducer(state = {}, action) {
         case POST_ANSWER:
             newState = {...state}
             newState[action.payload.questionId].answers.unshift(action.payload.answer)
+            return newState
+
+        case PATCH_ANSWER:
+            newState = {...state}
+            newState[action.payload.questionId].answers.map(answer => {
+                if (answer.id === action.payload.answerId) {
+                    answer.answer = action.payload.answer
+                }
+            })
             return newState
         default:
             return state;
