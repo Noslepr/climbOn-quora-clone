@@ -1,37 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { postAnswer } from "../../store/answers";
+import { AnswerBox } from "./answer/AnswerBox";
 import './Question.css'
 
 export const Question = ({ user }) => {
     const dispatch = useDispatch()
     const { id : questionId } = useParams()
     const questions = useSelector(({questions}) => questions)
-
-    const [answer, setAnswer] = useState('')
-    const [showAnswerBox, setShowAnswerBox] = useState(false)
-    const [showErrors, setShowErrors] = useState(false)
-    const [error, setError] = useState('')
     const question = questions[questionId]
 
-    const handleAnswerSubmit = async (e) => {
-        e.preventDefault()
-        const response = await dispatch(postAnswer(answer, questionId))
-        if (response.errors) {
-            setError(response.errors[0].answer)
-            setShowErrors(true)
-        } else {
-            closeAnswerBox()
-        }
+    const [showAnswerBox, setShowAnswerBox] = useState(false)
+    const [showDropdown, setShowDropdown] = useState(null)
+    const [showEditAnswerBox, setShowEditAnswerBox] = useState(null)
+
+    const handleDelete = () => {
+
     }
-    
-    useEffect(() => {
-        if (answer.length >= 15) {
-            setShowErrors(false)
-            setError('')
-        }
-    }, [answer])
 
     const openAnswerBox = () => {
         setShowAnswerBox(true)
@@ -45,8 +30,11 @@ export const Question = ({ user }) => {
         const answerElement = document.querySelector('#post-answer')
         answerElement.style.opacity = '1'
         answerElement.style.removeProperty('pointer-events')
-        setAnswer('')
-        setError('')
+    }
+
+    const closeEditAnswerBox = () => {
+        console.log('closing')
+        setShowEditAnswerBox(null)
     }
 
     return (
@@ -55,37 +43,18 @@ export const Question = ({ user }) => {
                 <div id="question-header-container">
                     <div id="question-header">{question.question}</div>
                     <div id="question-footer-icons">
-                        <div id="post-answer" onClick={openAnswerBox}>
+                        <div id="post-answer" className="layer2" onClick={openAnswerBox}>
                             <i className="fa-solid fa-pen-to-square square"></i>
                             <div className="answers-text" id='post-answer-text'>Answer</div>
                         </div>
                     </div>
                 {showAnswerBox && (
-                    <div id="post-answer-box-container">
-                        <div id="post-answer-box-header">
-                            <img ></img>
-                            <div>
-                                <div>{user.full_name}</div>
-                                <div>Edit credential</div>
-                            </div>
-                        </div>
-                        {showErrors && (
-                            <div id="error">{error}</div>
-                        )}
-                        <form id='answer-form'>
-                            <textarea
-                                type='text'
-                                id="post-answer-field"
-                                placeholder="Write your answer"
-                                value={answer}
-                                onChange={(e) => setAnswer(e.target.value)}
-                            />
-                        </form>
-                        <div id="post-answer-box-footer">
-                            <button id='post-answer-btn' onClick={handleAnswerSubmit}>Post</button>
-                            <button id='post-answer-cancel-btn' onClick={closeAnswerBox}>Cancel</button>
-                        </div>
-                    </div>
+                    <AnswerBox
+                        user={user}
+                        questionId={questionId}
+                        closeAnswerBox={closeAnswerBox}
+                        option='post'
+                    />
                 )}
                 </div>
                 <div id='num-answers'>
@@ -96,10 +65,38 @@ export const Question = ({ user }) => {
                     <span className="answers-text">Answers</span>
                 </div>
                 <ul>
-                    {question.answers.map(answer => (
-                        <div key={Math.random()} className="answer-container">
-                            <div className="answer-user">{answer.user.full_name}</div>
-                            <li className="list-answer">{answer.answer}</li>
+                    {question.answers.map((answerObj, idx) => (
+                        <div key={Math.random()} className="list-answer-container">
+                            <div className="list-answer-header">
+                                <div className="list-answer-user">{answerObj.user.full_name}</div>
+                                {answerObj.user.id === user.id && (
+                                    <i className="fa-solid fa-ellipsis layer2" onClick={() => setShowDropdown(idx)}></i>
+                                )}
+                                <div id='background' onClick={() => setShowDropdown(null)}></div>
+                                {(showDropdown === idx) && (
+                                    <ul id='answer-dropdown-menu'>
+                                        <li className="dropdown-list-item" onClick={() => {
+                                            setShowEditAnswerBox(idx)
+                                            setShowDropdown(null)
+                                            }}>
+                                            <i className="fa-light fa-pen icon"></i>Edit answer
+                                        </li>
+                                        <li className="dropdown-list-item red" onClick={handleDelete}><i className="fa-regular fa-trash-can icon"></i>Delete answer</li>
+                                    </ul>
+                                )}
+                            </div>
+                            {showEditAnswerBox !== idx && (
+                                <li className="list-answer">{answerObj.answer}</li>
+                            )}
+                            {showEditAnswerBox === idx && (
+                                <AnswerBox
+                                    user={user}
+                                    questionId={questionId}
+                                    answerObj={answerObj}
+                                    closeEditAnswerBox={closeEditAnswerBox}
+                                    option='edit'
+                                />
+                            )}
                         </div>
                     ))}
                 </ul>

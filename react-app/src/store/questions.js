@@ -31,14 +31,14 @@ export const postAnswerAction = (answer, questionId) => ({
     payload: { answer, questionId }
 })
 
-const patchAnswerAction = (answer) => ({
+export const patchAnswerAction = (answer, answerId, questionId) => ({
     type: PATCH_ANSWER,
-    payload: answer
+    payload: { answer, answerId, questionId}
 })
 
-const deleteAnswerAction = (answer) => ({
+export const deleteAnswerAction = (answerId, questionId ) => ({
     type: DELETE_ANSWER,
-    payload: answer
+    payload: { answerId, questionId }
 })
 
 export const getQuestions = () => async (dispatch) => {
@@ -139,6 +139,25 @@ export default function reducer(state = {}, action) {
         case POST_ANSWER:
             newState = {...state}
             newState[action.payload.questionId].answers.unshift(action.payload.answer)
+            return newState
+
+        case PATCH_ANSWER:
+            newState = {...state}
+            newState[action.payload.questionId].answers.map(answer => {
+                if (answer.id === action.payload.answerId) {
+                    answer.answer = action.payload.answer
+                }
+            })
+            return newState
+
+        case DELETE_ANSWER:
+            newState = {...state}
+            const questionId = action.payload.questionId
+            newState[questionId].answers.map((answer, idx) => {
+                if (answer.id === action.payload.answerId) {
+                    newState[questionId].splice(idx, 1)
+                }
+            })
             return newState
         default:
             return state;

@@ -26,7 +26,7 @@ def post_answer():
 
         return { 'answer': answer.to_dict() }
     else:
-        return { 'errors': validation_errors_to_error_messages(form.errors) }
+        return { 'errors': validation_errors_to_error_messages(form.errors) }, 400
 
 
 @answer_routes.route('/', methods=['PATCH'])
@@ -35,6 +35,8 @@ def patch_answer():
     data = request.json
     form = AnswerForm()
     form['csrf_token'].data = request.cookies['csrf_token']
+    print('---------------------',data)
+    # print('^^^^^^^^^^^^^^^^^^', data['answer_id'])
 
     if form.validate_on_submit():
 
@@ -49,7 +51,7 @@ def patch_answer():
         return { 'answer': answer.to_dict() }
 
     else:
-        return { 'errors': validation_errors_to_error_messages(form.errors) }
+        return { 'errors': validation_errors_to_error_messages(form.errors) }, 402
 
 
 @answer_routes.route('/', methods=['DELETE'])
