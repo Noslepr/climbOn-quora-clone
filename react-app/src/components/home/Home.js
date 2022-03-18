@@ -14,9 +14,8 @@ export const HomePage = ({ user }) => {
     const [currentQuestionId, setCurrentQuestionId] = useState(null)
     const arrayOfIds = Object.keys(questions)
 
-    // useEffect(() => {
-    //     dispatch(getQuestions())
-    // }, [dispatch])
+    const newQuestionId = Math.max(...arrayOfIds)
+    console.log(newQuestionId)
 
     const shuffleIds = arr => {
         for (let i = 0; i < arr.length; i++) {
@@ -46,18 +45,29 @@ export const HomePage = ({ user }) => {
     return (
         <div id='home-page'>
             <ul>
-                {currentQuestionId &&
-                    <li
-                        className='questions-container'>{questions[currentQuestionId].question}
-                        {//questions[id].user.id === user.id && (
+                {currentQuestionId ?
+                    <li className='questions-container'>
+                        <Link to={`/question/${currentQuestionId}`}>
+                            <div>{questions[currentQuestionId].question}</div>
+                        </Link>
+                        <button onClick={(e) => handleEdit(e, currentQuestionId)}>Edit</button>
+                        <button onClick={(e) => handleDelete(e, currentQuestionId)}>Delete</button>
+                    </li>
+                    :
+                    <li className='questions-container'>
+                        <Link to={`/question/${newQuestionId}`}>
+                            <div>{questions[newQuestionId].question}</div>
+                        </Link>
+                        {questions[newQuestionId].user.id === user.id && (
                             <>
-                                <button onClick={(e) => handleEdit(e, currentQuestionId)}>Edit</button>
-                                <button onClick={(e) => handleDelete(e, currentQuestionId)}>Delete</button>
+                                <button onClick={(e) => handleEdit(e, newQuestionId)}>Edit</button>
+                                <button onClick={(e) => handleDelete(e, newQuestionId)}>Delete</button>
                             </>
-                        }
-                    </li>}
+                        )}
+                    </li>
+                }
                 {shuffleIds(arrayOfIds).map(id => {
-                    if (parseInt(id) !== currentQuestionId) {
+                    if (parseInt(id) !== currentQuestionId && parseInt(id) !== newQuestionId) {
                         return (
                             <li key={`${id}-question`} className='questions-container'>
                                 <Link to={`/question/${id}`}>
