@@ -26,7 +26,7 @@ def post_answer():
 
         return { 'answer': answer.to_dict() }
     else:
-        return { 'errors': validation_errors_to_error_messages(form.errors) }
+        return { 'errors': validation_errors_to_error_messages(form.errors) }, 400
 
 
 @answer_routes.route('/', methods=['PATCH'])
@@ -51,7 +51,7 @@ def patch_answer():
         return { 'answer': answer.to_dict() }
 
     else:
-        return { 'errors': validation_errors_to_error_messages(form.errors) }
+        return { 'errors': validation_errors_to_error_messages(form.errors) }, 402
 
 
 @answer_routes.route('/', methods=['DELETE'])

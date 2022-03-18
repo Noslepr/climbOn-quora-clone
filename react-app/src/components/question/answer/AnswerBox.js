@@ -8,25 +8,24 @@ export const AnswerBox = ({ user, showErrors, error, savedAnswer, trigger, setTr
     // const [count, setCount] = useState(0)
 
     useEffect(() => {
-        console.log(answer.length)
+        console.log('in use effect')
         if (answerObj && !error) {
-            setAnswer(answerObj.answer)
-            setAnswerId(answerObj.id)
-        } else if (trigger) {
-            setAnswer(savedAnswer)
+            console.log('setting answer to answerObj')
+            // setAnswer(answerObj.answer)
+            // setAnswerId(answerObj.id)
         }
-    }, [])
-    useEffect(() => {
-        console.log('in useEffect',answer)
-    }, [answer])
+    }, [user])
+    // useEffect(() => {
+    //     // console.log('answer in useEffect',answer)
+    // }, [answer])
 
-    useEffect(() => {
-        if (answer?.length >= 15) {
-            setShowErrors(false)
-            setError('')
-            setTrigger(true)
-        }
-    }, [answer])
+    // useEffect(() => {
+    //     if (answer?.length >= 15) {
+    //         setShowErrors(false)
+    //         setError('')
+    //         // setTrigger(true)
+    //     }
+    // }, [answer])
 
     const handleCancel = () => {
         if (option === 'edit') {
@@ -36,7 +35,8 @@ export const AnswerBox = ({ user, showErrors, error, savedAnswer, trigger, setTr
         }
     }
 
-    const handlePost = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault()
         if (option === 'edit') {
             handleEditAnswerSubmit(answer, answerId)
         } else {
@@ -66,7 +66,7 @@ export const AnswerBox = ({ user, showErrors, error, savedAnswer, trigger, setTr
                 />
             </form>
             <div id="post-answer-box-footer">
-                <button id='post-answer-btn' onClick={handlePost}>Post</button>
+                <button id='post-answer-btn' onClick={(e) => handleSubmit(e)}>Post</button>
                 <button id='post-answer-cancel-btn' onClick={handleCancel}>Cancel</button>
             </div>
         </div>

@@ -18,12 +18,10 @@ export const Question = ({ user }) => {
     const [error, setError] = useState('')
     const [showDropdown, setShowDropdown] = useState(null)
     const [showEditAnswerBox, setShowEditAnswerBox] = useState(null)
-    const [savedAnswer, setSavedAnswer] = useState('')
-    const [trigger, setTrigger] = useState(false)
+    // const [savedAnswer, setSavedAnswer] = useState('')
+    // const [trigger, setTrigger] = useState(false)
 
     const handleAnswerSubmit = async (sentAnswer) => {
-        // e.preventDefault()
-        // setAnswer(sentAnswer)
         const response = await dispatch(postAnswer(sentAnswer, questionId))
         if (response.errors) {
             setError(response.errors[0].answer)
@@ -34,8 +32,9 @@ export const Question = ({ user }) => {
     }
 
     const handleEditAnswerSubmit = async (answer, answerId) => {
-        setSavedAnswer(answer)
+        // setSavedAnswer(answer)
         const response = await dispatch(patchAnswer(answer, answerId, questionId))
+        console.log('response in component',response)
         if (response.errors) {
             setError(response.errors[0].answer)
             setShowErrors(true)
@@ -44,12 +43,9 @@ export const Question = ({ user }) => {
         }
     }
 
-    // useEffect(() => {
-    //     if (answer.length >= 15) {
-    //         setShowErrors(false)
-    //         setError('')
-    //     }
-    // }, [answer])
+    const handleDelete = () => {
+
+    }
 
     const openAnswerBox = () => {
         setShowAnswerBox(true)
@@ -68,6 +64,7 @@ export const Question = ({ user }) => {
     }
 
     const closeEditAnswerBox = () => {
+        console.log('closing')
         setShowEditAnswerBox(null)
     }
 
@@ -123,13 +120,10 @@ export const Question = ({ user }) => {
                                 )}
                                 {(showDropdown === idx) && (
                                     <ul id='answer-dropdown-menu'>
-                                        <li className="dropdown-list-item" onClick={() => {
-                                            setShowEditAnswerBox(idx)
-                                            // setAnswer(answerObj.answer)
-                                        }}>
+                                        <li className="dropdown-list-item" onClick={() => setShowEditAnswerBox(idx)}>
                                             <i className="fa-light fa-pen icon"></i>Edit answer
                                         </li>
-                                        <li className="dropdown-list-item red"><i className="fa-regular fa-trash-can icon"></i>Delete answer</li>
+                                        <li className="dropdown-list-item red" onClick={handleDelete}><i className="fa-regular fa-trash-can icon"></i>Delete answer</li>
                                     </ul>
                                 )}
                             </div>
@@ -143,12 +137,12 @@ export const Question = ({ user }) => {
                                     error={error}
                                     setShowErrors={setShowErrors}
                                     setError={setError}
-                                    trigger={trigger}
-                                    setTrigger={setTrigger}
+                                    // trigger={trigger}
+                                    // setTrigger={setTrigger}
                                     // answer={answer}
                                     answerObj={answerObj}
                                     // setAnswer={setAnswer}
-                                    savedAnswer={savedAnswer}
+                                    // savedAnswer={savedAnswer}
                                     handleEditAnswerSubmit={handleEditAnswerSubmit}
                                     closeEditAnswerBox={closeEditAnswerBox}
                                     option='edit'
