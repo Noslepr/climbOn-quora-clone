@@ -13,7 +13,6 @@ export const AnswerBox = ({ user, questionId, answerObj, closeAnswerBox, closeEd
 
 
     const handlePostAnswerSubmit = async () => {
-        console.log(questionId)
         const response = await dispatch(postAnswer(answer, questionId))
         if (response.errors) {
             setError(response.errors[0].answer)

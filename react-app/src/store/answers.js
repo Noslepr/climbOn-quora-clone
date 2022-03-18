@@ -32,7 +32,6 @@ export const patchAnswer = ( answer, answer_id, questionId ) => async (dispatch)
         })
     })
     const data = await res.json();
-    console.log('data in thunk',data)
 
     if (res.ok) {
         console.log('not hitting action creator')
@@ -43,12 +42,14 @@ export const patchAnswer = ( answer, answer_id, questionId ) => async (dispatch)
     }
 }
 
-export const deleteAnswer = (answer_id, questionId ) => async (dispatch) => {
+export const deleteAnswer = (answer_id, question_id ) => async (dispatch) => {
+    console.log(answer_id, question_id)
     const res = await fetch('/api/answers/', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            answer_id
+            answer_id,
+            // question_id
         })
     })
 
@@ -57,7 +58,7 @@ export const deleteAnswer = (answer_id, questionId ) => async (dispatch) => {
         if (data.errors) {
             return data;
         } else {
-            deleteAnswerAction(answer_id, questionId)
+            dispatch(deleteAnswerAction(answer_id, parseInt(question_id)))
             return data
         }
     }
