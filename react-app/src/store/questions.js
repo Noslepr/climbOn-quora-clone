@@ -31,12 +31,12 @@ export const postAnswerAction = (answer, questionId) => ({
     payload: { answer, questionId }
 })
 
-const patchAnswerAction = (answer) => ({
+export const patchAnswerAction = (answer) => ({
     type: PATCH_ANSWER,
     payload: answer
 })
 
-const deleteAnswerAction = (answer) => ({
+export const deleteAnswerAction = (answer) => ({
     type: DELETE_ANSWER,
     payload: answer
 })

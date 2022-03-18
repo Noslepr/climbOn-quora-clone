@@ -35,6 +35,8 @@ def patch_answer():
     data = request.json
     form = AnswerForm()
     form['csrf_token'].data = request.cookies['csrf_token']
+    print('---------------------',data[answer])
+    print('^^^^^^^^^^^^^^^^^^', data[answer_id])
 
     if form.validate_on_submit():
 

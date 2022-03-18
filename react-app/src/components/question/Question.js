@@ -2,22 +2,27 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { postAnswer } from "../../store/answers";
+import { AnswerBox } from "./answer/AnswerBox";
+import { patchAnswer } from "../../store/answers";
 import './Question.css'
 
 export const Question = ({ user }) => {
     const dispatch = useDispatch()
     const { id : questionId } = useParams()
     const questions = useSelector(({questions}) => questions)
+    const question = questions[questionId]
 
-    const [answer, setAnswer] = useState('')
+    // const [answer, setAnswer] = useState('')
     const [showAnswerBox, setShowAnswerBox] = useState(false)
     const [showErrors, setShowErrors] = useState(false)
     const [error, setError] = useState('')
-    const question = questions[questionId]
+    const [showDropdown, setShowDropdown] = useState(null)
+    const [showEditAnswerBox, setShowEditAnswerBox] = useState(null)
 
-    const handleAnswerSubmit = async (e) => {
-        e.preventDefault()
-        const response = await dispatch(postAnswer(answer, questionId))
+    const handleAnswerSubmit = async (sentAnswer) => {
+        // e.preventDefault()
+        // setAnswer(sentAnswer)
+        const response = await dispatch(postAnswer(sentAnswer, questionId))
         if (response.errors) {
             setError(response.errors[0].answer)
             setShowErrors(true)
@@ -25,13 +30,24 @@ export const Question = ({ user }) => {
             closeAnswerBox()
         }
     }
-    
-    useEffect(() => {
-        if (answer.length >= 15) {
-            setShowErrors(false)
-            setError('')
+
+    const handleEditAnswerSubmit = async (answer, answerId) => {
+        console.log('in handle edit answer submit')
+        const response = await dispatch(patchAnswer(answer, answerId))
+        if (response.errors) {
+            setError(response.errors[0].answer)
+            setShowErrors(true)
+        } else {
+            closeEditAnswerBox()
         }
-    }, [answer])
+    }
+
+    // useEffect(() => {
+    //     if (answer.length >= 15) {
+    //         setShowErrors(false)
+    //         setError('')
+    //     }
+    // }, [answer])
 
     const openAnswerBox = () => {
         setShowAnswerBox(true)
@@ -45,9 +61,24 @@ export const Question = ({ user }) => {
         const answerElement = document.querySelector('#post-answer')
         answerElement.style.opacity = '1'
         answerElement.style.removeProperty('pointer-events')
-        setAnswer('')
+        // setAnswer('')
         setError('')
     }
+
+    const closeEditAnswerBox = () => {
+        setShowEditAnswerBox(null)
+    }
+
+    useEffect(() => {
+        const func = (e) => {
+            setShowDropdown(null)
+            document.removeEventListener('click', func)
+        }
+        if (showDropdown || showDropdown === 0) {
+            console.log('adding eventlistener')
+            document.addEventListener('click', func)
+        }
+    }, [showDropdown])
 
     return (
         <div id='question-page'>
@@ -61,31 +92,17 @@ export const Question = ({ user }) => {
                         </div>
                     </div>
                 {showAnswerBox && (
-                    <div id="post-answer-box-container">
-                        <div id="post-answer-box-header">
-                            <img ></img>
-                            <div>
-                                <div>{user.full_name}</div>
-                                <div>Edit credential</div>
-                            </div>
-                        </div>
-                        {showErrors && (
-                            <div id="error">{error}</div>
-                        )}
-                        <form id='answer-form'>
-                            <textarea
-                                type='text'
-                                id="post-answer-field"
-                                placeholder="Write your answer"
-                                value={answer}
-                                onChange={(e) => setAnswer(e.target.value)}
-                            />
-                        </form>
-                        <div id="post-answer-box-footer">
-                            <button id='post-answer-btn' onClick={handleAnswerSubmit}>Post</button>
-                            <button id='post-answer-cancel-btn' onClick={closeAnswerBox}>Cancel</button>
-                        </div>
-                    </div>
+                    <AnswerBox
+                        user={user}
+                        showErrors={showErrors}
+                        error={error}
+                        setShowErrors={setShowErrors}
+                        setError={setError}
+                        // answer={answer}
+                        // setAnswer={setAnswer}
+                        handleAnswerSubmit={handleAnswerSubmit}
+                        closeAnswerBox={closeAnswerBox}
+                    />
                 )}
                 </div>
                 <div id='num-answers'>
@@ -96,10 +113,46 @@ export const Question = ({ user }) => {
                     <span className="answers-text">Answers</span>
                 </div>
                 <ul>
-                    {question.answers.map(answer => (
-                        <div key={Math.random()} className="answer-container">
-                            <div className="answer-user">{answer.user.full_name}</div>
-                            <li className="list-answer">{answer.answer}</li>
+                    {question.answers.map((answerObj, idx) => (
+                        <div key={Math.random()} className="list-answer-container">
+                            <div className="list-answer-header">
+                                <div className="list-answer-user">{answerObj.user.full_name}</div>
+                                {answerObj.user.id === user.id && (
+                                    <i class="fa-solid fa-ellipsis" onClick={() => {
+                                        console.log(idx)
+                                        setShowDropdown(idx)
+                                    }}></i>
+                                )}
+                                {(showDropdown === idx) && (
+                                    <ul id='answer-dropdown-menu'>
+                                        <li className="dropdown-list-item" onClick={() => {
+                                            setShowEditAnswerBox(idx)
+                                            // setAnswer(answerObj.answer)
+                                        }}>
+                                            <i class="fa-light fa-pen icon"></i>Edit answer
+                                        </li>
+                                        <li className="dropdown-list-item red"><i class="fa-regular fa-trash-can icon"></i>Delete answer</li>
+                                    </ul>
+                                )}
+                            </div>
+                            {showEditAnswerBox !== idx && (
+                                <li className="list-answer">{answerObj.answer}</li>
+                            )}
+                            {showEditAnswerBox === idx && (
+                                <AnswerBox
+                                    user={user}
+                                    showErrors={showErrors}
+                                    error={error}
+                                    setShowErrors={setShowErrors}
+                                    setError={setError}
+                                    // answer={answer}
+                                    answerObj={answerObj}
+                                    // setAnswer={setAnswer}
+                                    handleEditAnswerSubmit={handleEditAnswerSubmit}
+                                    closeEditAnswerBox={closeEditAnswerBox}
+                                    option='edit'
+                                />
+                            )}
                         </div>
                     ))}
                 </ul>

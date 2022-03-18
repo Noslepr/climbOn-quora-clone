@@ -60,11 +60,19 @@
 #post-answer-box-header {
     display: flex;
     align-items: center;
-    height: 80px;
+    height: 100px;
     width: 100%;
     background-color: rgb(235, 235, 235);
     border-bottom: 1px solid rgb(170, 170, 170);
     padding: 20px;
+}
+
+#box-name {
+    padding-bottom: 15px;
+}
+
+#post-answer-box-text {
+    margin-left: 50px;
 }
 
 #error {
@@ -156,12 +164,18 @@
     margin-left: 8px;
 }
 
-.answer-container {
+.list-answer-container {
     padding: 20px;
     border-bottom: 1px solid rgb(170, 170, 170);
 }
 
-.answer-user {
+.list-answer-header {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+}
+
+.list-answer-user {
     font-size: 20px;
     font-weight: 700;
     margin: 0px 0px 20px 50px;
@@ -170,4 +184,33 @@
 .list-answer {
     list-style: none;
     font-size: 17px;
+}
+
+#answer-dropdown-menu {
+    position: absolute;
+    right: 0px;
+    top: 20px;
+    list-style: none;
+    border: 1px solid rgb(170, 170, 170);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 3%);
+    background-color: rgba(255,255,255,1);
+    padding: 10px 15px;
+    z-index: 2;
+    border-radius: 4px;
+}
+
+.dropdown-list-item {
+    padding: 10px 0px;
+}
+
+.dropdown-list-item:hover {
+    cursor: pointer;
+}
+
+.icon {
+    margin-right: 10px;
+}
+
+.red {
+    color: rgb(170,56,47);
 }
