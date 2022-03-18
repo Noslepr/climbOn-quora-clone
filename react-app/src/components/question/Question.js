@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { AnswerBox } from "./answer/AnswerBox";
+import { deleteAnswer } from "../../store/answers";
 import './Question.css'
 
 export const Question = ({ user }) => {
@@ -14,8 +15,9 @@ export const Question = ({ user }) => {
     const [showDropdown, setShowDropdown] = useState(null)
     const [showEditAnswerBox, setShowEditAnswerBox] = useState(null)
 
-    const handleDelete = () => {
-
+    const handleDelete = (answerId) => {
+        dispatch(deleteAnswer(answerId, questionId))
+        setShowDropdown(null)
     }
 
     const openAnswerBox = () => {
@@ -81,7 +83,7 @@ export const Question = ({ user }) => {
                                             }}>
                                             <i className="fa-light fa-pen icon"></i>Edit answer
                                         </li>
-                                        <li className="dropdown-list-item red" onClick={handleDelete}><i className="fa-regular fa-trash-can icon"></i>Delete answer</li>
+                                        <li className="dropdown-list-item red" onClick={() => handleDelete(answerObj.id)}><i className="fa-regular fa-trash-can icon"></i>Delete answer</li>
                                     </ul>
                                 )}
                             </div>
