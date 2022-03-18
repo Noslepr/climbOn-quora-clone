@@ -218,13 +218,11 @@
 #background {
     position: fixed;
     z-index: 1;
-    top: 0;
+    top: 50px;
     bottom: 0;
     right: 0;
     left: 0;
     background-color: rgba(0,0,0,0);
+    z-index: 1;
 }
 
-.layer2 {
-    z-index: 2;
-}

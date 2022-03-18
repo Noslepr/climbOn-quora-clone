@@ -33,7 +33,6 @@ export const AnswerBox = ({ user, questionId, answerObj, closeAnswerBox, closeEd
         }
     }
 
-
     useEffect(() => {
         if (answer?.length >= 15) {
             setShowErrors(false)

@@ -27,3 +27,6 @@ a:visited {
     color: black;
 }
 
+.layer2 {
+    z-index: 2;
+}
