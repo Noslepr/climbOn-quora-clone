@@ -38,7 +38,7 @@ export const patchAnswerAction = (answer, answerId, questionId) => ({
 
 export const deleteAnswerAction = (answerId, questionId ) => ({
     type: DELETE_ANSWER,
-    payload: answerId
+    payload: { answerId, questionId }
 })
 
 export const getQuestions = () => async (dispatch) => {
@@ -152,11 +152,13 @@ export default function reducer(state = {}, action) {
 
         case DELETE_ANSWER:
             newState = {...state}
-            // newState[action.payload.questionId].answers.map(answer => {
-            //     if (answer.id === action.payload.answerId) {
-            //         delete answer
-            //     }
-            // })
+            const questionId = action.payload.questionId
+            newState[questionId].answers.map((answer, idx) => {
+                if (answer.id === action.payload.answerId) {
+                    newState[questionId].splice(idx, 1)
+                }
+            })
+            return newState
         default:
             return state;
     }

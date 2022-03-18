@@ -1,31 +1,45 @@
 import React, { useEffect, useState } from "react";
-// import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { postAnswer, patchAnswer } from "../../../store/answers";
 
 
-export const AnswerBox = ({ user, showErrors, error, savedAnswer, trigger, setTrigger, setShowErrors, setError, answerObj, handleAnswerSubmit, handleEditAnswerSubmit, closeAnswerBox, closeEditAnswerBox, option }) => {
-    const [answerId, setAnswerId] = useState(null)
-    const [answer, setAnswer] = useState('')
-    // const [count, setCount] = useState(0)
+export const AnswerBox = ({ user, questionId, answerObj, closeAnswerBox, closeEditAnswerBox, option }) => {
+
+    const dispatch = useDispatch()
+    const [answerId, setAnswerId] = useState(answerObj ? answerObj.id: null)
+    const [answer, setAnswer] = useState(answerObj ? answerObj.answer : '')
+    const [showErrors, setShowErrors] = useState(false)
+    const [error, setError] = useState('')
+
+
+    const handlePostAnswerSubmit = async () => {
+        console.log(questionId)
+        const response = await dispatch(postAnswer(answer, questionId))
+        if (response.errors) {
+            setError(response.errors[0].answer)
+            setShowErrors(true)
+        } else {
+            closeAnswerBox()
+        }
+    }
+
+    const handleEditAnswerSubmit = async () => {
+        const response = await dispatch(patchAnswer(answer, answerId, questionId))
+        if (response.errors) {
+            setShowErrors(true)
+            setError(response.errors[0].answer)
+        } else {
+            closeEditAnswerBox()
+        }
+    }
+
 
     useEffect(() => {
-        console.log('in use effect')
-        if (answerObj && !error) {
-            console.log('setting answer to answerObj')
-            // setAnswer(answerObj.answer)
-            // setAnswerId(answerObj.id)
+        if (answer?.length >= 15) {
+            setShowErrors(false)
+            setError('')
         }
-    }, [user])
-    // useEffect(() => {
-    //     // console.log('answer in useEffect',answer)
-    // }, [answer])
-
-    // useEffect(() => {
-    //     if (answer?.length >= 15) {
-    //         setShowErrors(false)
-    //         setError('')
-    //         // setTrigger(true)
-    //     }
-    // }, [answer])
+    }, [answer])
 
     const handleCancel = () => {
         if (option === 'edit') {
@@ -38,9 +52,11 @@ export const AnswerBox = ({ user, showErrors, error, savedAnswer, trigger, setTr
     const handleSubmit = (e) => {
         e.preventDefault()
         if (option === 'edit') {
-            handleEditAnswerSubmit(answer, answerId)
+            console.log('in handle submit for edit')
+            handleEditAnswerSubmit()
         } else {
-            handleAnswerSubmit(answer)
+            console.log('in handle submit for post')
+            handlePostAnswerSubmit()
         }
     }
 
@@ -56,7 +72,7 @@ export const AnswerBox = ({ user, showErrors, error, savedAnswer, trigger, setTr
             {showErrors && (
                 <div id="error">{error}</div>
             )}
-            <form id='answer-form'>
+            <form id='answer-form' className='layer2'>
                 <textarea
                     type='text'
                     id="post-answer-field"
@@ -66,8 +82,8 @@ export const AnswerBox = ({ user, showErrors, error, savedAnswer, trigger, setTr
                 />
             </form>
             <div id="post-answer-box-footer">
-                <button id='post-answer-btn' onClick={(e) => handleSubmit(e)}>Post</button>
-                <button id='post-answer-cancel-btn' onClick={handleCancel}>Cancel</button>
+                <button id='post-answer-btn' className='layer2' onClick={handleSubmit}>Post</button>
+                <button id='post-answer-cancel-btn' className='layer2' onClick={handleCancel}>Cancel</button>
             </div>
         </div>
     )

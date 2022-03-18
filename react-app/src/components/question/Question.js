@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { postAnswer } from "../../store/answers";
 import { AnswerBox } from "./answer/AnswerBox";
-import { patchAnswer } from "../../store/answers";
 import './Question.css'
 
 export const Question = ({ user }) => {
@@ -12,36 +10,9 @@ export const Question = ({ user }) => {
     const questions = useSelector(({questions}) => questions)
     const question = questions[questionId]
 
-    // const [answer, setAnswer] = useState('')
     const [showAnswerBox, setShowAnswerBox] = useState(false)
-    const [showErrors, setShowErrors] = useState(false)
-    const [error, setError] = useState('')
     const [showDropdown, setShowDropdown] = useState(null)
     const [showEditAnswerBox, setShowEditAnswerBox] = useState(null)
-    // const [savedAnswer, setSavedAnswer] = useState('')
-    // const [trigger, setTrigger] = useState(false)
-
-    const handleAnswerSubmit = async (sentAnswer) => {
-        const response = await dispatch(postAnswer(sentAnswer, questionId))
-        if (response.errors) {
-            setError(response.errors[0].answer)
-            setShowErrors(true)
-        } else {
-            closeAnswerBox()
-        }
-    }
-
-    const handleEditAnswerSubmit = async (answer, answerId) => {
-        // setSavedAnswer(answer)
-        const response = await dispatch(patchAnswer(answer, answerId, questionId))
-        console.log('response in component',response)
-        if (response.errors) {
-            setError(response.errors[0].answer)
-            setShowErrors(true)
-        } else {
-            closeEditAnswerBox()
-        }
-    }
 
     const handleDelete = () => {
 
@@ -59,8 +30,6 @@ export const Question = ({ user }) => {
         const answerElement = document.querySelector('#post-answer')
         answerElement.style.opacity = '1'
         answerElement.style.removeProperty('pointer-events')
-        // setAnswer('')
-        setError('')
     }
 
     const closeEditAnswerBox = () => {
@@ -68,23 +37,13 @@ export const Question = ({ user }) => {
         setShowEditAnswerBox(null)
     }
 
-    useEffect(() => {
-        const func = (e) => {
-            setShowDropdown(null)
-            document.removeEventListener('click', func)
-        }
-        if (showDropdown || showDropdown === 0) {
-            document.addEventListener('click', func)
-        }
-    }, [showDropdown])
-
     return (
         <div id='question-page'>
             <div id='question-left-container'>
                 <div id="question-header-container">
                     <div id="question-header">{question.question}</div>
                     <div id="question-footer-icons">
-                        <div id="post-answer" onClick={openAnswerBox}>
+                        <div id="post-answer" className="layer2" onClick={openAnswerBox}>
                             <i className="fa-solid fa-pen-to-square square"></i>
                             <div className="answers-text" id='post-answer-text'>Answer</div>
                         </div>
@@ -92,14 +51,9 @@ export const Question = ({ user }) => {
                 {showAnswerBox && (
                     <AnswerBox
                         user={user}
-                        showErrors={showErrors}
-                        error={error}
-                        setShowErrors={setShowErrors}
-                        setError={setError}
-                        // answer={answer}
-                        // setAnswer={setAnswer}
-                        handleAnswerSubmit={handleAnswerSubmit}
+                        questionId={questionId}
                         closeAnswerBox={closeAnswerBox}
+                        option='post'
                     />
                 )}
                 </div>
@@ -116,11 +70,15 @@ export const Question = ({ user }) => {
                             <div className="list-answer-header">
                                 <div className="list-answer-user">{answerObj.user.full_name}</div>
                                 {answerObj.user.id === user.id && (
-                                    <i className="fa-solid fa-ellipsis" onClick={() => setShowDropdown(idx)}></i>
+                                    <i className="fa-solid fa-ellipsis layer2" onClick={() => setShowDropdown(idx)}></i>
                                 )}
+                                <div id='background' onClick={() => setShowDropdown(null)}></div>
                                 {(showDropdown === idx) && (
                                     <ul id='answer-dropdown-menu'>
-                                        <li className="dropdown-list-item" onClick={() => setShowEditAnswerBox(idx)}>
+                                        <li className="dropdown-list-item" onClick={() => {
+                                            setShowEditAnswerBox(idx)
+                                            setShowDropdown(null)
+                                            }}>
                                             <i className="fa-light fa-pen icon"></i>Edit answer
                                         </li>
                                         <li className="dropdown-list-item red" onClick={handleDelete}><i className="fa-regular fa-trash-can icon"></i>Delete answer</li>
@@ -133,17 +91,8 @@ export const Question = ({ user }) => {
                             {showEditAnswerBox === idx && (
                                 <AnswerBox
                                     user={user}
-                                    showErrors={showErrors}
-                                    error={error}
-                                    setShowErrors={setShowErrors}
-                                    setError={setError}
-                                    // trigger={trigger}
-                                    // setTrigger={setTrigger}
-                                    // answer={answer}
+                                    questionId={questionId}
                                     answerObj={answerObj}
-                                    // setAnswer={setAnswer}
-                                    // savedAnswer={savedAnswer}
-                                    handleEditAnswerSubmit={handleEditAnswerSubmit}
                                     closeEditAnswerBox={closeEditAnswerBox}
                                     option='edit'
                                 />
