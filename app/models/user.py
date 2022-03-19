@@ -10,6 +10,7 @@ class User(db.Model, UserMixin):
     full_name = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
+    profile_img = db.Column(db.String(1000))
     credentials = db.Column(db.String(255))
 
     questions = db.relationship('Question', back_populates='user')
@@ -30,5 +31,7 @@ class User(db.Model, UserMixin):
         return {
             'id': self.id,
             'full_name': self.full_name,
-            'email': self.email
+            'email': self.email,
+            'profile_img': self.profile_img,
+            'credentials': self.credentials,
         }
