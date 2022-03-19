@@ -8,7 +8,7 @@ def user_exists(form, field):
     # Checking if user exists
     email = field.data
     user = User.query.filter(User.email == email).first()
-    
+
     if user:
         raise ValidationError('Email address is already in use.')
 
@@ -17,7 +17,7 @@ def password_check(form, field):
     special = ['!', '@', '#', '$', '%', '^', '&', '*']
 
     if not any(x in password for x in special):
-        raise ValidationError("Please include at least one of :'!@#$%^&*'")
+        raise ValidationError("Please include at least one of: !@#$%^&*")
 
 def repeat_password(form, field):
     repeat_password = field.data

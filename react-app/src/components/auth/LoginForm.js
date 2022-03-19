@@ -52,7 +52,7 @@ const LoginForm = () => {
   return (
     <div id='login-page'>
       {showSignupModal && (
-        <Modal onClose={() => setShowSignupModal(false)}>
+        <Modal>
           <SignUpForm setShowSignupModal={setShowSignupModal}/>
         </Modal>
       )}
@@ -78,8 +78,8 @@ const LoginForm = () => {
               <label htmlFor='email' className='login-labels'>Email
                 {errors.map(error => {
                   if (error.email) {
-                    return <span id='email-error'>{error.email}</span>
-                  }
+                    return <span key={Math.random()} id='email-error'>{error.email}</span>
+                  } else return <span key={Math.random()}></span>
                 })}
               </label>
               <input
@@ -95,8 +95,8 @@ const LoginForm = () => {
               <label htmlFor='password' className='login-labels'>Password
                 {errors.map(error => {
                   if (error.password) {
-                    return <span id='password-error'>{error.password}</span>
-                  }
+                    return <span key={Math.random()} id='password-error'>{error.password}</span>
+                  } else return <span key={Math.random()}></span>
                 })}
               </label>
               <input

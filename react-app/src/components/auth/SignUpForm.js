@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { signUp } from '../../store/session';
 import './SignupForm.css'
 
-const SignUpForm = ({setShowSignupModal}) => {
+const SignUpForm = ({ setShowSignupModal }) => {
     const [errors, setErrors] = useState([]);
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
@@ -18,7 +18,7 @@ const SignUpForm = ({setShowSignupModal}) => {
         const response = await dispatch(signUp(fullName, email, password, repeatPassword));
         console.log('response in signup submit', response)
         if (response) {
-          setErrors(response)
+            setErrors(response)
         }
     };
 
@@ -60,7 +60,13 @@ const SignUpForm = ({setShowSignupModal}) => {
                     ))} */}
                 </div>
                 <div>
-                    <label className='signup-label'>Full Name</label>
+                    <label className='signup-label'>Full Name
+                    {errors.map(error => {
+                            if (error.full_name) {
+                                return <span key={Math.random()} id='signup-name-error'>{error.full_name}</span>
+                            } else return <span key={Math.random()}></span>
+                        })}
+                    </label>
                     <input
                         className='signup-field'
                         placeholder='What would you like to be called?'
@@ -71,7 +77,13 @@ const SignUpForm = ({setShowSignupModal}) => {
                     ></input>
                 </div>
                 <div>
-                    <label className='signup-label'>Email</label>
+                    <label className='signup-label'>Email
+                        {errors.map(error => {
+                            if (error.email) {
+                                return <span key={Math.random()} id='signup-email-error'>{error.email}</span>
+                            } else return <span key={Math.random()}></span>
+                        })}
+                    </label>
                     <input
                         className='signup-field'
                         placeholder='Your email'
@@ -82,7 +94,13 @@ const SignUpForm = ({setShowSignupModal}) => {
                     ></input>
                 </div>
                 <div>
-                    <label className='signup-label'>Password</label>
+                    <label className='signup-label'>Password
+                        {errors.map(error => {
+                            if (error.password) {
+                                return <span key={Math.random()} id='signup-password-error'>{error.password}</span>
+                            } else return <span key={Math.random()}></span>
+                        })}
+                    </label>
                     <input
                         className='signup-field'
                         placeholder='Your password'
@@ -93,7 +111,13 @@ const SignUpForm = ({setShowSignupModal}) => {
                     ></input>
                 </div>
                 <div>
-                    <label className='signup-label'>Repeat Password</label>
+                    <label className='signup-label'>Repeat Password
+                        {errors.map(error => {
+                            if (error.repeat_password) {
+                                return <span key={Math.random()} id='signup-repeat-password-error'>{error.repeat_password}</span>
+                            } else return <span key={Math.random()}></span>
+                        })}
+                    </label>
                     <input
                         className='signup-field'
                         placeholder='Repeat your password'
@@ -104,7 +128,6 @@ const SignUpForm = ({setShowSignupModal}) => {
                         required={true}
                     ></input>
                 </div>
-                {/* <button type='submit'>Sign Up</button> */}
             </form>
             <div id='signup-btn-container'>
                 <button id='signup-cancel-btn' onClick={handleCancel}>Cancel</button>

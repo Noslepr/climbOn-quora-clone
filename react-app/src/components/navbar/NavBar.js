@@ -29,12 +29,12 @@ export const NavBar = ({user}) => {
             </Link>
             <div id='nav-background' onClick={() => setShowProfileDropdown(false)}></div>
             <div id='nav-right'>
-                <img src={img} id='nav-profile' onClick={() => setShowProfileDropdown(true)}></img>
+                <img src={img} id='nav-profile' alt='profie' onClick={() => setShowProfileDropdown(true)}></img>
                 <button  id='add-question-btn'onClick={askQuestion}>Add question</button>
                 {showProfileDropdown && (
                     <div id='nav-dropdown'>
                         <div id='nav-dropdown-header'>
-                            <img src={img} id='dropdown-profile-img'></img>
+                            <img src={img} id='dropdown-profile-img' alt='profie'></img>
                             <div id='dropdown-name'>{user.full_name}</div>
                         </div>
                         <ul id='nav-dropdown-your-list'>
