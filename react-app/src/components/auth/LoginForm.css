@@ -118,6 +118,16 @@
     border-radius: 3px;
 }
 
+#email-error {
+    color: red;
+    margin-left: 60px;
+}
+
+#password-error {
+    color: red;
+    margin-left: 30px;
+}
+
 .login-field:hover {
     border: 2px solid rgb(159,180,251);
 }

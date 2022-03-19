@@ -5,11 +5,12 @@ import { login } from '../../store/session';
 import './LoginForm.css'
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.session.user);
+
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const user = useSelector(state => state.session.user);
-  const dispatch = useDispatch();
 
   const onLogin = async (e) => {
     e.preventDefault();
@@ -39,6 +40,7 @@ const LoginForm = () => {
 
   const authBtn = document.querySelector('.auth-btn')
   if (email && password) {
+    authBtn.style.backgroundColor = 'rgb(130, 157, 250)'
     authBtn.classList.remove('not-clickable')
   } else if (authBtn) {
       authBtn.classList.add('not-clickable')
@@ -65,7 +67,13 @@ const LoginForm = () => {
               ))}
             </div> */}
             <div className='label-field'>
-              <label htmlFor='email' className='login-labels'>Email</label>
+              <label htmlFor='email' className='login-labels'>Email
+                {errors.map(error => {
+                  if (error.email) {
+                    return <span id='email-error'>{error.email}</span>
+                  }
+                })}
+              </label>
               <input
                 className='email login-field'
                 name='email'
@@ -76,7 +84,13 @@ const LoginForm = () => {
               />
             </div>
             <div className='label-field'>
-              <label htmlFor='password' className='login-labels'>Password</label>
+              <label htmlFor='password' className='login-labels'>Password
+                {errors.map(error => {
+                  if (error.password) {
+                    return <span id='password-error'>{error.password}</span>
+                  }
+                })}
+              </label>
               <input
                 className='password login-field'
                 name='password'
