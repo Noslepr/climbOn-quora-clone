@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getQuestions, deleteQuestion } from '../../store/questions';
+import { deleteQuestion } from '../../store/questions';
 import { Modal } from '../../context/Modal';
 import { PostQuestion } from '../postQuestion/PostQuestion';
 import './Home.css'
@@ -15,7 +15,6 @@ export const HomePage = ({ user }) => {
     const arrayOfIds = Object.keys(questions)
 
     const newQuestionId = Math.max(...arrayOfIds)
-    console.log(newQuestionId)
 
     const shuffleIds = arr => {
         for (let i = 0; i < arr.length; i++) {

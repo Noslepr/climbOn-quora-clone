@@ -55,7 +55,7 @@ export const PostQuestion = ({setShowQuestionModal, setShowEditQuestionModal, cu
         <div id='add-question-modal'>
             <div>
                 <div id='add-question-modal-header'>
-                    <div id='x-continaer'>
+                    <div className='x-continaer'>
                         <i className="fa-light fa-xmark x" onClick={handleCancel}></i>
                     </div>
                     <div id='bubble-container'>

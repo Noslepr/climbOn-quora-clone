@@ -1,0 +1,83 @@
+#signup-form-modal {
+    width: 690px;
+    height: 550px;
+    padding: 20px 0px;
+}
+
+#x {
+    color: #636466;
+    font-size: 25px;
+    padding: 0px 20px;
+}
+
+#x:hover {
+    cursor: pointer;
+}
+
+#signup-form-header {
+    font-size: 20px;
+    font-weight: 700;
+    padding: 20px;
+}
+
+.signup-label {
+    margin: 0px 20px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.signup-field {
+    display: flex;
+    align-items: center;
+    width: 650px;
+    height: 45px;
+    margin: 10px 20px;
+    padding: 15px;
+    font-size: 17px;
+    border: 1px solid rgb(205, 208, 209);
+    border-radius: 3px;
+    outline: none;
+}
+
+.signup-field:hover, .signup-field:focus {
+    border: 1px solid blue
+}
+
+#signup-email-error {
+    color: red;
+    margin-left: 132px;
+}
+
+#signup-password-error, #signup-name-error {
+    color: red;
+    margin-left: 100px;
+}
+
+#signup-repeat-password-error {
+    color: red;
+    margin-left: 45px;
+}
+
+.signup-field::placeholder {
+    color: #9f9fa1;
+}
+
+#signup-btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 70px;
+    border-top: 1px solid rgb(205, 208, 209);
+    margin-top: 50px;
+}
+
+#signup-cancel-btn {
+    background-color: white;
+    border: none;
+    color: #636466;
+    font-size: 16px;
+}
+
+.signup-btn {
+    margin: 0px 20px;
+}

@@ -116,16 +116,27 @@
     font-size: 17px;
     border: 1px solid rgb(205, 208, 209);
     border-radius: 3px;
+    outline: none;
 }
 
-.login-field:hover {
-    border: 2px solid rgb(159,180,251);
+#email-error {
+    color: red;
+    margin-left: 60px;
+}
+
+#password-error {
+    color: red;
+    margin-left: 30px;
+}
+
+.login-field:hover, .login-field:focus {
+    border: 1px solid blue;
 }
 
 #btn-container {
     display: flex;
+    justify-content: flex-end;
     width: 100%;
-    justify-content: end;
 }
 
 .auth-btn {

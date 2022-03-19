@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { postAnswer, patchAnswer } from "../../../store/answers";
+// import img from '../../../images/defaultUser.jpg'
 
 
 export const AnswerBox = ({ user, questionId, answerObj, closeAnswerBox, closeEditAnswerBox, option }) => {
 
     const dispatch = useDispatch()
-    const [answerId, setAnswerId] = useState(answerObj ? answerObj.id: null)
+    const [answerId] = useState(answerObj ? answerObj.id: null)
     const [answer, setAnswer] = useState(answerObj ? answerObj.answer : '')
     const [showErrors, setShowErrors] = useState(false)
     const [error, setError] = useState('')
@@ -61,7 +62,7 @@ export const AnswerBox = ({ user, questionId, answerObj, closeAnswerBox, closeEd
     return (
         <div id="post-answer-box-container">
             <div id="post-answer-box-header">
-                <img ></img>
+                {/* <img src={img} alt='profie'></img> */}
                 <div id='post-answer-box-text'>
                     <div id='box-name'>{user.full_name}</div>
                     {/* <div>Edit credential</div> */}

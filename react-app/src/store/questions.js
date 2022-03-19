@@ -116,7 +116,6 @@ export const deleteQuestion = (question_id) => async (dispatch) => {
 }
 
 export default function reducer(state = {}, action) {
-    console.log('in reducer')
     let newState
     switch (action.type) {
         case GET_QUESTIONS:
@@ -149,18 +148,17 @@ export default function reducer(state = {}, action) {
             newState[action.payload.questionId].answers.map(answer => {
                 if (answer.id === action.payload.answerId) {
                     answer.answer = action.payload.answer
-                }
+                } else return answer
             })
             return newState
 
         case DELETE_ANSWER:
             newState = {...state}
-            console.log('in delete reducer',action.payload)
             const questionId = action.payload.questionId
             newState[questionId].answers.map((answer, idx) => {
                 if (answer.id === action.payload.answerId) {
                     newState[questionId].answers.splice(idx, 1)
-                }
+                } else return answer
             })
             return newState
 

@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { login } from '../../store/session';
+import SignUpForm from './SignUpForm';
+import { Modal } from '../../context/Modal';
 import './LoginForm.css'
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.session.user);
+
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const user = useSelector(state => state.session.user);
-  const dispatch = useDispatch();
+  const [showSignupModal, setShowSignupModal] = useState(false)
 
   const onLogin = async (e) => {
     e.preventDefault();
@@ -39,6 +43,7 @@ const LoginForm = () => {
 
   const authBtn = document.querySelector('.auth-btn')
   if (email && password) {
+    authBtn.style.backgroundColor = 'rgb(130, 157, 250)'
     authBtn.classList.remove('not-clickable')
   } else if (authBtn) {
       authBtn.classList.add('not-clickable')
@@ -46,13 +51,18 @@ const LoginForm = () => {
 
   return (
     <div id='login-page'>
+      {showSignupModal && (
+        <Modal>
+          <SignUpForm setShowSignupModal={setShowSignupModal}/>
+        </Modal>
+      )}
       <div id='splash-container'>
         <div id='login-title'>climbOn</div>
         <div id='login-header'>A place to share climbing knowledge and better understand the climbing world</div>
         <div id='form-container'>
           <div id='login-left'>
             <div id='left-btns-container'>
-              <div className='splash-left-btns'>Sign up with email</div>
+              <div className='splash-left-btns' onClick={() => setShowSignupModal(true)}>Sign up with email</div>
               <div className='splash-left-btns demo' onClick={demoLogin}>Demo Login</div>
             </div>
             <div id='terms-service'>By continuing you indicate that you agree to climbOn's Terms of Service and Privacy Policy.</div>
@@ -65,7 +75,13 @@ const LoginForm = () => {
               ))}
             </div> */}
             <div className='label-field'>
-              <label htmlFor='email' className='login-labels'>Email</label>
+              <label htmlFor='email' className='login-labels'>Email
+                {errors.map(error => {
+                  if (error.email) {
+                    return <span key={Math.random()} id='email-error'>{error.email}</span>
+                  } else return <span key={Math.random()}></span>
+                })}
+              </label>
               <input
                 className='email login-field'
                 name='email'
@@ -76,7 +92,13 @@ const LoginForm = () => {
               />
             </div>
             <div className='label-field'>
-              <label htmlFor='password' className='login-labels'>Password</label>
+              <label htmlFor='password' className='login-labels'>Password
+                {errors.map(error => {
+                  if (error.password) {
+                    return <span key={Math.random()} id='password-error'>{error.password}</span>
+                  } else return <span key={Math.random()}></span>
+                })}
+              </label>
               <input
                 className='password login-field'
                 name='password'
