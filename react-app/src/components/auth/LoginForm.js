@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { login } from '../../store/session';
+import SignUpForm from './SignUpForm';
+import { Modal } from '../../context/Modal';
 import './LoginForm.css'
 
 const LoginForm = () => {
@@ -11,6 +13,7 @@ const LoginForm = () => {
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showSignupModal, setShowSignupModal] = useState(false)
 
   const onLogin = async (e) => {
     e.preventDefault();
@@ -48,13 +51,18 @@ const LoginForm = () => {
 
   return (
     <div id='login-page'>
+      {showSignupModal && (
+        <Modal onClose={() => setShowSignupModal(false)}>
+          <SignUpForm setShowSignupModal={setShowSignupModal}/>
+        </Modal>
+      )}
       <div id='splash-container'>
         <div id='login-title'>climbOn</div>
         <div id='login-header'>A place to share climbing knowledge and better understand the climbing world</div>
         <div id='form-container'>
           <div id='login-left'>
             <div id='left-btns-container'>
-              <div className='splash-left-btns'>Sign up with email</div>
+              <div className='splash-left-btns' onClick={() => setShowSignupModal(true)}>Sign up with email</div>
               <div className='splash-left-btns demo' onClick={demoLogin}>Demo Login</div>
             </div>
             <div id='terms-service'>By continuing you indicate that you agree to climbOn's Terms of Service and Privacy Policy.</div>
