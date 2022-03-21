@@ -26,7 +26,7 @@ const LoginForm = () => {
 
   const demoLogin = (e) => {
     e.preventDefault();
-    dispatch(login('watson@soriano.com', 'password'))
+    dispatch(login('Hrodeber@Elder.com', 'password!'))
   }
 
   const updateEmail = (e) => {
@@ -69,11 +69,6 @@ const LoginForm = () => {
           </div>
           <form id='login-right'onSubmit={onLogin}>
             <label id='login-label'>Login</label>
-            {/* <div>
-              {errors.map((error, ind) => (
-                <div key={ind}>{error.email}</div>
-              ))}
-            </div> */}
             <div className='label-field'>
               <label htmlFor='email' className='login-labels'>Email
                 {errors.map(error => {

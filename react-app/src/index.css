@@ -32,6 +32,6 @@ a:visited {
     z-index: 2;
 }
 
-/* li {
-    list-style: none;
-} */
+.fa-ellipsis:hover {
+    cursor: pointer;
+}
