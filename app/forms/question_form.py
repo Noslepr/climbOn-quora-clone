@@ -25,10 +25,17 @@ def question_long_enough(form, field):
     if len(question) < 15:
         raise ValidationError('Please make sure your question is long enough.')
 
+def question_too_long(form, field):
+    question = field.data
+
+    if len(question) >= 300:
+        raise ValidationError('Your question is too long. Please be more concise.')
+
 class QuestionForm(FlaskForm):
     question = StringField('question', validators=[
         DataRequired(),
         question_starts_with,
         question_ends_with,
-        question_long_enough
+        question_long_enough,
+        question_too_long
     ])

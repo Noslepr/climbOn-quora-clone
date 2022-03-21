@@ -5,7 +5,7 @@ class Question(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    question = db.Column(db.String(1000), nullable=False)
+    question = db.Column(db.String(300), nullable=False)
 
     user = db.relationship('User', back_populates='questions')
     answers = db.relationship('Answer', back_populates='question', cascade='all, delete-orphan')
