@@ -6,13 +6,21 @@ import './AddCredentials.css'
 
 
 
-export const AddCredentials = ({ user, option, setShowCredentialModal, setShowNavCredModal }) => {
+export const AddCredentials = ({ user, option, setShowCredModal, setShowNavCredModal }) => {
     const dispatch = useDispatch()
     const [credentials, setCredentials] = useState('')
+    const [errors, setErrors] = useState([])
 
-    const handleCredentials = (e) => {
-        dispatch(patchUser(credentials))
-        handleCancel(e)
+    const handleCredentials = async (e) => {
+        const response = await dispatch(patchUser(credentials))
+        console.log('in handlecred',response)
+        if (response.errors) {
+            console.log(response.errors)
+            setErrors(response.errors)
+        } else {
+            handleCancel(e)
+        }
+
     }
 
     useEffect(() => {
@@ -24,7 +32,7 @@ export const AddCredentials = ({ user, option, setShowCredentialModal, setShowNa
     const handleCancel = (e) => {
         e.preventDefault()
         if (option === 'home') {
-            setShowCredentialModal(false)
+            setShowCredModal(false)
         } else if (option === 'nav') {
             setShowNavCredModal(false)
         }
@@ -59,11 +67,11 @@ export const AddCredentials = ({ user, option, setShowCredentialModal, setShowNa
                         onChange={(e) => setCredentials(e.target.value)}
                     />
                 </form>
-                {/* <ul id='question-error-container'>
+                <ul id='question-error-container'>
                     {errors && errors.map(error => (
-                        <li key={Math.random()} className='question-errors'>{error.question}</li>
+                        <li key={Math.random()} className='question-errors'>{error.credentials}</li>
                     ))}
-                </ul> */}
+                </ul>
             </div>
             <div id='add-question-btn-container'>
                 <button id='add-question-cancel-btn' className='btn' onClick={handleCancel}>Cancel</button>

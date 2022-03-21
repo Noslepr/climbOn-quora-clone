@@ -106,7 +106,6 @@ export const signUp = (full_name, email, password, repeat_password) => async (di
 }
 
 export const patchUser = (credentials) => async (dispatch) => {
-    console.log('credentials:', credentials)
     const response = await fetch('/api/users/', {
         method: 'PATCH',
         headers: {
@@ -116,20 +115,17 @@ export const patchUser = (credentials) => async (dispatch) => {
             credentials
         }),
     });
+    const data = await response.json();
+    console.log('in thunk',data)
 
     if (response.ok) {
-        const data = await response.json();
-        console.log('in thunk response ok', data)
-        dispatch(patchUserActionCreator(data))
-        dispatch(patchCredAction(data))
-        return null;
-    } else if (response.status < 500) {
-        const data = await response.json();
-        if (data.errors) {
-            return data.errors;
+        if (response.errors) {
+            return data;
+        } else {
+            dispatch(patchUserActionCreator(data))
+            dispatch(patchCredAction(data))
+            return data;
         }
-    } else {
-        return ['An error occurred. Please try again.']
     }
 }
 
