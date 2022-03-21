@@ -74,17 +74,19 @@ export const Question = ({ user }) => {
                                 {answerObj.user.id === user.id && (
                                     <i className="fa-solid fa-ellipsis layer2" onClick={() => setShowDropdown(idx)}></i>
                                 )}
-                                <div id='background' onClick={() => setShowDropdown(null)}></div>
                                 {(showDropdown === idx) && (
-                                    <ul id='answer-dropdown-menu'>
-                                        <li className="dropdown-list-item" onClick={() => {
-                                            setShowEditAnswerBox(idx)
-                                            setShowDropdown(null)
-                                            }}>
-                                            <i className="fa-light fa-pen icon"></i>Edit answer
-                                        </li>
-                                        <li className="dropdown-list-item red" onClick={() => handleDelete(answerObj.id)}><i className="fa-regular fa-trash-can icon"></i>Delete answer</li>
-                                    </ul>
+                                    <>
+                                        <div id='background' onClick={() => setShowDropdown(null)}></div>
+                                        <ul id='answer-dropdown-menu'>
+                                            <li className="dropdown-list-item" onClick={() => {
+                                                setShowEditAnswerBox(idx)
+                                                setShowDropdown(null)
+                                                }}>
+                                                <i className="fa-light fa-pen icon"></i>Edit answer
+                                            </li>
+                                            <li className="dropdown-list-item red" onClick={() => handleDelete(answerObj.id)}><i className="fa-regular fa-trash-can icon"></i>Delete answer</li>
+                                        </ul>
+                                    </>
                                 )}
                             </div>
                             {showEditAnswerBox !== idx && (
