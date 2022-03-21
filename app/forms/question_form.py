@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField
-from wtforms.validators import DataRequired,  ValidationError, Length
+from wtforms.validators import DataRequired,  ValidationError
 from app.models import Question
 
 def question_starts_with(form, field):
