@@ -11,7 +11,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
     profile_img = db.Column(db.String(1000))
-    credentials = db.Column(db.String(255))
+    credentials = db.Column(db.String(255), default='')
 
     questions = db.relationship('Question', back_populates='user')
     answers = db.relationship('Answer', back_populates='user')

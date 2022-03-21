@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { deleteQuestion } from '../../store/questions';
 import { Modal } from '../../context/Modal';
 import { PostQuestion } from '../postQuestion/PostQuestion';
+import img from '../../images/defaultUser.jpg'
 import './Home.css'
 
 export const HomePage = ({ user }) => {
     const dispatch = useDispatch()
-    const questions = useSelector(({questions}) => questions)
+    const questions = useSelector(({ questions }) => questions)
     const [showEditQuestionModal, setShowEditQuestionModal] = useState(false)
     const [currentQuestion, setCurrentQuestion] = useState('')
     const [currentQuestionId, setCurrentQuestionId] = useState(null)
+    const [showCurrentDropdown, setShowCurrentDropdown] = useState(false)
+    const [showNewDropdown, setShowNewDropdown] = useState(null)
+    const [showDropdown, setShowDropdown] = useState(null)
+    const [shuffledArr, setShuffledArr] = useState([])
     const arrayOfIds = Object.keys(questions)
 
     const newQuestionId = Math.max(...arrayOfIds)
@@ -26,12 +31,19 @@ export const HomePage = ({ user }) => {
         return arr
     }
 
+    useEffect(() => {
+        setShuffledArr(shuffleIds(arrayOfIds))
+    }, [questions])
+
     const handleEdit = (e, id) => {
         e.preventDefault()
         const idToInt = parseInt(id)
         setShowEditQuestionModal(true)
         setCurrentQuestion(questions[idToInt].question)
         setCurrentQuestionId(idToInt)
+        setShowCurrentDropdown(false)
+        setShowNewDropdown(false)
+        setShowDropdown(null)
     }
 
     const handleDelete = (e, id) => {
@@ -39,51 +51,151 @@ export const HomePage = ({ user }) => {
         const idToInt = parseInt(id)
         dispatch(deleteQuestion(idToInt))
         setCurrentQuestionId(null)
+        setShowCurrentDropdown(false)
+        setShowNewDropdown(false)
+        setShowDropdown(null)
     }
+    // if (currentQuestionId) {
+    //     console.log(user.id, questions[currentQuestionId].user.id)
+    // }
+
+    // const handleEllipsis = () => {
+    //     console.log('in func')
+    //     setShowDropdown(true)
+    // }
 
     return (
         <div id='home-page'>
             <ul>
                 {currentQuestionId ?
                     <li className='questions-container'>
+                        <div className='home-question-header'>
+                            <div className='headder-left'>
+                                <img className='question-profile-img' src={img} alt='profile'></img>
+                                <div className='home-question-header-text'>
+                                    <div className='home-question-name'>{questions[currentQuestionId].user.full_name}</div>
+                                    <div className='home-question-credentials'>
+                                        {((questions[currentQuestionId].user.id === user.id) && !questions[currentQuestionId].user.credentials) ?
+                                            <div>Add Credentials</div> :
+                                            <div>{questions[currentQuestionId].user.credentials}</div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            {questions[currentQuestionId].user.id === user.id && (
+                                <i className="fa-solid fa-ellipsis" onClick={() => setShowCurrentDropdown(true)}></i>
+                            )}
+                            {showCurrentDropdown && (
+                                <>
+                                    <div id='background' onClick={() => setShowCurrentDropdown(null)}></div>
+                                    <ul id='question-dropdown-menu'>
+                                        <li className="dropdown-list-item" onClick={(e) => {
+                                            handleEdit(e, currentQuestionId)
+                                            setShowDropdown(null)
+                                        }}>
+                                            <i className="fa-light fa-pen icon"></i>Edit question
+                                        </li>
+                                        <li className="dropdown-list-item red" onClick={(e) => handleDelete(e, currentQuestionId)}>
+                                            <i className="fa-regular fa-trash-can icon"></i>Delete question
+                                        </li>
+                                    </ul>
+                                </>
+                            )}
+                        </div>
                         <Link to={`/question/${currentQuestionId}`}>
-                            <div>{questions[currentQuestionId].question}</div>
+                            <div className='home-question'>{questions[currentQuestionId].question}</div>
                         </Link>
-                        <button onClick={(e) => handleEdit(e, currentQuestionId)}>Edit</button>
-                        <button onClick={(e) => handleDelete(e, currentQuestionId)}>Delete</button>
                     </li>
                     :
                     <li className='questions-container'>
+                        <div className='home-question-header'>
+                            <div className='headder-left'>
+                                <img className='question-profile-img' src={img} alt='profile'></img>
+                                <div className='home-question-header-text'>
+                                    <div className='home-question-name'>{questions[newQuestionId].user.full_name}</div>
+                                    <div className='home-question-credentials'>
+                                        {((questions[newQuestionId].user.id === user.id) && !questions[newQuestionId].user.credentials) ?
+                                            <div>Add Credentials</div> :
+                                            <div>{questions[newQuestionId].user.credentials}</div>
+                                        }
+                                    </div>
+                                </div>
+
+                            </div>
+                            {questions[newQuestionId].user.id === user.id && (
+                                <i className="fa-solid fa-ellipsis" onClick={() => setShowNewDropdown(true)}></i>
+                            )}
+                            {showNewDropdown && (
+                                <>
+                                    <div id='background' onClick={() => setShowNewDropdown(null)}></div>
+                                    <ul id='question-dropdown-menu'>
+                                        <li className="dropdown-list-item" onClick={(e) => {
+                                            handleEdit(e, newQuestionId)
+                                            setShowDropdown(null)
+                                        }}>
+                                            <i className="fa-light fa-pen icon"></i>Edit question
+                                        </li>
+                                        <li className="dropdown-list-item red" onClick={(e) => handleDelete(e, newQuestionId)}>
+                                            <i className="fa-regular fa-trash-can icon"></i>Delete question
+                                        </li>
+                                    </ul>
+                                </>
+                            )}
+                        </div>
                         <Link to={`/question/${newQuestionId}`}>
-                            <div>{questions[newQuestionId].question}</div>
+                            <div className='home-question'>{questions[newQuestionId].question}</div>
                         </Link>
-                        {questions[newQuestionId].user.id === user.id && (
-                            <>
-                                <button onClick={(e) => handleEdit(e, newQuestionId)}>Edit</button>
-                                <button onClick={(e) => handleDelete(e, newQuestionId)}>Delete</button>
-                            </>
-                        )}
                     </li>
                 }
-                {shuffleIds(arrayOfIds).map(id => {
+                {shuffledArr.map((id, idx) => {
                     if (parseInt(id) !== currentQuestionId && parseInt(id) !== newQuestionId) {
-                        return (
-                            <li key={`${id}-question`} className='questions-container'>
-                                <Link to={`/question/${id}`}>
-                                    <div>{questions[id].question}</div>
-                                </Link>
-                                {questions[id].user.id === user.id && (
-                                    <>
-                                        <button onClick={(e) => handleEdit(e, id)}>Edit</button>
-                                        <button onClick={(e) => handleDelete(e, id)}>Delete</button>
-                                    </>
-                                )}
-                            </li>
-                        )
-                    } else return null
+                        if (questions[id]) {
+                            return (
+                                <li key={`${id}-question`} className='questions-container'>
+                                    <div className='home-question-header'>
+                                        <div className='headder-left'>
+                                            <img className='question-profile-img' src={img} alt='profile'></img>
+                                            <div className='home-question-header-text'>
+                                                <div className='home-question-name'>{questions[id].user.full_name}</div>
+                                                <div className='home-question-credentials'>
+                                                    {((questions[id].user.id === user.id) && !questions[id].user.credentials) ?
+                                                        <div>Add Credentials</div> :
+                                                        <div>{questions[id].user.credentials}</div>
+                                                    }
+                                                    {/* {questions[id].user.credentials} */}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {questions[id].user.id === user.id && (
+                                            <i className="fa-solid fa-ellipsis" onClick={() => setShowDropdown(idx)}></i>
+                                        )}
+                                        {showDropdown === idx && (
+                                            <>
+                                                <div id='background' onClick={() => setShowDropdown(null)}></div>
+                                                <ul id='question-dropdown-menu'>
+                                                    <li className="dropdown-list-item" onClick={(e) => {
+                                                        handleEdit(e, id)
+                                                        setShowDropdown(null)
+                                                    }}>
+                                                        <i className="fa-light fa-pen icon"></i>Edit question
+                                                    </li>
+                                                    <li className="dropdown-list-item red" onClick={(e) => handleDelete(e, id)}>
+                                                        <i className="fa-regular fa-trash-can icon"></i>Delete question
+                                                    </li>
+                                                </ul>
+                                            </>
+                                        )}
+                                    </div>
+                                    <Link to={`/question/${id}`}>
+                                        <div className='home-question'>{questions[id].question}</div>
+                                    </Link>
+                                </li>
+                            )
+                        }// else return <></>
+                    }
                 })}
             </ul>
-            { showEditQuestionModal &&
+            {showEditQuestionModal &&
                 <Modal onClose={() => setShowEditQuestionModal(false)}>
                     <PostQuestion
                         setShowEditQuestionModal={setShowEditQuestionModal}
