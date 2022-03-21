@@ -1,24 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { patchUser } from '../../store/session';
 import './AddCredentials.css'
 
 
 
 
-export const AddCredentials = ({ user, option, setShowCredentialModal }) => {
+export const AddCredentials = ({ user, option, setShowCredentialModal, setShowNavCredModal }) => {
     const dispatch = useDispatch()
     const [credentials, setCredentials] = useState('')
 
-    const handleCredential = () => {
-
+    const handleCredentials = (e) => {
+        dispatch(patchUser(credentials))
+        handleCancel(e)
     }
+
+    useEffect(() => {
+        if (user.credentials) {
+            setCredentials(user.credentials)
+        }
+    }, [user])
 
     const handleCancel = (e) => {
         e.preventDefault()
         if (option === 'home') {
             setShowCredentialModal(false)
-        } else if (option === 'edit') {
-            // setShowEditQuestionModal(false)
+        } else if (option === 'nav') {
+            setShowNavCredModal(false)
         }
     }
 
@@ -30,7 +38,7 @@ export const AddCredentials = ({ user, option, setShowCredentialModal }) => {
                         <i className="fa-light fa-xmark x" onClick={handleCancel}></i>
                     </div>
                     <div id='bubble-container'>
-                        <i class="fa-light fa-id-card cred-icon"></i>
+                        <i className="fa-light fa-id-card cred-icon"></i>
                         <div id='add-header-text'>Add Credentials</div>
                     </div>
                 </div>
@@ -59,7 +67,7 @@ export const AddCredentials = ({ user, option, setShowCredentialModal }) => {
             </div>
             <div id='add-question-btn-container'>
                 <button id='add-question-cancel-btn' className='btn' onClick={handleCancel}>Cancel</button>
-                <button id='add-question-add-btn' className='btn' onClick={handleCredential}>Add credentials</button>
+                <button id='add-question-add-btn' className='btn' onClick={handleCredentials}>Add credentials</button>
             </div>
         </div>
     )

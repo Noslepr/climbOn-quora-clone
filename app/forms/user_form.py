@@ -13,4 +13,4 @@ def credential_length(form, field):
         raise ValidationError('Credentials are too long. Please keep them short and specific')
 
 class UserForm(FlaskForm):
-    user = StringField('credentials', validators=[credential_length])
+    credentials = StringField('credentials', validators=[credential_length])

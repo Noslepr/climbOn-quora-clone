@@ -1,26 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-// import LogoutButton from '../auth/LogoutButton';
 import { PostQuestion } from '../postQuestion/PostQuestion'
 import { Modal } from '../../context/Modal'
-import img from '../../images/defaultUser.jpg'
-import './NavBar.css'
 import { logout } from '../../store/session';
+import img from '../../images/defaultUser.jpg'
+import { AddCredentials } from '../credentials/AddCredentials';
+import './NavBar.css'
 
 export const NavBar = ({user}) => {
     const dispatch = useDispatch()
     const [showQuestionModal, setShowQuestionModal] = useState(false)
     const [showProfileDropdown, setShowProfileDropdown] = useState(false)
+    const [showNavCredModal, setShowNavCredModal] = useState(false)
 
     const askQuestion = e => {
         e.preventDefault()
         setShowQuestionModal(true)
     }
 
-    const handleLogout = () => [
+    const handleLogout = () => {
         dispatch(logout())
-    ]
+    }
 
     return (
         <nav id='nav-bar'>
@@ -41,6 +42,10 @@ export const NavBar = ({user}) => {
                             <ul id='nav-dropdown-your-list'>
                                 <li><i className="fa-light fa-message-question"></i>Your Questions</li>
                                 <li><i className="fa-light fa-pen-field your-answers"></i>Your Answers</li>
+                                <li onClick={() => {
+                                    setShowNavCredModal(true)
+                                    setShowProfileDropdown(false)
+                                }}><i className="fa-light fa-id-card"></i>Edit Your Credentials</li>
                             </ul>
                             <div id='logout-container'>
                                 <div id='logout' onClick={handleLogout}>Logout</div>
@@ -54,6 +59,16 @@ export const NavBar = ({user}) => {
                     </>
                 )}
             </div>
+
+            {showNavCredModal &&
+                <Modal onClose={() => setShowNavCredModal(false)}>
+                    <AddCredentials
+                        user={user}
+                        option='nav'
+                        setShowNavCredModal={setShowNavCredModal}
+                    />
+                </Modal>
+            }
 
             {showQuestionModal &&
                 <Modal onClose={() => setShowQuestionModal(false)}>

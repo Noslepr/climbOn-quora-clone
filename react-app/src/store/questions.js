@@ -5,6 +5,7 @@ const DELETE_QUESTION = 'questions/DELETE_QUESTION'
 const POST_ANSWER = 'answers/POST_ANSWER'
 const PATCH_ANSWER = 'answers/PATCH_ANSWER'
 const DELETE_ANSWER = 'answers/DELETE_ANSWER'
+const PATCH_CRED = 'questions/PATCH_CRED'
 
 const getQuestionsAction = (questions) => ({
     type: GET_QUESTIONS,
@@ -36,12 +37,15 @@ export const patchAnswerAction = (answer, answerId, questionId) => ({
     payload: { answer, answerId, questionId}
 })
 
-export const deleteAnswerAction = (answerId, questionId ) => {
-    console.log('in action creator',answerId, questionId)
-    return ({
+export const deleteAnswerAction = (answerId, questionId ) => ({
     type: DELETE_ANSWER,
     payload: { answerId, questionId }
-})}
+})
+
+export const patchCredAction = (data) => ({
+    type: PATCH_CRED,
+    payload: data
+})
 
 export const getQuestions = () => async (dispatch) => {
     const res = await fetch('/api/questions/', {
@@ -160,6 +164,21 @@ export default function reducer(state = {}, action) {
                     newState[questionId].answers.splice(idx, 1)
                 } else return answer
             })
+            return newState
+
+        case PATCH_CRED:
+            newState = {...state}
+            const userId = action.payload.user_id
+            for (let id in newState) {
+                if (newState[id].user.id === parseInt(userId)) {
+                    newState[id].user.credentials = action.payload.credentials
+                }
+                newState[id].answers.map((answer, idx) => {
+                    if (answer.user.id === parseInt(userId)) {
+                        newState[id].answers[idx].user.credentials = action.payload.credentials
+                    }
+                })
+            }
             return newState
 
         default:

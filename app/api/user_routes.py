@@ -22,22 +22,22 @@ def user(id):
 
 
 @user_routes.route('/', methods=['PATCH'])
-def user():
+def patch_user():
 
     data = request.json
     form = UserForm()
     form['csrf_token'].data = request.cookies['csrf_token']
+    new_credentials = data['credentials']
 
     if form.validate_on_submit():
 
         user_id = current_user.get_id()
-        new_credentials = data['credentials']
 
         user = User.query.get(user_id)
-        user.credential = new_credentials
+        user.credentials = new_credentials
 
         db.session.commit()
 
-        return { 'user': user.to_dict() }
+        return { 'credentials': new_credentials, 'user_id': user_id }
     else:
         return { 'errors': validation_errors_to_error_messages(form.errors) }
