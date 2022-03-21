@@ -21,6 +21,11 @@
     margin-bottom: 15px;
 }
 
+#add-credentials:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 .headder-left {
     display: flex;
 }

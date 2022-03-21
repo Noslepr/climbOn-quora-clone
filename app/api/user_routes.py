@@ -1,6 +1,8 @@
-from flask import Blueprint, jsonify
-from flask_login import login_required
-from app.models import User
+from flask import Blueprint, jsonify, request
+from flask_login import login_required, current_user
+from app.models import db, User
+from app.forms.user_form import UserForm
+from app.api.auth_routes import validation_errors_to_error_messages
 
 user_routes = Blueprint('users', __name__)
 
@@ -17,3 +19,25 @@ def users():
 def user(id):
     user = User.query.get(id)
     return user.to_dict()
+
+
+@user_routes.route('/', methods=['PATCH'])
+def patch_user():
+
+    data = request.json
+    form = UserForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    new_credentials = data['credentials']
+
+    if form.validate_on_submit():
+
+        user_id = current_user.get_id()
+
+        user = User.query.get(user_id)
+        user.credentials = new_credentials
+
+        db.session.commit()
+
+        return { 'credentials': new_credentials, 'user_id': user_id }
+    else:
+        return { 'errors': validation_errors_to_error_messages(form.errors) }

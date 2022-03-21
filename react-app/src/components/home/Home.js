@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { deleteQuestion } from '../../store/questions';
 import { Modal } from '../../context/Modal';
 import { PostQuestion } from '../postQuestion/PostQuestion';
+import { AddCredentials } from '../credentials/AddCredentials';
 import img from '../../images/defaultUser.jpg'
 import './Home.css'
 
@@ -17,6 +18,7 @@ export const HomePage = ({ user }) => {
     const [showNewDropdown, setShowNewDropdown] = useState(null)
     const [showDropdown, setShowDropdown] = useState(null)
     const [shuffledArr, setShuffledArr] = useState([])
+    const [showCredModal, setShowCredModal] = useState(false)
     const arrayOfIds = Object.keys(questions)
 
     const newQuestionId = Math.max(...arrayOfIds)
@@ -66,6 +68,15 @@ export const HomePage = ({ user }) => {
 
     return (
         <div id='home-page'>
+            {showCredModal &&
+                <Modal onClose={() => setShowCredModal(false)}>
+                    <AddCredentials
+                        user={user}
+                        option='home'
+                        setShowCredModal={setShowCredModal}
+                    />
+                </Modal>
+            }
             <ul>
                 {currentQuestionId ?
                     <li className='questions-container'>
@@ -76,7 +87,7 @@ export const HomePage = ({ user }) => {
                                     <div className='home-question-name'>{questions[currentQuestionId].user.full_name}</div>
                                     <div className='home-question-credentials'>
                                         {((questions[currentQuestionId].user.id === user.id) && !questions[currentQuestionId].user.credentials) ?
-                                            <div>Add Credentials</div> :
+                                            <div id='add-credentials' onClick={() => setShowCredModal(true)}>Add Credentials</div> :
                                             <div>{questions[currentQuestionId].user.credentials}</div>
                                         }
                                     </div>
@@ -115,7 +126,7 @@ export const HomePage = ({ user }) => {
                                     <div className='home-question-name'>{questions[newQuestionId].user.full_name}</div>
                                     <div className='home-question-credentials'>
                                         {((questions[newQuestionId].user.id === user.id) && !questions[newQuestionId].user.credentials) ?
-                                            <div>Add Credentials</div> :
+                                            <div id='add-credentials' onClick={() => setShowCredModal(true)}>Add Credentials</div> :
                                             <div>{questions[newQuestionId].user.credentials}</div>
                                         }
                                     </div>
@@ -159,7 +170,7 @@ export const HomePage = ({ user }) => {
                                                 <div className='home-question-name'>{questions[id].user.full_name}</div>
                                                 <div className='home-question-credentials'>
                                                     {((questions[id].user.id === user.id) && !questions[id].user.credentials) ?
-                                                        <div>Add Credentials</div> :
+                                                        <div id='add-credentials' onClick={() => setShowCredModal(true)}>Add Credentials</div> :
                                                         <div>{questions[id].user.credentials}</div>
                                                     }
                                                     {/* {questions[id].user.credentials} */}
