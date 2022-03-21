@@ -6,14 +6,11 @@
 .questions-container {
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
-    height: 150px;
     width: 570px;
     border: 1px solid rgb(205, 208, 209);;
     margin: 10px;
-    padding: 16px;
+    padding: 16px 16px 40px 16px;
     list-style: none;
-    /* text-align: center; */
     background-color: white;
 }
 
@@ -54,6 +51,7 @@
 .home-question {
     font-weight: 700;
     font-size: 17px;
+    overflow-wrap: break-word;
 }
 
 #question-dropdown-menu {

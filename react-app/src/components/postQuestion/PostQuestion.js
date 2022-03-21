@@ -42,7 +42,6 @@ export const PostQuestion = ({setShowQuestionModal, setShowEditQuestionModal, cu
     }
 
     const handleCancel = (e) => {
-        console.log('in cancel')
         e.preventDefault()
         if (option === 'post') {
             setShowQuestionModal(false)
