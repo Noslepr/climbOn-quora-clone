@@ -9,7 +9,7 @@ def credential_length(form, field):
     if len(cred) < 5:
         raise ValidationError('Credentials are too short. Please provide more detail')
 
-    if len(cred) > 30:
+    if len(cred) > 50:
         raise ValidationError('Credentials are too long. Please keep them short and specific')
 
 class UserForm(FlaskForm):
