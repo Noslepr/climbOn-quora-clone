@@ -3,6 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { AnswerBox } from "./answer/AnswerBox";
 import { deleteAnswer } from "../../store/answers";
+import { AddCredentials } from '../credentials/AddCredentials';
+import { Modal } from "../../context/Modal";
+import img from '../../images/defaultUser.jpg'
 import './Question.css'
 
 export const Question = ({ user }) => {
@@ -14,6 +17,7 @@ export const Question = ({ user }) => {
     const [showAnswerBox, setShowAnswerBox] = useState(false)
     const [showDropdown, setShowDropdown] = useState(null)
     const [showEditAnswerBox, setShowEditAnswerBox] = useState(null)
+    const [showAnswerCredModal, setShowAnswerCredModal] = useState(null)
 
     const handleDelete = (answerId) => {
         dispatch(deleteAnswer(answerId, questionId))
@@ -41,6 +45,15 @@ export const Question = ({ user }) => {
 
     return (
         <div id='question-page'>
+            {showAnswerCredModal &&
+                <Modal onClose={() => setShowAnswerCredModal(false)}>
+                    <AddCredentials
+                        user={user}
+                        option='answer'
+                        setShowAnswerCredModal={setShowAnswerCredModal}
+                    />
+                </Modal>
+            }
             <div id='question-left-container'>
                 <div id="question-header-container">
                     <div id="question-header">{question.question}</div>
@@ -70,7 +83,16 @@ export const Question = ({ user }) => {
                     {question.answers.map((answerObj, idx) => (
                         <div key={Math.random()} className="list-answer-container">
                             <div className="list-answer-header">
-                                <div className="list-answer-user">{answerObj.user.full_name}</div>
+                                <div className="list-answer-header-left">
+                                    <img src={img} alt='profile' className="answer-profile-img"></img>
+                                    <div className="answer-header-text">
+                                        <div className="list-answer-user">{answerObj.user.full_name}</div>
+                                        {((answerObj.user.id === user.id) && !answerObj.user.credentials) ?
+                                            <div className='home-question-credentials' id='add-credentials'onClick={() => setShowAnswerCredModal(true)}>Add Credentials</div> :
+                                            <div className='home-question-credentials'>{answerObj.user.credentials}</div>
+                                        }
+                                    </div>
+                                </div>
                                 {answerObj.user.id === user.id && (
                                     <i className="fa-solid fa-ellipsis layer2" onClick={() => setShowDropdown(idx)}></i>
                                 )}
