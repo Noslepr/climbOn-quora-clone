@@ -177,6 +177,11 @@
 
 .list-answer-header-left {
     display: flex;
+    margin-bottom: 20px;
+}
+
+.answer-header-text {
+    margin-left: 15px;
 }
 
 .answer-profile-img {

@@ -85,11 +85,11 @@ export const Question = ({ user }) => {
                             <div className="list-answer-header">
                                 <div className="list-answer-header-left">
                                     <img src={img} alt='profile' className="answer-profile-img"></img>
-                                    <div>
+                                    <div className="answer-header-text">
                                         <div className="list-answer-user">{answerObj.user.full_name}</div>
                                         {((answerObj.user.id === user.id) && !answerObj.user.credentials) ?
-                                            <div id='add-credentials' onClick={() => setShowAnswerCredModal(true)}>Add Credentials</div> :
-                                            <div>{answerObj.user.credentials}</div>
+                                            <div className='home-question-credentials' id='add-credentials'onClick={() => setShowAnswerCredModal(true)}>Add Credentials</div> :
+                                            <div className='home-question-credentials'>{answerObj.user.credentials}</div>
                                         }
                                     </div>
                                 </div>

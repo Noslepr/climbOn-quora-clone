@@ -4,6 +4,12 @@ from wtforms.validators import DataRequired, Email, ValidationError
 from app.models import User
 
 
+def full_name_length(form, field):
+    full_name = field.data
+
+    if len(full_name) < 5 or len(full_name) > 30:
+        raise ValidationError('Name must be between 5 and 30 characters')
+
 def user_exists(form, field):
     # Checking if user exists
     email = field.data
@@ -29,8 +35,7 @@ def repeat_password(form, field):
         raise ValidationError("Passwords must match")
 
 class SignUpForm(FlaskForm):
-    full_name = StringField(
-        'full_name', validators=[DataRequired()])
+    full_name = StringField('full_name', validators=[DataRequired(), full_name_length])
     email = StringField('email', validators=[DataRequired(), Email(message="Must be a valid email."), user_exists])
     password = StringField('password', validators=[DataRequired(), password_check])
     repeat_password = StringField('repeat_password', validators=[DataRequired(), repeat_password])
