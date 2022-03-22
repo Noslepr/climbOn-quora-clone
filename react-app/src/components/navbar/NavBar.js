@@ -9,14 +9,15 @@ import { addProfileImg } from '../../store/session';
 import img from '../../images/defaultUser.jpg'
 import './NavBar.css'
 
-export const NavBar = ({user}) => {
+export const NavBar = ({}) => {
     const dispatch = useDispatch()
     const hiddenInputRef = useRef(null);
-    const currentUser = useSelector(({ session }) => session.user);
+    const currentUser = useSelector(({ session }) => session);
     const [showQuestionModal, setShowQuestionModal] = useState(false)
     const [showProfileDropdown, setShowProfileDropdown] = useState(false)
     const [showNavCredModal, setShowNavCredModal] = useState(false)
     const [profileImg, setProfileImg] = useState(null)
+    const user = currentUser.user
 
     const askQuestion = e => {
         e.preventDefault()
@@ -40,7 +41,6 @@ export const NavBar = ({user}) => {
         if (profileImg){
             dispatch(addProfileImg(profileImg))
             setShowProfileDropdown(false)
-            console.log('current user in component',currentUser)
         }
     }, [dispatch, profileImg])
 
@@ -50,8 +50,8 @@ export const NavBar = ({user}) => {
                 <div id='logo'>climbOn</div>
             </Link>
             <div id='nav-right'>
-                {currentUser.profile_img ?
-                    <img src={currentUser.profile_img} id='nav-profile' alt='profile' onClick={() => setShowProfileDropdown(true)}></img>
+                {user.profile_img ?
+                    <img src={user.profile_img} id='nav-profile' alt='profile' onClick={() => setShowProfileDropdown(true)}></img>
                     :
                     <img src={img} id='nav-profile' alt='profile' onClick={() => setShowProfileDropdown(true)}></img>
                 }
@@ -67,8 +67,8 @@ export const NavBar = ({user}) => {
                                     onChange={handleFile}
                                     style={{display: 'none'}}
                                 />
-                                {currentUser.profile_img ?
-                                    <img src={currentUser.profile_img} id='dropdown-profile-img' alt='profile'></img>
+                                {user.profile_img ?
+                                    <img src={user.profile_img} id='dropdown-profile-img' alt='profile'></img>
                                     :
                                     <img src={img} id='dropdown-profile-img' alt='profile'></img>
                                 }
