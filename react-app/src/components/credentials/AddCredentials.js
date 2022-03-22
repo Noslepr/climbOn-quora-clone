@@ -6,7 +6,7 @@ import './AddCredentials.css'
 
 
 
-export const AddCredentials = ({ user, option, setShowCredModal, setShowNavCredModal }) => {
+export const AddCredentials = ({ user, option, setShowCredModal, setShowNavCredModal, setShowAnswerCredModal }) => {
     const dispatch = useDispatch()
     const [credentials, setCredentials] = useState('')
     const [errors, setErrors] = useState([])
@@ -35,6 +35,8 @@ export const AddCredentials = ({ user, option, setShowCredModal, setShowNavCredM
             setShowCredModal(false)
         } else if (option === 'nav') {
             setShowNavCredModal(false)
+        } else if (option === 'answer') {
+            setShowAnswerCredModal(false)
         }
     }
 

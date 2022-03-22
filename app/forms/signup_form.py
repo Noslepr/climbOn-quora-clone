@@ -15,8 +15,10 @@ def user_exists(form, field):
 def password_check(form, field):
     password = field.data
     special = ['!', '@', '#', '$', '%', '^', '&', '*']
+    if len(password) < 6 or len(password) > 19:
+        raise ValidationError('Password must be more than 6 characters but less than 20')
 
-    if not any(x in password for x in special):
+    elif not any(x in password for x in special):
         raise ValidationError("Please include at least one of: !@#$%^&*")
 
 def repeat_password(form, field):
