@@ -4,6 +4,7 @@ import { patchCredAction } from "./questions";
 const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
 const PATCH_USER = 'session/PATCH_USER'
+const PATCH_PROFILE = 'session/PAYCH_PROFILE'
 
 const setUser = (user) => ({
     type: SET_USER,
@@ -17,6 +18,11 @@ const removeUser = () => ({
 const patchUserActionCreator = (data) => ({
     type: PATCH_USER,
     payload: data.credentials
+})
+
+const addProfileImgAction = (data) => ({
+    type: PATCH_PROFILE,
+    payload: data.profile_img
 })
 
 
@@ -115,9 +121,8 @@ export const patchUser = (credentials) => async (dispatch) => {
             credentials
         }),
     });
-    const data = await response.json();
-    console.log('in thunk',data)
 
+    const data = await response.json();
     if (response.ok) {
         if (response.errors) {
             return data;
@@ -129,16 +134,35 @@ export const patchUser = (credentials) => async (dispatch) => {
     }
 }
 
+export const addProfileImg = (profileImg) => async (dispatch) => {
+    console.log('in thunk, pre fetch', profileImg)
+    const formData = new FormData();
+    formData.append('profile_img', profileImg);
+
+    const response = await fetch('/api/users/profileImg/', {
+        method: 'PATCH',
+        body: formData
+    })
+    const data = await response.json();
+    console.log('in thunk after fetch',data)
+
+}
+
 const initialState = { user: null };
 export default function reducer(state = initialState, action) {
+    let newState
     switch (action.type) {
         case SET_USER:
             return { user: action.payload }
         case REMOVE_USER:
             return { user: null }
         case PATCH_USER:
-            let newState = {...state}
+            newState = {...state}
             newState.user.credentials = action.payload
+            return newState
+        case PATCH_PROFILE:
+            newState = {...state}
+            newState.user.profile_img = action.payload
             return newState
         default:
             return state;

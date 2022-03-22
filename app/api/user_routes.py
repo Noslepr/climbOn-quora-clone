@@ -39,29 +39,33 @@ def patch_user():
         return { 'credentials': new_credentials, 'user_id': user_id }
     else:
         return { 'errors': validation_errors_to_error_messages(form.errors) }
-        
 
-@user_routes.route('/profileImg', methods=['PATCH'])
+
+@user_routes.route('/profileImg/', methods=['PATCH'])
 def profile_img_user():
-        user_id = current_user.get_id()
-        user = User.query.get(user_id)
+    print('-------------------------')
+    user_id = current_user.get_id()
+    user = User.query.get(user_id)
 
-        if "image" not in request.files:
-            return {"errors": "image required"}, 400
+    if "profile_img" not in request.files:
+        print('-----------no profile_img in request')
+        return {"errors": "image required"}, 400
 
-        image = request.files['profile_img']
+    image = request.files['profile_img']
 
-        if not allowed_file(image.filename):
-            return { 'errors': "file type not permitted" }, 400
+    if not allowed_file(image.filename):
+        print('------------filetype not allowed')
+        return { 'errors': "file type not permitted" }, 400
 
-        image.filename = get_unique_filename(image.filename)
-        upload = upload_file_to_s3(image)
+    image.filename = get_unique_filename(image.filename)
+    upload = upload_file_to_s3(image)
 
-        if "url" not in upload:
-            return upload, 400
+    if "url" not in upload:
+        print('---------------url not in upload', upload)
+        return upload, 400
 
-        url = upload['url']
-        user.profile_img = url
-        db.session.commit()
+    url = upload['url']
+    user.profile_img = url
+    db.session.commit()
 
-        return { 'profile_img': url, 'user_id': user_id}
+    return { 'profile_img': url, 'user_id': user_id}
