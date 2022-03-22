@@ -8,10 +8,75 @@
     border-bottom: 1px solid rgb(205, 208, 209);
 }
 
+#nav-background {
+    position: fixed;
+    z-index: 3;
+    top: 50px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgb(0,0,0);
+    opacity: 0;
+
+}
+
 #logo {
     font-family: 'Source Serif Pro', serif;
     font-size: 35px;
     color: rgb(170,56,47);
+}
+
+#search-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 700px;
+    height: 70%;
+}
+
+.search-icon {
+    position: absolute;
+    color: rgb(160, 160, 160);
+    font-size: 20px;
+    left: 220px;
+    top: 10px;
+}
+
+#search-bar {
+    width: 40%;
+    height: 100%;
+    border: 1px solid rgb(205, 208, 209);
+    font-size: 17px;
+    outline: none;
+    padding-left: 40px;
+}
+
+#search-bar::placeholder {
+    color: rgb(160, 160, 160);
+}
+
+#search-bar:hover, #search-bar:focus {
+    border: 1px solid blue;
+}
+
+#search-bar:focus + #overlay {
+    position: fixed;
+    top: 50px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: black;
+    opacity: .7;
+    z-index: 5;
+}
+
+#search-bar:focus ~ .search-icon {
+    top: 10px;
+    left: 10px;
+}
+
+#search-bar:focus {
+    width: 100%;
 }
 
 #nav-right {
@@ -49,7 +114,7 @@
     border: 1px solid rgb(170, 170, 170);
     box-shadow: 0 1px 2px rgb(0 0 0 / 30%);
     background-color: rgba(255,255,255,1);
-    z-index: 2;
+    z-index: 4;
 }
 #nav-dropdown-header {
     border-bottom: 1px solid rgb(205, 208, 209);
@@ -163,15 +228,4 @@ li > i {
 
 #dropdown-about li:first-child {
     list-style: none;
-}
-
-#nav-background {
-    position: fixed;
-    z-index: 1;
-    top: 50px;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    background-color: rgba(0,0,0,0);
-    z-index: 1;
 }

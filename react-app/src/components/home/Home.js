@@ -109,7 +109,7 @@ export const HomePage = ({ user }) => {
                                 </>
                             )}
                         </div>
-                        <Link to={`/question/${currentQuestionId}`}>
+                        <Link className='layer2' to={`/question/${currentQuestionId}`}>
                             <div className='home-question'>{questions[currentQuestionId].question}</div>
                         </Link>
                     </li>
@@ -154,7 +154,7 @@ export const HomePage = ({ user }) => {
                                 </>
                             )}
                         </div>
-                        <Link to={`/question/${newQuestionId}`}>
+                        <Link className='layer2'to={`/question/${newQuestionId}`}>
                             <div className='home-question'>{questions[newQuestionId].question}</div>
                         </Link>
                     </li>
@@ -202,7 +202,7 @@ export const HomePage = ({ user }) => {
                                             </>
                                         )}
                                     </div>
-                                    <Link to={`/question/${id}`}>
+                                    <Link className='layer2' to={`/question/${id}`}>
                                         <div className='home-question'>{questions[id].question}</div>
                                     </Link>
                                 </li>
