@@ -22,7 +22,6 @@ export const postAnswer = ( answer, question_id ) => async (dispatch) => {
 }
 
 export const patchAnswer = ( answer, answer_id, questionId ) => async (dispatch) => {
-    console.log(answer, answer_id, questionId)
     const res = await fetch('/api/answers/', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },

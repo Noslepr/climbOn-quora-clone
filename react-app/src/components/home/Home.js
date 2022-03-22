@@ -57,14 +57,6 @@ export const HomePage = ({ user }) => {
         setShowNewDropdown(false)
         setShowDropdown(null)
     }
-    // if (currentQuestionId) {
-    //     console.log(user.id, questions[currentQuestionId].user.id)
-    // }
-
-    // const handleEllipsis = () => {
-    //     console.log('in func')
-    //     setShowDropdown(true)
-    // }
 
     return (
         <div id='home-page'>
@@ -78,11 +70,15 @@ export const HomePage = ({ user }) => {
                 </Modal>
             }
             <ul>
-                {currentQuestionId ?
+                {currentQuestionId &&
                     <li className='questions-container'>
                         <div className='home-question-header'>
                             <div className='headder-left'>
-                                <img className='question-profile-img' src={img} alt='profile'></img>
+                                {questions[currentQuestionId].user.profile_img ?
+                                    <img className='question-profile-img' src={questions[currentQuestionId].user.profile_img} alt='profile'></img>
+                                    :
+                                    <img className='question-profile-img' src={img} alt='profile'></img>
+                                }
                                 <div className='home-question-header-text'>
                                     <div className='home-question-name'>{questions[currentQuestionId].user.full_name}</div>
                                     <div className='home-question-credentials'>
@@ -117,11 +113,16 @@ export const HomePage = ({ user }) => {
                             <div className='home-question'>{questions[currentQuestionId].question}</div>
                         </Link>
                     </li>
-                    :
+                }
+                {newQuestionId &&
                     <li className='questions-container'>
                         <div className='home-question-header'>
                             <div className='headder-left'>
-                                <img className='question-profile-img' src={img} alt='profile'></img>
+                                {questions[newQuestionId].user.profile_img ?
+                                    <img className='question-profile-img' src={questions[newQuestionId].user.profile_img} alt='profile'></img>
+                                    :
+                                    <img className='question-profile-img' src={img} alt='profile'></img>
+                                }
                                 <div className='home-question-header-text'>
                                     <div className='home-question-name'>{questions[newQuestionId].user.full_name}</div>
                                     <div className='home-question-credentials'>
@@ -165,7 +166,11 @@ export const HomePage = ({ user }) => {
                                 <li key={`${id}-question`} className='questions-container'>
                                     <div className='home-question-header'>
                                         <div className='headder-left'>
-                                            <img className='question-profile-img' src={img} alt='profile'></img>
+                                            {questions[id].user.profile_img ?
+                                                <img className='question-profile-img' src={questions[id].user.profile_img} alt='profile'></img>
+                                                :
+                                                <img className='question-profile-img' src={img} alt='profile'></img>
+                                            }
                                             <div className='home-question-header-text'>
                                                 <div className='home-question-name'>{questions[id].user.full_name}</div>
                                                 <div className='home-question-credentials'>

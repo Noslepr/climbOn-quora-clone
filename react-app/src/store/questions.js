@@ -6,6 +6,7 @@ const POST_ANSWER = 'answers/POST_ANSWER'
 const PATCH_ANSWER = 'answers/PATCH_ANSWER'
 const DELETE_ANSWER = 'answers/DELETE_ANSWER'
 const PATCH_CRED = 'questions/PATCH_CRED'
+const PATCH_PROFILE_IMG = 'questions/PATCH_PROFILE'
 
 const getQuestionsAction = (questions) => ({
     type: GET_QUESTIONS,
@@ -44,6 +45,11 @@ export const deleteAnswerAction = (answerId, questionId ) => ({
 
 export const patchCredAction = (data) => ({
     type: PATCH_CRED,
+    payload: data
+})
+
+export const patchProfileImg = (data) => ({
+    type: PATCH_PROFILE_IMG,
     payload: data
 })
 
@@ -181,6 +187,20 @@ export default function reducer(state = {}, action) {
             }
             return newState
 
+        case PATCH_PROFILE_IMG:
+            newState = {...state}
+            const user_id = parseInt(action.payload.user_id)
+            for (let id in newState) {
+                if (newState[id].user.id === user_id) {
+                    newState[id].user.profile_img = action.payload.profile_img
+                }
+                newState[id].answers.map((answer, idx) => {
+                    if (answer.user.id === user_id) {
+                        newState[id].answers[idx].user.profile_img = action.payload.profile_img
+                    }
+                })
+            }
+            return newState
         default:
             return state;
     }

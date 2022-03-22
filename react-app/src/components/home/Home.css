@@ -33,6 +33,8 @@
 .question-profile-img {
     height: 37px;
     width: 37px;
+    border-radius: 18.5px;
+    object-fit: cover;
 }
 
 .home-question-header-text {

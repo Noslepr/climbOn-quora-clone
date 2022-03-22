@@ -187,6 +187,8 @@
 .answer-profile-img {
     height: 40px;
     width: 40px;
+    border-radius: 20px;
+    object-fit: cover;
 }
 
 .list-answer-user {
@@ -237,5 +239,4 @@
     right: 0;
     left: 0;
     background-color: rgba(0,0,0,0);
-    z-index: 1;
 }

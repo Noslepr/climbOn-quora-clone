@@ -10,8 +10,8 @@ import './Question.css'
 
 export const Question = ({ user }) => {
     const dispatch = useDispatch()
-    const { id : questionId } = useParams()
-    const questions = useSelector(({questions}) => questions)
+    const { id: questionId } = useParams()
+    const questions = useSelector(({ questions }) => questions)
     const question = questions[questionId]
 
     const [showAnswerBox, setShowAnswerBox] = useState(false)
@@ -63,14 +63,14 @@ export const Question = ({ user }) => {
                             <div className="answers-text" id='post-answer-text'>Answer</div>
                         </div>
                     </div>
-                {showAnswerBox && (
-                    <AnswerBox
-                        user={user}
-                        questionId={questionId}
-                        closeAnswerBox={closeAnswerBox}
-                        option='post'
-                    />
-                )}
+                    {showAnswerBox && (
+                        <AnswerBox
+                            user={user}
+                            questionId={questionId}
+                            closeAnswerBox={closeAnswerBox}
+                            option='post'
+                        />
+                    )}
                 </div>
                 <div id='num-answers'>
                     <div className="circle">
@@ -84,11 +84,15 @@ export const Question = ({ user }) => {
                         <div key={Math.random()} className="list-answer-container">
                             <div className="list-answer-header">
                                 <div className="list-answer-header-left">
-                                    <img src={img} alt='profile' className="answer-profile-img"></img>
+                                    {answerObj.user.profile_img ?
+                                        <img src={answerObj.user.profile_img} alt='profile' className="answer-profile-img"></img>
+                                        :
+                                        <img src={img} alt='profile' className="answer-profile-img"></img>
+                                    }
                                     <div className="answer-header-text">
                                         <div className="list-answer-user">{answerObj.user.full_name}</div>
                                         {((answerObj.user.id === user.id) && !answerObj.user.credentials) ?
-                                            <div className='home-question-credentials' id='add-credentials'onClick={() => setShowAnswerCredModal(true)}>Add Credentials</div> :
+                                            <div className='home-question-credentials' id='add-credentials' onClick={() => setShowAnswerCredModal(true)}>Add Credentials</div> :
                                             <div className='home-question-credentials'>{answerObj.user.credentials}</div>
                                         }
                                     </div>
@@ -103,7 +107,7 @@ export const Question = ({ user }) => {
                                             <li className="dropdown-list-item" onClick={() => {
                                                 setShowEditAnswerBox(idx)
                                                 setShowDropdown(null)
-                                                }}>
+                                            }}>
                                                 <i className="fa-light fa-pen icon"></i>Edit answer
                                             </li>
                                             <li className="dropdown-list-item red" onClick={() => handleDelete(answerObj.id)}><i className="fa-regular fa-trash-can icon"></i>Delete answer</li>
