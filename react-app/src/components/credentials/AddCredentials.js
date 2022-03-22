@@ -15,7 +15,6 @@ export const AddCredentials = ({ user, option, setShowCredModal, setShowNavCredM
         const response = await dispatch(patchUser(credentials))
         console.log('in handlecred',response)
         if (response.errors) {
-            console.log(response.errors)
             setErrors(response.errors)
         } else {
             handleCancel(e)

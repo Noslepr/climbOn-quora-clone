@@ -109,19 +109,20 @@ const LoginForm = () => {
             </div>
           </form>
         </div>
-        <ul id='splash-footer'>
-          <div>About</div>
-          <li className='list-item'>JavaScript</li>
-          <li className='list-item'>Python</li>
-          <li className='list-item'>React</li>
-          <li className='list-item'>Flask</li>
-          <li className='list-item'>SQLAlchemy</li>
-          <li className='list-item'>Redux</li>
-          <li className='list-item'>Git</li>
-          <li className='list-item'>Docker</li>
-          <li className='list-item'>Postgres</li>
-          <li className='list-item'>AWS</li>
-        </ul>
+        <div id='splash-footer'>
+            <ul id='list-container'>
+                <li className='list-item'>JavaScript</li>
+                <li className='list-item'>Python</li>
+                <li className='list-item'>React</li>
+                <li className='list-item'>Flask</li>
+                <li className='list-item'>SQLAlchemy</li>
+                <li className='list-item'>Redux</li>
+                <li className='list-item'>Git</li>
+                <li className='list-item'>Docker</li>
+                <li className='list-item'>Postgres</li>
+                <li className='list-item'>AWS</li>
+            </ul>
+        </div>
       </div>
     </div>
   );

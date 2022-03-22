@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { PostQuestion } from '../postQuestion/PostQuestion'
 import { AddCredentials } from '../credentials/AddCredentials';
@@ -12,6 +12,7 @@ import './NavBar.css'
 export const NavBar = ({user}) => {
     const dispatch = useDispatch()
     const hiddenInputRef = useRef(null);
+    const currentUser = useSelector(({ session }) => session.user);
     const [showQuestionModal, setShowQuestionModal] = useState(false)
     const [showProfileDropdown, setShowProfileDropdown] = useState(false)
     const [showNavCredModal, setShowNavCredModal] = useState(false)
@@ -38,6 +39,8 @@ export const NavBar = ({user}) => {
     useEffect(() => {
         if (profileImg){
             dispatch(addProfileImg(profileImg))
+            setShowProfileDropdown(false)
+            console.log('current user in component',currentUser)
         }
     }, [dispatch, profileImg])
 
@@ -47,8 +50,8 @@ export const NavBar = ({user}) => {
                 <div id='logo'>climbOn</div>
             </Link>
             <div id='nav-right'>
-                {user.profile_img ?
-                    <img src={user.profile_img} id='nav-profile' alt='profile' onClick={() => setShowProfileDropdown(true)}></img>
+                {currentUser.profile_img ?
+                    <img src={currentUser.profile_img} id='nav-profile' alt='profile' onClick={() => setShowProfileDropdown(true)}></img>
                     :
                     <img src={img} id='nav-profile' alt='profile' onClick={() => setShowProfileDropdown(true)}></img>
                 }
@@ -64,7 +67,11 @@ export const NavBar = ({user}) => {
                                     onChange={handleFile}
                                     style={{display: 'none'}}
                                 />
-                                <img src={img} id='dropdown-profile-img' alt='profie'></img>
+                                {currentUser.profile_img ?
+                                    <img src={currentUser.profile_img} id='dropdown-profile-img' alt='profile'></img>
+                                    :
+                                    <img src={img} id='dropdown-profile-img' alt='profile'></img>
+                                }
                                 <div id='edit-container' onClick={handleButton}>
                                     <i className="fa-light fa-pencil edit"></i>
                                 </div>
@@ -77,14 +84,17 @@ export const NavBar = ({user}) => {
                                     setShowNavCredModal(true)
                                     setShowProfileDropdown(false)
                                 }}><i className="fa-light fa-id-card"></i>Edit Your Credentials</li>
+                                <li onClick={handleButton}>
+                                    <i class="fa-light fa-square-user edit-profile-icon"></i>Edit Your Profile Image
+                                </li>
                             </ul>
                             <div id='logout-container'>
                                 <div id='logout' onClick={handleLogout}>Logout</div>
                             </div>
                             <ul id='dropdown-about'>
                                 <li>About me</li>
-                                <li>LinkedIn</li>
-                                <li>GitHub</li>
+                                <li><a href='https://www.linkedin.com/in/chris-young-96453917/' target='_blank' rel="noopener noreferrer" id='linkedin'>LinkedIn</a></li>
+                                <li><a href='https://github.com/Noslepr' target='_blank' rel="noopener noreferrer" id='github'>GitHub</a></li>
                             </ul>
                         </div>
                     </>

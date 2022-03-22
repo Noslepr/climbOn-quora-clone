@@ -1,10 +1,11 @@
-import { patchCredAction } from "./questions";
+import { patchCredAction, patchProfileImg } from "./questions";
+
 
 // constants
 const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
 const PATCH_USER = 'session/PATCH_USER'
-const PATCH_PROFILE = 'session/PAYCH_PROFILE'
+const PATCH_PROFILE = 'session/PATCH_PROFILE'
 
 const setUser = (user) => ({
     type: SET_USER,
@@ -135,7 +136,7 @@ export const patchUser = (credentials) => async (dispatch) => {
 }
 
 export const addProfileImg = (profileImg) => async (dispatch) => {
-    console.log('in thunk, pre fetch', profileImg)
+    // console.log('in thunk, pre fetch', profileImg)
     const formData = new FormData();
     formData.append('profile_img', profileImg);
 
@@ -145,6 +146,10 @@ export const addProfileImg = (profileImg) => async (dispatch) => {
     })
     const data = await response.json();
     console.log('in thunk after fetch',data)
+    if (response.ok) {
+        dispatch(addProfileImgAction(data))
+        dispatch(patchProfileImg(data))
+    }
 
 }
 
@@ -163,6 +168,7 @@ export default function reducer(state = initialState, action) {
         case PATCH_PROFILE:
             newState = {...state}
             newState.user.profile_img = action.payload
+            console.log('in session reducer',newState.user.profile_img)
             return newState
         default:
             return state;
