@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { AnswerBox } from "./answer/AnswerBox";
 import { deleteAnswer } from "../../store/answers";
+import { deleteQuestion } from "../../store/questions";
 import { AddCredentials } from '../credentials/AddCredentials';
+import { PostQuestion } from "../postQuestion/PostQuestion";
 import { Modal } from "../../context/Modal";
 import img from '../../images/defaultUser.jpg'
 import './Question.css'
 
 export const Question = ({ user }) => {
     const dispatch = useDispatch()
+    const history = useHistory()
     const { id: questionId } = useParams()
     const questions = useSelector(({ questions }) => questions)
     const question = questions[questionId]
@@ -18,6 +21,10 @@ export const Question = ({ user }) => {
     const [showDropdown, setShowDropdown] = useState(null)
     const [showEditAnswerBox, setShowEditAnswerBox] = useState(null)
     const [showAnswerCredModal, setShowAnswerCredModal] = useState(null)
+    const [showEditQuestionDropdown, setShowEditQuestionDropdown] = useState(false)
+    const [showEditQuestionModal, setShowEditQuestionModal] = useState(false)
+
+    const [currentQuestion, setCurrentQuestion] = useState('')
 
     const handleDelete = (answerId) => {
         dispatch(deleteAnswer(answerId, questionId))
@@ -39,8 +46,25 @@ export const Question = ({ user }) => {
     }
 
     const closeEditAnswerBox = () => {
-        console.log('closing')
         setShowEditAnswerBox(null)
+    }
+
+    const handleEdit = (e) => {
+        e.preventDefault()
+        // const idToInt = parseInt(id)
+        setShowEditQuestionModal(true)
+        setCurrentQuestion(question.question)
+        // setCurrentQuestionId(idToInt)
+        setShowEditQuestionDropdown(false)
+    }
+
+    const handleDeleteQuestion = (e) => {
+        e.preventDefault()
+        // const idToInt = parseInt(id)
+        dispatch(deleteQuestion(question.id))
+        // setCurrentQuestionId(null)
+        setShowEditQuestionDropdown(false)
+        history.push('/')
     }
 
     return (
@@ -54,6 +78,16 @@ export const Question = ({ user }) => {
                     />
                 </Modal>
             }
+            {showEditQuestionModal &&
+                <Modal onClose={() => setShowEditQuestionModal(false)}>
+                    <PostQuestion
+                        setShowEditQuestionModal={setShowEditQuestionModal}
+                        currentQuestion={currentQuestion}
+                        currentQuestionId={question.id}
+                        option='edit'
+                    />
+                </Modal>
+            }
             <div id='question-left-container'>
                 <div id="question-header-container">
                     <div id="question-header">{question.question}</div>
@@ -62,6 +96,25 @@ export const Question = ({ user }) => {
                             <i className="fa-solid fa-pen-to-square square"></i>
                             <div className="answers-text" id='post-answer-text'>Answer</div>
                         </div>
+                        {question.user.id === user.id &&
+                            <i className="fa-solid fa-ellipsis ellipsis" onClick={() => setShowEditQuestionDropdown(true)}></i>
+                        }
+                        {showEditQuestionDropdown && (
+                            <>
+                                <div id='background' onClick={() => setShowEditQuestionDropdown(false)}></div>
+                                <ul id='question-dropdown-menu'>
+                                    <li className="dropdown-list-item" onClick={(e) => {
+                                        handleEdit(e)
+                                        setShowDropdown(null)
+                                    }}>
+                                        <i className="fa-light fa-pen icon"></i>Edit question
+                                    </li>
+                                    <li className="dropdown-list-item red" onClick={handleDeleteQuestion}>
+                                        <i className="fa-regular fa-trash-can icon"></i>Delete question
+                                    </li>
+                                </ul>
+                            </>
+                        )}
                     </div>
                     {showAnswerBox && (
                         <AnswerBox
@@ -98,7 +151,7 @@ export const Question = ({ user }) => {
                                     </div>
                                 </div>
                                 {answerObj.user.id === user.id && (
-                                    <i className="fa-solid fa-ellipsis layer2" onClick={() => setShowDropdown(idx)}></i>
+                                    <i className="fa-solid fa-ellipsis" onClick={() => setShowDropdown(idx)}></i>
                                 )}
                                 {(showDropdown === idx) && (
                                     <>
