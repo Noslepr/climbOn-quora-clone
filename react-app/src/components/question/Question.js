@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 import { AnswerBox } from "./answer/AnswerBox";
@@ -25,6 +25,12 @@ export const Question = ({ user }) => {
     const [showEditQuestionModal, setShowEditQuestionModal] = useState(false)
 
     const [currentQuestion, setCurrentQuestion] = useState('')
+
+    useEffect(() => {
+        if (!questions[questionId]) {
+            history.push('/error')
+        }
+    }, [])
 
     const handleDelete = (answerId) => {
         dispatch(deleteAnswer(answerId, questionId))
@@ -68,122 +74,127 @@ export const Question = ({ user }) => {
     }
 
     return (
-        <div id='question-page'>
-            {showAnswerCredModal &&
-                <Modal onClose={() => setShowAnswerCredModal(false)}>
-                    <AddCredentials
-                        user={user}
-                        option='answer'
-                        setShowAnswerCredModal={setShowAnswerCredModal}
-                    />
-                </Modal>
-            }
-            {showEditQuestionModal &&
-                <Modal onClose={() => setShowEditQuestionModal(false)}>
-                    <PostQuestion
-                        setShowEditQuestionModal={setShowEditQuestionModal}
-                        currentQuestion={currentQuestion}
-                        currentQuestionId={question.id}
-                        option='edit'
-                    />
-                </Modal>
-            }
-            <div id='question-left-container'>
-                <div id="question-header-container">
-                    <div id="question-header">{question.question}</div>
-                    <div id="question-footer-icons">
-                        <div id="post-answer" className="layer2" onClick={openAnswerBox}>
-                            <i className="fa-solid fa-pen-to-square square"></i>
-                            <div className="answers-text" id='post-answer-text'>Answer</div>
-                        </div>
-                        {question.user.id === user.id &&
-                            <i className="fa-solid fa-ellipsis ellipsis" onClick={() => setShowEditQuestionDropdown(true)}></i>
-                        }
-                        {showEditQuestionDropdown && (
-                            <>
-                                <div id='background' onClick={() => setShowEditQuestionDropdown(false)}></div>
-                                <ul id='question-dropdown-menu'>
-                                    <li className="dropdown-list-item" onClick={(e) => {
-                                        handleEdit(e)
-                                        setShowDropdown(null)
-                                    }}>
-                                        <i className="fa-light fa-pen icon"></i>Edit question
-                                    </li>
-                                    <li className="dropdown-list-item red" onClick={handleDeleteQuestion}>
-                                        <i className="fa-regular fa-trash-can icon"></i>Delete question
-                                    </li>
-                                </ul>
-                            </>
-                        )}
-                    </div>
-                    {showAnswerBox && (
-                        <AnswerBox
-                            user={user}
-                            questionId={questionId}
-                            closeAnswerBox={closeAnswerBox}
-                            option='post'
-                        />
-                    )}
-                </div>
-                <div id='num-answers'>
-                    <div className="circle">
-                        <i className="fa-solid fa-list-ul" id="answer-icon"></i>
-                    </div>
-                    <span className="answers-text">{question.answers.length}</span>
-                    <span className="answers-text">Answers</span>
-                </div>
-                <ul>
-                    {question.answers.map((answerObj, idx) => (
-                        <div key={Math.random()} className="list-answer-container">
-                            <div className="list-answer-header">
-                                <div className="list-answer-header-left">
-                                    {answerObj.user.profile_img ?
-                                        <img src={answerObj.user.profile_img} alt='profile' className="answer-profile-img"></img>
-                                        :
-                                        <img src={img} alt='profile' className="answer-profile-img"></img>
-                                    }
-                                    <div className="answer-header-text">
-                                        <div className="list-answer-user">{answerObj.user.full_name}</div>
-                                        {((answerObj.user.id === user.id) && !answerObj.user.credentials) ?
-                                            <div className='home-question-credentials' id='add-credentials' onClick={() => setShowAnswerCredModal(true)}>Add Credentials</div> :
-                                            <div className='home-question-credentials'>{answerObj.user.credentials}</div>
-                                        }
-                                    </div>
+        <>
+            {question &&
+
+                <div id='question-page'>
+                    {showAnswerCredModal &&
+                        <Modal onClose={() => setShowAnswerCredModal(false)}>
+                            <AddCredentials
+                                user={user}
+                                option='answer'
+                                setShowAnswerCredModal={setShowAnswerCredModal}
+                            />
+                        </Modal>
+                    }
+                    {showEditQuestionModal &&
+                        <Modal onClose={() => setShowEditQuestionModal(false)}>
+                            <PostQuestion
+                                setShowEditQuestionModal={setShowEditQuestionModal}
+                                currentQuestion={currentQuestion}
+                                currentQuestionId={question.id}
+                                option='edit'
+                            />
+                        </Modal>
+                    }
+                    <div id='question-left-container'>
+                        <div id="question-header-container">
+                            <div id="question-header">{question.question}</div>
+                            <div id="question-footer-icons">
+                                <div id="post-answer" className="layer2" onClick={openAnswerBox}>
+                                    <i className="fa-solid fa-pen-to-square square"></i>
+                                    <div className="answers-text" id='post-answer-text'>Answer</div>
                                 </div>
-                                {answerObj.user.id === user.id && (
-                                    <i className="fa-solid fa-ellipsis" onClick={() => setShowDropdown(idx)}></i>
-                                )}
-                                {(showDropdown === idx) && (
+                                {question.user.id === user.id &&
+                                    <i className="fa-solid fa-ellipsis ellipsis" onClick={() => setShowEditQuestionDropdown(true)}></i>
+                                }
+                                {showEditQuestionDropdown && (
                                     <>
-                                        <div id='background' onClick={() => setShowDropdown(null)}></div>
-                                        <ul id='answer-dropdown-menu'>
-                                            <li className="dropdown-list-item" onClick={() => {
-                                                setShowEditAnswerBox(idx)
+                                        <div id='background' onClick={() => setShowEditQuestionDropdown(false)}></div>
+                                        <ul id='question-dropdown-menu'>
+                                            <li className="dropdown-list-item" onClick={(e) => {
+                                                handleEdit(e)
                                                 setShowDropdown(null)
                                             }}>
-                                                <i className="fa-light fa-pen icon"></i>Edit answer
+                                                <i className="fa-light fa-pen icon"></i>Edit question
                                             </li>
-                                            <li className="dropdown-list-item red" onClick={() => handleDelete(answerObj.id)}><i className="fa-regular fa-trash-can icon"></i>Delete answer</li>
+                                            <li className="dropdown-list-item red" onClick={handleDeleteQuestion}>
+                                                <i className="fa-regular fa-trash-can icon"></i>Delete question
+                                            </li>
                                         </ul>
                                     </>
                                 )}
                             </div>
-                            {showEditAnswerBox !== idx && (
-                                <li className="list-answer">{answerObj.answer}</li>
-                            )}
-                            {showEditAnswerBox === idx && (
+                            {showAnswerBox && (
                                 <AnswerBox
                                     user={user}
                                     questionId={questionId}
-                                    answerObj={answerObj}
-                                    closeEditAnswerBox={closeEditAnswerBox}
-                                    option='edit'
+                                    closeAnswerBox={closeAnswerBox}
+                                    option='post'
                                 />
                             )}
                         </div>
-                    ))}
-                </ul>
-            </div>
-        </div>
+                        <div id='num-answers'>
+                            <div className="circle">
+                                <i className="fa-solid fa-list-ul" id="answer-icon"></i>
+                            </div>
+                            <span className="answers-text">{question.answers.length}</span>
+                            <span className="answers-text">Answers</span>
+                        </div>
+                        <ul>
+                            {question.answers.map((answerObj, idx) => (
+                                <div key={Math.random()} className="list-answer-container">
+                                    <div className="list-answer-header">
+                                        <div className="list-answer-header-left">
+                                            {answerObj.user.profile_img ?
+                                                <img src={answerObj.user.profile_img} alt='profile' className="answer-profile-img"></img>
+                                                :
+                                                <img src={img} alt='profile' className="answer-profile-img"></img>
+                                            }
+                                            <div className="answer-header-text">
+                                                <div className="list-answer-user">{answerObj.user.full_name}</div>
+                                                {((answerObj.user.id === user.id) && !answerObj.user.credentials) ?
+                                                    <div className='home-question-credentials' id='add-credentials' onClick={() => setShowAnswerCredModal(true)}>Add Credentials</div> :
+                                                    <div className='home-question-credentials'>{answerObj.user.credentials}</div>
+                                                }
+                                            </div>
+                                        </div>
+                                        {answerObj.user.id === user.id && (
+                                            <i className="fa-solid fa-ellipsis" onClick={() => setShowDropdown(idx)}></i>
+                                        )}
+                                        {(showDropdown === idx) && (
+                                            <>
+                                                <div id='background' onClick={() => setShowDropdown(null)}></div>
+                                                <ul id='answer-dropdown-menu'>
+                                                    <li className="dropdown-list-item" onClick={() => {
+                                                        setShowEditAnswerBox(idx)
+                                                        setShowDropdown(null)
+                                                    }}>
+                                                        <i className="fa-light fa-pen icon"></i>Edit answer
+                                                    </li>
+                                                    <li className="dropdown-list-item red" onClick={() => handleDelete(answerObj.id)}><i className="fa-regular fa-trash-can icon"></i>Delete answer</li>
+                                                </ul>
+                                            </>
+                                        )}
+                                    </div>
+                                    {showEditAnswerBox !== idx && (
+                                        <li className="list-answer">{answerObj.answer}</li>
+                                    )}
+                                    {showEditAnswerBox === idx && (
+                                        <AnswerBox
+                                            user={user}
+                                            questionId={questionId}
+                                            answerObj={answerObj}
+                                            closeEditAnswerBox={closeEditAnswerBox}
+                                            option='edit'
+                                        />
+                                    )}
+                                </div>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            }
+        </>
     )
 }

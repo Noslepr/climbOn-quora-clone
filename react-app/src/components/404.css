@@ -1,0 +1,29 @@
+#error-page {
+    display: flex;
+    justify-content: center;
+}
+
+#falling-img {
+    height: 100vh;
+}
+
+.error-text {
+    position: absolute;
+    color: white;
+    font-size: 100px;
+}
+
+.ahh {
+    top: 200px;
+}
+
+.error {
+    display: flex;
+    align-items: center;
+    top: 500px;
+}
+
+#number {
+    font-size: 200px;
+    margin-right: 50px;
+}

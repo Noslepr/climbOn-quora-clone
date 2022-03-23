@@ -9,6 +9,7 @@ import { authenticate } from './store/session';
 import { HomePage } from './components/home/Home';
 import { Question } from './components/question/Question';
 import { SearchResults } from './components/search/SearchResults';
+import { FourZeroFour } from './components/404';
 import { getQuestions } from './store/questions';
 
 function App() {
@@ -52,6 +53,12 @@ function App() {
                 <ProtectedRoute path='/question/:id' exact={true}>
                     <Question user={user} />
                 </ProtectedRoute>
+                <Route path='/error'>
+                    <FourZeroFour />
+                </Route>
+                <Route>
+                    <FourZeroFour />
+                </Route>
             </Switch>
         </BrowserRouter>
     );
