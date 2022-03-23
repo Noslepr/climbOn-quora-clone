@@ -1,5 +1,5 @@
 # climbOn
-ClimbOn, a full-stack application inspired by Quora, is a question answer forum dedicated to all climbing related topics. If you want to know about climbing, climbOn is the place to go. Users can ask climbing questions related to whatever they're curious about or even find answers to questions they didn't know they had!
+ClimbOn, a full-stack application inspired by Quora, is a question and answer forum dedicated to all climbing related topics. If you want to know about climbing, climbOn is the place to go. Users can ask climbing questions related to whatever they're curious about or even find answers to questions they didn't know they had! Users can also go on and share their knowlege of climbing by answering any number of questions.
 
 [Visit the site live here!](https://climb-on-capstone-app.herokuapp.com/)
 
@@ -88,6 +88,7 @@ ClimbOn, a full-stack application inspired by Quora, is a question answer forum 
 
 ## Splash Page
 Here users can log in with an existing account, sign-up for an account, or login as a demo user to explore the site.
+
 <img src='react-app/public/ReadMe-Screenshots/splash-page.png' height='500'>
 
 ### Sign-up
@@ -134,4 +135,29 @@ The Nav bar is visable from every part of the site once you are logged in.
 
 
 ## Question Page
+To naviage to the question page, all the user needs to do is click on a question on the home page, the search bar dropdown, or the search results page. Here they will see all of the answers that were posted for this question. This is also where the user can answer the question themselves.
 
+<img src='react-app/public/ReadMe-Screenshots/question-page.png' width='600'>
+
+### Edit and Delete ellipsis
+- If the specific question navigated to belongs to the logged in user, the 3 dots ellipsis will appear.
+- Clicking on the ellipsis will provide a dropdown to give the option for the user to edit or delete the question.
+- Editing the question will bring up a modal that prefills the field with the relevant question. It has the same error handling that posting a question has.
+- Deleting the question will redirect the user to the home page.
+
+<img src='react-app/public/ReadMe-Screenshots/edit-delete-question-ellipsis.png' width='300'><img src='react-app/public/ReadMe-Screenshots/edit-delete-question-dropdown.png' width='300'>
+
+### Answer Box
+- If the user clicks on the answer button below the question, an answer box will show up where they can share their knowledge by providing their answer to the given question.
+- If the user provides too short of an answer, they won't be able to submit and will be asked to provide a more detailed answer.
+- The error message works dynamically so it will go away once the answer has reached a sufficient length.
+
+<img src='react-app/public/ReadMe-Screenshots/answer-box.png' width='350'>--<img src='react-app/public/ReadMe-Screenshots/answer-box-errors.png' width='350'>
+
+### Edit/Delete Answer
+- If any of the answers listed under a question belong to the logged in user, the edit/delete ellipsis will appear.
+- If the user chooses to edit their answer, an answer box will appear, prefilled with the previous answer.
+- Editing your answer has the same error validation as posting an answer. It also works dynamically so the error message goes away when the answer has reached a sufficient length.
+- Deleting your answer will make your answer disappear from the list of answers.
+
+<img src='react-app/public/ReadMe-Screenshots/edit-answer-dropdown.png'  width='350'>--<img src='react-app/public/ReadMe-Screenshots/edit-answer-box.png'  width='350'>
