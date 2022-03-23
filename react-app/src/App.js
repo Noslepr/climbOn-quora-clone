@@ -9,6 +9,7 @@ import { authenticate } from './store/session';
 import { HomePage } from './components/home/Home';
 import { Question } from './components/question/Question';
 import { SearchResults } from './components/search/SearchResults';
+import { MyQuestions } from './components/myQuestions/MyQuestions';
 import { FourZeroFour } from './components/404';
 import { getQuestions } from './store/questions';
 
@@ -52,6 +53,9 @@ function App() {
                 </ProtectedRoute>
                 <ProtectedRoute path='/question/:id' exact={true}>
                     <Question user={user} />
+                </ProtectedRoute>
+                <ProtectedRoute path='/myQuestions' exact={true}>
+                    <MyQuestions user={user} />
                 </ProtectedRoute>
                 <Route path='/error'>
                     <FourZeroFour />

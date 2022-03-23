@@ -135,7 +135,9 @@ export const NavBar = ({ }) => {
                                 <div id='dropdown-name'>{user.full_name}</div>
                             </div>
                             <ul id='nav-dropdown-your-list'>
-                                <li><i className="fa-light fa-message-question"></i>Your Questions</li>
+                                <NavLink to='/myQuestions'>
+                                    <li id='my-questions' onClick={(() => setShowProfileDropdown(false))}><i className="fa-light fa-message-question"></i>Your Questions</li>
+                                </NavLink>
                                 {/* <li><i className="fa-light fa-pen-field your-answers"></i>Your Answers</li> */}
                                 <li onClick={() => {
                                     setShowNavCredModal(true)
