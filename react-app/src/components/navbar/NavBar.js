@@ -61,7 +61,8 @@ export const NavBar = ({ }) => {
     }, [dispatch, profileImg])
 
     const makeDisappear = () => {
-        setSearch('')
+        const list = document.querySelectorAll('.search-list-item')
+        list.forEach(ele => ele.style.display = 'none')
     }
 
     return (
@@ -80,11 +81,10 @@ export const NavBar = ({ }) => {
                 />
                 <div id='overlay'></div>
                 <i className="fa-regular fa-magnifying-glass search-icon"></i>
-                {/* <button id='search-btn'>Search</button> */}
                 {searchResults &&
                     <ul id='search-list'>
                         <NavLink to={`/search`}>
-                            <li id='search-field'>
+                            <li id='search-field' onClick={makeDisappear}>
                                 <i className="fa-regular fa-magnifying-glass" style={{color:'rgb(160, 160, 160)'}}></i>
                                 <div className='search-gray'>Search:</div>
                                 {search}
@@ -94,10 +94,10 @@ export const NavBar = ({ }) => {
                             if (idx < 4) {
                                 return (
                                 <NavLink to={`/question/${question.id}`}>
-                                    <li className='search-list-item' onClick={makeDisappear}>
+                                    <li className='search-list-item' onClick={() => setSearch('')}>
                                         <i className="fa-light fa-message-question" style={{color:'rgb(160, 160, 160)'}}></i>
                                         <div className='search-gray'>Question:</div>
-                                        {question.question}
+                                        <div className='searched-questions'>{question.question}</div>
                                     </li>
                                 </NavLink>
                                 )
