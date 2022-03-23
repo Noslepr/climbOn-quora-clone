@@ -18,7 +18,7 @@ export const NavBar = ({ }) => {
     const [showProfileDropdown, setShowProfileDropdown] = useState(false)
     const [showNavCredModal, setShowNavCredModal] = useState(false)
     const [profileImg, setProfileImg] = useState(null)
-    const [search, setSearch] = useState('')
+    // const [search, setSearch] = useState('')
 
     const user = currentUser.user
 
@@ -40,6 +40,10 @@ export const NavBar = ({ }) => {
         setProfileImg(e.target.files[0])
     }
 
+    const handleSearch = (e) => {
+        const searchValue = e.target.value
+    }
+
     useEffect(() => {
         if (profileImg) {
             dispatch(addProfileImg(profileImg))
@@ -56,12 +60,12 @@ export const NavBar = ({ }) => {
                 <input
                     id='search-bar'
                     type='text'
-                    value={search}
                     placeholder='Search climbOn'
-                    onChange={(e) => setSearch(e.target.value)}
+                    onKeyUp={handleSearch}
                 />
                 <div id='overlay'></div>
                 <i class="fa-regular fa-magnifying-glass search-icon"></i>
+                <button id='search-btn'>Search</button>
             </div>
             <div id='nav-right'>
                 {user.profile_img ?

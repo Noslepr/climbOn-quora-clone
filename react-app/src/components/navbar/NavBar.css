@@ -30,6 +30,7 @@
     position: relative;
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 700px;
     height: 70%;
 }
@@ -49,6 +50,16 @@
     font-size: 17px;
     outline: none;
     padding-left: 40px;
+}
+
+#search-btn {
+    height: 80%;
+    width: 70px;
+    border-radius: 20px;
+    background-color: rgb(170,56,47);
+    color: white;
+    border: none;
+    display: none;
 }
 
 #search-bar::placeholder {
@@ -73,6 +84,12 @@
 #search-bar:focus ~ .search-icon {
     top: 10px;
     left: 10px;
+}
+
+#search-bar:focus ~ #search-btn {
+    position: absolute;
+    display: block;
+    right: 0;
 }
 
 #search-bar:focus {
@@ -110,7 +127,7 @@
     top: 70px;
     right: 170px;
     width: 260px;
-    height: 437px;
+    height: 438px;
     border: 1px solid rgb(170, 170, 170);
     box-shadow: 0 1px 2px rgb(0 0 0 / 30%);
     background-color: rgba(255,255,255,1);
