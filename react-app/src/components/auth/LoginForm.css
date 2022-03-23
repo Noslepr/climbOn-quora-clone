@@ -6,7 +6,6 @@
 }
 
 #splash-container {
-    /* margin: 190px; */
     background-color: white;
     position: absolute;
     width: 780px;
@@ -175,6 +174,6 @@
     width: 90%;
 }
 
-li:first-child {
+.list-item:first-child {
     list-style: none;
 }

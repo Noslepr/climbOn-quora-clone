@@ -1,12 +1,13 @@
 #home-page {
     display: flex;
     justify-content: center;
+    z-index: -2;
 }
 
 .questions-container {
     display: flex;
     flex-direction: column;
-    width: 570px;
+    width: 600px;
     border: 1px solid rgb(205, 208, 209);;
     margin: 10px;
     padding: 16px 16px 40px 16px;
@@ -26,7 +27,7 @@
     text-decoration: underline;
 }
 
-.headder-left {
+.header-left {
     display: flex;
 }
 
@@ -59,6 +60,7 @@
     font-weight: 700;
     font-size: 17px;
     overflow-wrap: break-word;
+    z-index: 5;
 }
 
 #question-dropdown-menu {

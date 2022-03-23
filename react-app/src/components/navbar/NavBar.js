@@ -1,23 +1,29 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { PostQuestion } from '../postQuestion/PostQuestion'
 import { AddCredentials } from '../credentials/AddCredentials';
 import { Modal } from '../../context/Modal'
 import { logout } from '../../store/session';
 import { addProfileImg } from '../../store/session';
+import { searchThunk } from '../../store/search';
 import img from '../../images/defaultUser.jpg'
 import './NavBar.css'
 
-export const NavBar = ({}) => {
+export const NavBar = ({ }) => {
     const dispatch = useDispatch()
     const hiddenInputRef = useRef(null);
     const currentUser = useSelector(({ session }) => session);
+    const searchObj = useSelector(({ search }) => search)
+
     const [showQuestionModal, setShowQuestionModal] = useState(false)
     const [showProfileDropdown, setShowProfileDropdown] = useState(false)
     const [showNavCredModal, setShowNavCredModal] = useState(false)
     const [profileImg, setProfileImg] = useState(null)
+    const [search, setSearch] = useState('')
+
     const user = currentUser.user
+    const searchResults = searchObj.search
 
     const askQuestion = e => {
         e.preventDefault()
@@ -37,25 +43,76 @@ export const NavBar = ({}) => {
         setProfileImg(e.target.files[0])
     }
 
+    const handleSearch = (e) => {
+        // const searchValue = e.target.value
+        setSearch(e.target.value)
+        // dispatch(searchThunk(search))
+    }
+
     useEffect(() => {
-        if (profileImg){
+        dispatch(searchThunk(search))
+    }, [search])
+
+    useEffect(() => {
+        if (profileImg) {
             dispatch(addProfileImg(profileImg))
             setShowProfileDropdown(false)
         }
     }, [dispatch, profileImg])
+
+    const makeDisappear = () => {
+        const list = document.querySelectorAll('.search-list-item')
+        list.forEach(ele => ele.style.display = 'none')
+    }
 
     return (
         <nav id='nav-bar'>
             <Link to='/'>
                 <div id='logo'>climbOn</div>
             </Link>
+            <div id='search-container'>
+                <input
+                    id='search-bar'
+                    type='text'
+                    placeholder='Search climbOn'
+                    value={search}
+                    onKeyUp={handleSearch}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+                <div id='overlay'></div>
+                <i className="fa-regular fa-magnifying-glass search-icon"></i>
+                {searchResults &&
+                    <ul id='search-list'>
+                        <NavLink to={`/search`}>
+                            <li id='search-field' onClick={makeDisappear}>
+                                <i className="fa-regular fa-magnifying-glass" style={{color:'rgb(160, 160, 160)'}}></i>
+                                <div className='search-gray'>Search:</div>
+                                {search}
+                            </li>
+                        </NavLink>
+                        {searchResults.map((question, idx) => {
+                            if (idx < 4) {
+                                return (
+                                <NavLink to={`/question/${question.id}`}>
+                                    <li className='search-list-item' onClick={() => setSearch('')}>
+                                        <i className="fa-light fa-message-question" style={{color:'rgb(160, 160, 160)'}}></i>
+                                        <div className='search-gray'>Question:</div>
+                                        <div className='searched-questions'>{question.question}</div>
+                                    </li>
+                                </NavLink>
+                                )
+                            }
+                        })}
+                    </ul>
+                }
+            </div>
             <div id='nav-right'>
                 {user.profile_img ?
                     <img src={user.profile_img} id='nav-profile' alt='profile' onClick={() => setShowProfileDropdown(true)}></img>
                     :
                     <img src={img} id='nav-profile' alt='profile' onClick={() => setShowProfileDropdown(true)}></img>
                 }
-                <button  id='add-question-btn'onClick={askQuestion}>Add question</button>
+                <button id='add-question-btn' onClick={askQuestion}>Add question</button>
                 {showProfileDropdown && (
                     <>
                         <div id='nav-background' onClick={() => setShowProfileDropdown(false)}></div>
@@ -65,7 +122,7 @@ export const NavBar = ({}) => {
                                     type='file'
                                     ref={hiddenInputRef}
                                     onChange={handleFile}
-                                    style={{display: 'none'}}
+                                    style={{ display: 'none' }}
                                 />
                                 {user.profile_img ?
                                     <img src={user.profile_img} id='dropdown-profile-img' alt='profile'></img>

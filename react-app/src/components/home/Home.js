@@ -73,7 +73,7 @@ export const HomePage = ({ user }) => {
                 {currentQuestionId &&
                     <li className='questions-container'>
                         <div className='home-question-header'>
-                            <div className='headder-left'>
+                            <div className='header-left'>
                                 {questions[currentQuestionId].user.profile_img ?
                                     <img className='question-profile-img' src={questions[currentQuestionId].user.profile_img} alt='profile'></img>
                                     :
@@ -109,7 +109,7 @@ export const HomePage = ({ user }) => {
                                 </>
                             )}
                         </div>
-                        <Link to={`/question/${currentQuestionId}`}>
+                        <Link className='layer2' to={`/question/${currentQuestionId}`}>
                             <div className='home-question'>{questions[currentQuestionId].question}</div>
                         </Link>
                     </li>
@@ -117,7 +117,7 @@ export const HomePage = ({ user }) => {
                 {newQuestionId &&
                     <li className='questions-container'>
                         <div className='home-question-header'>
-                            <div className='headder-left'>
+                            <div className='header-left'>
                                 {questions[newQuestionId].user.profile_img ?
                                     <img className='question-profile-img' src={questions[newQuestionId].user.profile_img} alt='profile'></img>
                                     :
@@ -154,7 +154,7 @@ export const HomePage = ({ user }) => {
                                 </>
                             )}
                         </div>
-                        <Link to={`/question/${newQuestionId}`}>
+                        <Link className='layer2'to={`/question/${newQuestionId}`}>
                             <div className='home-question'>{questions[newQuestionId].question}</div>
                         </Link>
                     </li>
@@ -165,7 +165,7 @@ export const HomePage = ({ user }) => {
                             return (
                                 <li key={`${id}-question`} className='questions-container'>
                                     <div className='home-question-header'>
-                                        <div className='headder-left'>
+                                        <div className='header-left'>
                                             {questions[id].user.profile_img ?
                                                 <img className='question-profile-img' src={questions[id].user.profile_img} alt='profile'></img>
                                                 :
@@ -202,7 +202,7 @@ export const HomePage = ({ user }) => {
                                             </>
                                         )}
                                     </div>
-                                    <Link to={`/question/${id}`}>
+                                    <Link className='layer2' to={`/question/${id}`}>
                                         <div className='home-question'>{questions[id].question}</div>
                                     </Link>
                                 </li>
