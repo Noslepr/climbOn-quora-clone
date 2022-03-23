@@ -8,52 +8,53 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import { authenticate } from './store/session';
 import { HomePage } from './components/home/Home';
 import { Question } from './components/question/Question';
+import { SearchResults } from './components/search/SearchResults';
 import { getQuestions } from './store/questions';
 
 function App() {
-  const user = useSelector(({session}) => session.user)
-  const [loaded, setLoaded] = useState(false);
-  const dispatch = useDispatch();
+    const user = useSelector(({ session }) => session.user)
+    const [loaded, setLoaded] = useState(false);
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-    (async() => {
-      await dispatch(authenticate());
-      await dispatch(getQuestions())
-      setLoaded(true);
-    })();
-  }, [dispatch]);
+    useEffect(() => {
+        (async () => {
+            await dispatch(authenticate());
+            await dispatch(getQuestions())
+            setLoaded(true);
+        })();
+    }, [dispatch]);
 
-  if (!loaded) {
-    return null;
-  }
+    if (!loaded) {
+        return null;
+    }
 
-  if (!user) {
-    const html = document.querySelector(':root')
-    html.setAttribute('id', 'background-img')
-  } else {
-    const html = document.querySelector(':root')
-    html.removeAttribute('id')
-  }
+    if (!user) {
+        const html = document.querySelector(':root')
+        html.setAttribute('id', 'background-img')
+    } else {
+        const html = document.querySelector(':root')
+        html.removeAttribute('id')
+    }
 
-  return (
-    <BrowserRouter>
-      {user && <NavBar user={user} />}
-      <Switch>
-        <Route path='/login' exact={true}>
-          <LoginForm />
-        </Route>
-        {/* <Route path='/sign-up' exact={true}>
-          <SignUpForm />
-        </Route> */}
-        <ProtectedRoute path='/' exact={true} >
-          <HomePage user={user}/>
-        </ProtectedRoute>
-        <ProtectedRoute path='/question/:id' exact={true}>
-          <Question user={user}/>
-        </ProtectedRoute>
-      </Switch>
-    </BrowserRouter>
-  );
+    return (
+        <BrowserRouter>
+            {user && <NavBar user={user} />}
+            <Switch>
+                <Route path='/login' exact={true}>
+                    <LoginForm />
+                </Route>
+                <ProtectedRoute path='/search' exact={true}>
+                    <SearchResults user={user} />
+                </ProtectedRoute>
+                <ProtectedRoute path='/' exact={true} >
+                    <HomePage user={user} />
+                </ProtectedRoute>
+                <ProtectedRoute path='/question/:id' exact={true}>
+                    <Question user={user} />
+                </ProtectedRoute>
+            </Switch>
+        </BrowserRouter>
+    );
 }
 
 export default App;

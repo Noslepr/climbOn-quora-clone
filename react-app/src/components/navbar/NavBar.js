@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { PostQuestion } from '../postQuestion/PostQuestion'
 import { AddCredentials } from '../credentials/AddCredentials';
 import { Modal } from '../../context/Modal'
 import { logout } from '../../store/session';
 import { addProfileImg } from '../../store/session';
+import { searchThunk } from '../../store/search';
 import img from '../../images/defaultUser.jpg'
 import './NavBar.css'
 
@@ -13,14 +14,16 @@ export const NavBar = ({ }) => {
     const dispatch = useDispatch()
     const hiddenInputRef = useRef(null);
     const currentUser = useSelector(({ session }) => session);
+    const searchObj = useSelector(({ search }) => search)
 
     const [showQuestionModal, setShowQuestionModal] = useState(false)
     const [showProfileDropdown, setShowProfileDropdown] = useState(false)
     const [showNavCredModal, setShowNavCredModal] = useState(false)
     const [profileImg, setProfileImg] = useState(null)
-    // const [search, setSearch] = useState('')
+    const [search, setSearch] = useState('')
 
     const user = currentUser.user
+    const searchResults = searchObj.search
 
     const askQuestion = e => {
         e.preventDefault()
@@ -41,8 +44,14 @@ export const NavBar = ({ }) => {
     }
 
     const handleSearch = (e) => {
-        const searchValue = e.target.value
+        // const searchValue = e.target.value
+        setSearch(e.target.value)
+        // dispatch(searchThunk(search))
     }
+
+    useEffect(() => {
+        dispatch(searchThunk(search))
+    }, [search])
 
     useEffect(() => {
         if (profileImg) {
@@ -50,6 +59,10 @@ export const NavBar = ({ }) => {
             setShowProfileDropdown(false)
         }
     }, [dispatch, profileImg])
+
+    const makeDisappear = () => {
+        setSearch('')
+    }
 
     return (
         <nav id='nav-bar'>
@@ -61,11 +74,37 @@ export const NavBar = ({ }) => {
                     id='search-bar'
                     type='text'
                     placeholder='Search climbOn'
+                    value={search}
                     onKeyUp={handleSearch}
+                    onChange={(e) => setSearch(e.target.value)}
                 />
                 <div id='overlay'></div>
-                <i class="fa-regular fa-magnifying-glass search-icon"></i>
-                <button id='search-btn'>Search</button>
+                <i className="fa-regular fa-magnifying-glass search-icon"></i>
+                {/* <button id='search-btn'>Search</button> */}
+                {searchResults &&
+                    <ul id='search-list'>
+                        <NavLink to={`/search`}>
+                            <li id='search-field'>
+                                <i className="fa-regular fa-magnifying-glass" style={{color:'rgb(160, 160, 160)'}}></i>
+                                <div className='search-gray'>Search:</div>
+                                {search}
+                            </li>
+                        </NavLink>
+                        {searchResults.map((question, idx) => {
+                            if (idx < 4) {
+                                return (
+                                <NavLink to={`/question/${question.id}`}>
+                                    <li className='search-list-item' onClick={makeDisappear}>
+                                        <i className="fa-light fa-message-question" style={{color:'rgb(160, 160, 160)'}}></i>
+                                        <div className='search-gray'>Question:</div>
+                                        {question.question}
+                                    </li>
+                                </NavLink>
+                                )
+                            }
+                        })}
+                    </ul>
+                }
             </div>
             <div id='nav-right'>
                 {user.profile_img ?

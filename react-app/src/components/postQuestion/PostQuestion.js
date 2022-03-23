@@ -10,14 +10,16 @@ export const PostQuestion = ({setShowQuestionModal, setShowEditQuestionModal, cu
     const [question, setQuestion] = useState('')
     const [errors, setErrors] = useState([])
 
+    console.log(question)
     useEffect(() => {
         if (currentQuestion) {
             setQuestion(currentQuestion)
         }
-    }, [currentQuestion])
+    }, [currentQuestion,])
 
     const handleQuestion = async (e) => {
         e.preventDefault()
+        console.log('in handle')
 
         if (option === 'post') {
             const response = await dispatch(postQuestion(question))
@@ -30,8 +32,9 @@ export const PostQuestion = ({setShowQuestionModal, setShowEditQuestionModal, cu
             }
 
         } else if (option === 'edit') {
+            console.log('in handle question', question, currentQuestionId)
             const response = await dispatch(patchQuestion(question, currentQuestionId))
-            if (response.errors) {
+            if (response?.errors) {
                 setErrors(response.errors)
                 return
             } else {
