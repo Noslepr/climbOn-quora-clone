@@ -1,134 +1,163 @@
-# Flask React Project
+# climbOn
+ClimbOn, a full-stack application inspired by Quora, is a question and answer forum dedicated to all climbing related topics. If you want to know about climbing, climbOn is the place to go. Users can ask climbing questions related to whatever they're curious about or even find answers to questions they didn't know they had! Users can also go on and share their knowlege of climbing by answering any number of questions.
 
-This is the starter for the Flask React project.
+[Visit the site live here!](https://climb-on-capstone-app.herokuapp.com/)
 
-## Getting started
+* [MVP Feature List](https://github.com/Noslepr/climbOn-quora-clone/wiki/Feature-List)
+* [User Stories](https://github.com/Noslepr/climbOn-quora-clone/wiki/User-Sotries)
+* [Database Schema](https://github.com/Noslepr/climbOn-quora-clone/wiki/Database-Schema)
 
-1. Clone this repository (only this branch)
+# Technologies Used
+* <img src="react-app/public/images/AWS.png" width="20" height="20"> --- Amzon web services
+* <img src="react-app/public/images/Python.png" width="20" height="20"> --- Python
+* <img src="react-app/public/images/Flask.png" width="20" height="20"> --- Flask
+* <img src="react-app/public/images/React.png" width="20" height="20"> --- React
+* <img src="react-app/public/images/Redux.png" width="20" height="20"> --- Redux
+* <img src="react-app/public/images/HTML.png" width="20" height="20"> --- HTML
+* <img src="react-app/public/images/CSS.png" width="20" height="20"> --- CSS
+* <img src="react-app/public/images/Node.png" width="20" height="20"> --- Node
+* <img src="react-app/public/images/PostgresQL.png" width="20" height="20"> --- PostgresQL
+* <img src="react-app/public/images/SQLA.png" width="20" height="20"> --- SQLAlchemy
+* <img src="react-app/public/images/Javascript.png" width="20" height="20"> --- JavaScript
+* <img src="react-app/public/images/Docker.png" width="20" height="20"> --- Docker
 
-   ```bash
-   git clone https://github.com/appacademy-starters/python-project-starter.git
-   ```
+# Getting Started
 
-2. Install dependencies
+1. Clone the repository
 
-      ```bash
-      pipenv install --dev -r dev-requirements.txt && pipenv install -r requirements.txt
-      ```
+       git@github.com:Noslepr/climbOn-quora-clone.git
 
-3. Create a **.env** file based on the example with proper settings for your
-   development environment
-4. Setup your PostgreSQL user, password and database and make sure it matches your **.env** file
+2. CD into the /app directory and install dependencies
 
-5. Get into your pipenv, migrate your database, seed your database, and run your flask app
+        pipenv install
 
-   ```bash
-   pipenv shell
-   ```
+3. CD into the /react-app directory and install dependencies
 
-   ```bash
-   flask db upgrade
-   ```
+        npm install
 
-   ```bash
-   flask seed all
-   ```
+4. Create a .env file based on the example with proper settings for your development environment
 
-   ```bash
-   flask run
-   ```
+5. Setup your PostgreSQL user, password and database and verify that it matches your .env file
 
-6. To run the React App in development, checkout the [README](./react-app/README.md) inside the `react-app` directory.
+6. Start your shell, migrate your database, seed your database, and run the flask app
 
-***
-*IMPORTANT!*
-   If you add any python dependencies to your pipfiles, you'll need to regenerate your requirements.txt before deployment.
-   You can do this by running:
+        pipenv shell
 
-   ```bash
-   pipenv lock -r > requirements.txt
-   ```
 
-*ALSO IMPORTANT!*
-   psycopg2-binary MUST remain a dev dependency because you can't install it on apline-linux.
-   There is a layer in the Dockerfile that will install psycopg2 (not binary) for us.
-***
+        flask db upgrade
 
-## Deploy to Heroku
 
-1. Before you deploy, don't forget to run the following command in order to
-ensure that your production environment has all of your up-to-date
-dependencies. You only have to run this command when you have installed new
-Python packages since your last deployment, but if you aren't sure, it won't
-hurt to run it again.
+        flask seed all
 
-   ```bash
-   pipenv lock -r > requirements.txt
-   ```
 
-2. Create a new project on Heroku
-3. Under Resources click "Find more add-ons" and add the add on called "Heroku Postgres"
-4. Install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-command-line)
-5. Run
+        flask run
 
-   ```bash
-   heroku login
-   ```
+7. Create your AWS user and bucket:
 
-6. Login to the heroku container registry
+      -Create a bucket:
 
-   ```bash
-   heroku container:login
-   ```
+        (https://s3.console.aws.amazon.com/s3/home?region=us-east-1)
 
-7. Update the `REACT_APP_BASE_URL` variable in the Dockerfile.
-   This should be the full URL of your Heroku app: i.e. "https://flask-react-aa.herokuapp.com"
-8. Push your docker container to heroku from the root directory of your project.
-   (If you are using an M1 mac, follow [these steps below](#for-m1-mac-users) instead, then continue on to step 9.)
-   This will build the Dockerfile and push the image to your heroku container registry.
+      -Create a user with `programmatic access` by navigating to:
 
-   ```bash
-   heroku container:push web -a {NAME_OF_HEROKU_APP}
-   ```
+        (https://console.aws.amazon.com/iam/home?#/users)
 
-9. Release your docker container to heroku
+      -Set up a security policy for your user: 'Attach existing policies directly' => 'Create Policy'
 
-      ```bash
-      heroku container:release web -a {NAME_OF_HEROKU_APP}
-      ```
+      -Click the `JSON tab` and set a policy:
 
-10. set up your database
+          {
+           "Version": "2012-10-17",
+           "Statement": [
+             {
+               "Sid": "Stmt1420751757000",
+               "Effect": "Allow",
+               "Action": ["s3:*"],
+               "Resource": "arn:aws:s3:::<NAME OF BUCKET>/*"
+             }
+           ]
+          }
 
-      ```bash
-      heroku run -a {NAME_OF_HEROKU_APP} flask db upgrade
-      heroku run -a {NAME_OF_HEROKU_APP} flask seed all
-      ```
+      -Now update your .env with your `S3_BUCKET`, `S3_KEY`, `S3_SECRET`
 
-11. Under Settings find "Config Vars" and add any additional/secret .env
-variables.
+8. Open another terminal and change directory into /react-app and run the React app
 
-12. profit
+          npm start
 
-### For M1 Mac users
+# Site Tour
 
-(Replaces **Step 8**)
+## Splash Page
+Here users can log in with an existing account, sign-up for an account, or login as a demo user to explore the site.
 
-1. Build image with linux platform for heroku servers. Replace
-{NAME_OF_HEROKU_APP} with your own tag:
+<img src='react-app/public/ReadMe-Screenshots/splash-page.png' height='500'>
 
-   ```bash=
-   docker buildx build --platform linux/amd64 -t {NAME_OF_HEROKU_APP} .
-   ```
+### Sign-up
 
-2. Tag your app with the url for your apps registry. Make sure to use the name
-of your Heroku app in the url and tag name:
+- When you click on the signup with email button, the sign-up modal will popup.
+- The sign-up form has error validation for each required field.
 
-   ```bash=2
-   docker tag {NAME_OF_HEROKU_APP} registry.heroku.com/{NAME_OF_HEROKU_APP}/web
-   ```
+<img src='react-app/public/ReadMe-Screenshots/sign-up-modal.png' height='300'><img src='react-app/public/ReadMe-Screenshots/sign-up-errors.png' height='300'>
 
-3. Use docker to push the image to the Heroku container registry:
+## Home Page
+The home page is where the user will be navigated to after initial login. Here they will be shown a list of questions that will be randomized each time they navigate home.
 
-   ```bash=3
-   docker push registry.heroku.com/{NAME_OF_HEROKU_APP}/web
-   ```
+## Navigation Bar
+The Nav bar is visable from every part of the site once you are logged in.
+
+<img src='react-app/public/ReadMe-Screenshots/nav-bar.png' width='800'>
+
+1. Here is the climbOn logo. When clicked, the user will be navigated back to the home page.
+2. Here is the search bar. The user can use this to search for questions.
+3. Here is the profile image. When clicked, a dropdown will appear to give the user more navigation options.
+4. This is the add question button. When clicked, a modal will pop up for the user to ask their question.
+
+### Search
+- When the search bar is in focus it expands and shows a list of questions that fit the search criteria.
+- The user can click on any of the questions to be navigated to the specific question page.
+- The user can also click on the search prefill to be navigated to a list of questions that fit the search criteria
+
+<img src='react-app/public/ReadMe-Screenshots/search-list.png'>
+
+### Profile Dropdown
+- Here the user can see their profile image and profile name.
+- If the user hovers over their profile image they will see an edit button. When clicked, they can upload a new image to change their profile image. They can also click on the 'Edit Your Profile Image' button for the same effect.
+- The user can click on 'Your Questions' button to navigate to all questions that user has posted.
+- The logout button is used to logout from their account.
+- At the bottom of the profile dropdown are links to the developers LinkedIn and GitHub.
+
+<img src='react-app/public/ReadMe-Screenshots/profile-dropdown.png' height='300'>---------<img src='react-app/public/ReadMe-Screenshots/profile-dropdown-hover.png' height='300'>
+
+### Add Question
+- When the user clicks on the 'add question' button, a modal will pop up where they can ask their question.
+- If the user tries to submit a question that does not meet the site's validation, error messages will show what needs to be corrected.
+
+<img src='react-app/public/ReadMe-Screenshots/add-question.png' height='270'>--<img src='react-app/public/ReadMe-Screenshots/add-question-errors.png' height='270'>
+
+
+## Question Page
+To naviage to the question page, all the user needs to do is click on a question on the home page, the search bar dropdown, or the search results page. Here they will see all of the answers that were posted for this question. This is also where the user can answer the question themselves.
+
+<img src='react-app/public/ReadMe-Screenshots/question-page.png' width='600'>
+
+### Edit and Delete ellipsis
+- If the specific question navigated to belongs to the logged in user, the 3 dots ellipsis will appear.
+- Clicking on the ellipsis will provide a dropdown to give the option for the user to edit or delete the question.
+- Editing the question will bring up a modal that prefills the field with the relevant question. It has the same error handling that posting a question has.
+- Deleting the question will redirect the user to the home page.
+
+<img src='react-app/public/ReadMe-Screenshots/edit-delete-question-ellipsis.png' width='300'><img src='react-app/public/ReadMe-Screenshots/edit-delete-question-dropdown.png' width='300'>
+
+### Answer Box
+- If the user clicks on the answer button below the question, an answer box will show up where they can share their knowledge by providing their answer to the given question.
+- If the user provides too short of an answer, they won't be able to submit and will be asked to provide a more detailed answer.
+- The error message works dynamically so it will go away once the answer has reached a sufficient length.
+
+<img src='react-app/public/ReadMe-Screenshots/answer-box.png' width='350'>--<img src='react-app/public/ReadMe-Screenshots/answer-box-errors.png' width='350'>
+
+### Edit/Delete Answer
+- If any of the answers listed under a question belong to the logged in user, the edit/delete ellipsis will appear.
+- If the user chooses to edit their answer, an answer box will appear, prefilled with the previous answer.
+- Editing your answer has the same error validation as posting an answer. It also works dynamically so the error message goes away when the answer has reached a sufficient length.
+- Deleting your answer will make your answer disappear from the list of answers.
+
+<img src='react-app/public/ReadMe-Screenshots/edit-answer-dropdown.png'  width='350'>--<img src='react-app/public/ReadMe-Screenshots/edit-answer-box.png'  width='350'>

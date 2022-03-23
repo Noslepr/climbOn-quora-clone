@@ -42,7 +42,6 @@ export const patchAnswer = ( answer, answer_id, questionId ) => async (dispatch)
 }
 
 export const deleteAnswer = (answer_id, question_id ) => async (dispatch) => {
-    console.log(answer_id, question_id)
     const res = await fetch('/api/answers/', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
