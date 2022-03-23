@@ -1,28 +1,25 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
-import { PostQuestion } from "../postQuestion/PostQuestion";
-import { deleteQuestion } from "../../store/questions";
-import { AddCredentials } from "../credentials/AddCredentials";
-import { Modal } from "../../context/Modal";
+import React, { useState } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { Link } from "react-router-dom"
+import { Modal } from "../../context/Modal"
+import { PostQuestion } from "../postQuestion/PostQuestion"
+import { AddCredentials } from "../credentials/AddCredentials"
+import { deleteQuestion } from "../../store/questions"
 import img from '../../images/defaultUser.jpg'
-import './SearchResults.css'
-import '../home/Home.css'
 
-export const SearchResults = ({ }) => {
+
+export const MyQuestions = ({ user }) => {
     const dispatch = useDispatch()
-    const history = useHistory()
-    const searchObj = useSelector(({ search }) => search)
-    const userObj = useSelector(({ session }) => session)
-    const user = userObj.user
+    const questions = useSelector(({ questions }) => questions)
+    const myQuestions = Object.values(questions).filter(question => question.user.id === user.id)
 
     const [currentQuestion, setCurrentQuestion] = useState('')
     const [currentQuestionId, setCurrentQuestionId] = useState(null)
-    const [showSearchCredModal, setShowSearchCredModal] = useState(false)
     const [showEditQuestionModal, setShowEditQuestionModal] = useState(false)
+    const [showSearchCredModal, setShowSearchCredModal] = useState(false)
+
     const [showDropdown, setShowDropdown] = useState(false)
 
-    const searchResults = searchObj.search
 
     const handleEdit = (e, id, question) => {
         e.preventDefault()
@@ -38,10 +35,9 @@ export const SearchResults = ({ }) => {
         e.preventDefault()
         dispatch(deleteQuestion(id))
         setShowDropdown(null)
-        history.push('/')
+        // history.push('/')
 
     }
-
     return (
         <div id='search-page'>
             <ul>
@@ -63,7 +59,7 @@ export const SearchResults = ({ }) => {
                         />
                     </Modal>
                 }
-                {searchResults && searchResults.map((question, idx) => {
+                {myQuestions.map((question, idx) => {
                     return (
                         <li key={`${idx}-question`} className='questions-container'>
                             <div className='home-question-header'>

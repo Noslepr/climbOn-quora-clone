@@ -6,14 +6,13 @@ import './AddCredentials.css'
 
 
 
-export const AddCredentials = ({ user, option, setShowCredModal, setShowNavCredModal, setShowAnswerCredModal }) => {
+export const AddCredentials = ({ user, option, setShowCredModal, setShowNavCredModal, setShowAnswerCredModal, setShowSearchCredModal }) => {
     const dispatch = useDispatch()
     const [credentials, setCredentials] = useState('')
     const [errors, setErrors] = useState([])
 
     const handleCredentials = async (e) => {
         const response = await dispatch(patchUser(credentials))
-        console.log('in handlecred',response)
         if (response.errors) {
             setErrors(response.errors)
         } else {
@@ -36,6 +35,8 @@ export const AddCredentials = ({ user, option, setShowCredModal, setShowNavCredM
             setShowNavCredModal(false)
         } else if (option === 'answer') {
             setShowAnswerCredModal(false)
+        } else {
+            setShowSearchCredModal(false)
         }
     }
 

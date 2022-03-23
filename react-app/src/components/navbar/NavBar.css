@@ -244,12 +244,12 @@ li > i {
     padding: 8px 0px;
 }
 
-#nav-dropdown-your-list > li {
+#nav-dropdown-your-list > li, #my-questions {
     padding: 0px 20px;
     list-style: none;
 }
 
-#nav-dropdown-your-list > li:hover {
+#nav-dropdown-your-list > li:hover, #my-questions:hover {
     background-color: rgb(245, 245, 245);
     cursor: pointer;
 }
