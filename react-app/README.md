@@ -1,8 +1,5 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# climbOn
+ClimbOn, a full-stack application inspired by Quora, is a question answer forum dedicated to all climbing related topics. If you want to know about climbing, climbOn is the place to go. Users can ask climbing questions related to whatever they're curious about or even find answers to questions they didn't know they had!
 
-Your React App will live here.  While is development, run this application from this location using `npm start`.
 
-
-No environment variables are needed to run this application in development, but be sure to set the REACT_APP_BASE_URL environment variable in heroku!
-
-This app will be automatically built when you deploy to heroku, please see the `heroku-postbuild` script in your `express.js` applications `package.json` to see how this works.
+https://climb-on-capstone-app.herokuapp.com/
