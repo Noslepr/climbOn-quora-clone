@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { postQuestion, patchQuestion } from '../../store/questions';
 import './PostQuestion.css'
 
-export const PostQuestion = ({setShowQuestionModal, setShowEditQuestionModal, currentQuestion, currentQuestionId, option}) => {
+export const PostQuestion = ({ setShowQuestionModal, setShowEditQuestionModal, currentQuestion, currentQuestionId, option }) => {
     const dispatch = useDispatch()
     const history = useHistory()
     const [question, setQuestion] = useState('')
@@ -60,7 +60,11 @@ export const PostQuestion = ({setShowQuestionModal, setShowEditQuestionModal, cu
                     </div>
                     <div id='bubble-container'>
                         <i className="fa-light fa-message-question question"></i>
-                        <div id='add-header-text'>Add Question</div>
+                        {option === 'edit' ?
+                            <div id='add-header-text'>Edit Question</div>
+                            :
+                            <div id='add-header-text'>Add Question</div>
+                        }
                     </div>
                 </div>
                 <div>
@@ -78,7 +82,7 @@ export const PostQuestion = ({setShowQuestionModal, setShowEditQuestionModal, cu
                         placeholder='Start your question with "What", "How", "Why", etc.'
                         value={question}
                         onChange={(e) => setQuestion(e.target.value)}
-                        />
+                    />
                 </form>
                 <ul id='question-error-container'>
                     {errors && errors.map(error => (
@@ -88,7 +92,11 @@ export const PostQuestion = ({setShowQuestionModal, setShowEditQuestionModal, cu
             </div>
             <div id='add-question-btn-container'>
                 <button id='add-question-cancel-btn' className='btn' onClick={handleCancel}>Cancel</button>
-                <button id='add-question-add-btn' className='btn' onClick={handleQuestion}>Add question</button>
+                {option === 'edit' ?
+                    <button id='add-question-add-btn' className='btn' onClick={handleQuestion}>Edit question</button>
+                    :
+                    <button id='add-question-add-btn' className='btn' onClick={handleQuestion}>Add question</button>
+                }
             </div>
         </div>
     )

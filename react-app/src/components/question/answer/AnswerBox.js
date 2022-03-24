@@ -7,7 +7,7 @@ import { postAnswer, patchAnswer } from "../../../store/answers";
 export const AnswerBox = ({ user, questionId, answerObj, closeAnswerBox, closeEditAnswerBox, option }) => {
 
     const dispatch = useDispatch()
-    const [answerId] = useState(answerObj ? answerObj.id: null)
+    const [answerId] = useState(answerObj ? answerObj.id : null)
     const [answer, setAnswer] = useState(answerObj ? answerObj.answer : '')
     const [showErrors, setShowErrors] = useState(false)
     const [error, setError] = useState('')
@@ -51,10 +51,8 @@ export const AnswerBox = ({ user, questionId, answerObj, closeAnswerBox, closeEd
     const handleSubmit = (e) => {
         e.preventDefault()
         if (option === 'edit') {
-            console.log('in handle submit for edit')
             handleEditAnswerSubmit()
         } else {
-            console.log('in handle submit for post')
             handlePostAnswerSubmit()
         }
     }
@@ -81,7 +79,11 @@ export const AnswerBox = ({ user, questionId, answerObj, closeAnswerBox, closeEd
                 />
             </form>
             <div id="post-answer-box-footer">
-                <button id='post-answer-btn' className='layer2' onClick={handleSubmit}>Post</button>
+                {option === 'edit' ?
+                    <button id='post-answer-btn' className='layer2' onClick={handleSubmit}>Edit</button>
+                    :
+                    <button id='post-answer-btn' className='layer2' onClick={handleSubmit}>Post</button>
+                }
                 <button id='post-answer-cancel-btn' className='layer2' onClick={handleCancel}>Cancel</button>
             </div>
         </div>
