@@ -118,6 +118,7 @@ export const NavBar = ({ }) => {
                             <div id='nav-dropdown-header'>
                                 <input
                                     type='file'
+                                    accept='image/png, image/jpeg, image/jpg'
                                     ref={hiddenInputRef}
                                     onChange={handleFile}
                                     style={{ display: 'none' }}
