@@ -149,9 +149,9 @@
     font-weight: 600;
 }
 
-.not-clickable {
+/* .not-clickable {
     pointer-events: none;
-}
+} */
 
 #splash-footer {
     display: flex;
@@ -176,4 +176,26 @@
 
 .list-item:first-child {
     list-style: none;
+}
+
+.about:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#about-dropdown {
+    position: absolute;
+    left: 40px;
+    bottom: -45px;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 10px;
+    list-style: none;
+    background-color: white;
+    font-size: 17px;
+    z-index: 5;
+}
+
+.about-list {
+    padding-bottom: 5px;
 }
