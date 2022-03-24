@@ -29,8 +29,6 @@ export const SearchResults = ({ }) => {
         setShowEditQuestionModal(true)
         setCurrentQuestion(question)
         setCurrentQuestionId(id)
-        // setShowCurrentDropdown(false)
-        // setShowNewDropdown(false)
         setShowDropdown(null)
     }
 

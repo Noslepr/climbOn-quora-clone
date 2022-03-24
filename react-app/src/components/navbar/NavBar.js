@@ -44,14 +44,12 @@ export const NavBar = ({ }) => {
     }
 
     const handleSearch = (e) => {
-        // const searchValue = e.target.value
         setSearch(e.target.value)
-        // dispatch(searchThunk(search))
     }
 
     useEffect(() => {
         dispatch(searchThunk(search))
-    }, [search])
+    }, [dispatch, search])
 
     useEffect(() => {
         if (profileImg) {
@@ -159,7 +157,6 @@ export const NavBar = ({ }) => {
                     </>
                 )}
             </div>
-
             {showNavCredModal &&
                 <Modal onClose={() => setShowNavCredModal(false)}>
                     <AddCredentials
@@ -169,7 +166,6 @@ export const NavBar = ({ }) => {
                     />
                 </Modal>
             }
-
             {showQuestionModal &&
                 <Modal onClose={() => setShowQuestionModal(false)}>
                     <PostQuestion

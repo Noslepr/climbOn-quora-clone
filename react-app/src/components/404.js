@@ -5,7 +5,7 @@ export const FourZeroFour = () => {
         <div id='error-page'>
             <div className='error-text ahh'>ahhhhh!</div>
             <div className='error-text error'><div id='number'>404</div>error</div>
-            <img id='falling-img' src='https://i.postimg.cc/rmXgrdC1/2015-9-Survive-Climbing-Accident-WB-01.jpg'></img>
+            <img id='falling-img'  alt='falling 404'src='https://i.postimg.cc/rmXgrdC1/2015-9-Survive-Climbing-Accident-WB-01.jpg'></img>
         </div>
     )
 }

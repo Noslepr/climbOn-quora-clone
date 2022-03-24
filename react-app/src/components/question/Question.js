@@ -30,7 +30,7 @@ export const Question = ({ user }) => {
         if (!questions[questionId]) {
             history.push('/error')
         }
-    }, [])
+    }, [history, questions, questionId])
 
     const handleDelete = (answerId) => {
         dispatch(deleteAnswer(answerId, questionId))
