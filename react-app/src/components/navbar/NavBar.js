@@ -46,8 +46,15 @@ export const NavBar = ({ }) => {
     const handleSearch = (e) => {
         setSearch(e.target.value)
     }
-
+    const noClick = document.querySelector('#no-click')
     useEffect(() => {
+        if (search && noClick) {
+            noClick.classList.remove('no-click')
+        } else {
+            if (noClick) {
+                noClick.classList.add('no-click')
+            }
+        }
         dispatch(searchThunk(search))
     }, [dispatch, search])
 
@@ -81,13 +88,16 @@ export const NavBar = ({ }) => {
                 <i className="fa-regular fa-magnifying-glass search-icon"></i>
                 {searchResults &&
                     <ul id='search-list'>
-                        <NavLink to={`/search`}>
-                            <li id='search-field' onClick={makeDisappear}>
-                                <i className="fa-regular fa-magnifying-glass" style={{color:'rgb(160, 160, 160)'}}></i>
-                                <div className='search-gray'>Search:</div>
-                                {search}
-                            </li>
-                        </NavLink>
+                        <div id='no-click' className='no-click'>
+                            <NavLink to={`/search`}>
+                                <li id='search-field' onClick={makeDisappear}>
+                                    <i className="fa-regular fa-magnifying-glass" style={{color:'rgb(160, 160, 160)'}}></i>
+                                    <div className='search-gray'>Search:</div>
+                                    {search}
+                                </li>
+                            </NavLink>
+
+                        </div>
                         {searchResults.map((question, idx) => {
                             if (idx < 4) {
                                 return (
