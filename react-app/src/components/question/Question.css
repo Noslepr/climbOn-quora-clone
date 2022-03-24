@@ -214,6 +214,7 @@
 .list-answer {
     list-style: none;
     font-size: 17px;
+    overflow-wrap: break-word;
 }
 
 #answer-dropdown-menu {
