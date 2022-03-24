@@ -7,7 +7,7 @@ def answer_long_enough(form, field):
     answer = field.data
 
     if len(answer) < 15:
-        raise ValidationError('Please provide a longer, more detailed answer.')
+        raise ValidationError('Please provide a longer, more detailed answer. More than 15 characters.')
 
     if len(answer) > 2000:
         raise ValidationError('Please keep your answer under 2000 characters.')
