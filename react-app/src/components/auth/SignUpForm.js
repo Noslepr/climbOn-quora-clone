@@ -16,7 +16,6 @@ const SignUpForm = ({ setShowSignupModal }) => {
     const onSignUp = async (e) => {
         e.preventDefault();
         const response = await dispatch(signUp(fullName, email, password, repeatPassword));
-        console.log('response in signup submit', response)
         if (response) {
             setErrors(response)
         }

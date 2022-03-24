@@ -2,7 +2,6 @@ import { deleteAnswerAction, postAnswerAction } from "./questions";
 import { patchAnswerAction } from "./questions";
 
 export const postAnswer = ( answer, question_id ) => async (dispatch) => {
-    // console.log(answer, questionId)
     const res = await fetch('/api/answers/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -33,7 +32,6 @@ export const patchAnswer = ( answer, answer_id, questionId ) => async (dispatch)
     const data = await res.json();
 
     if (res.ok) {
-        console.log('not hitting action creator')
         dispatch(patchAnswerAction(data.answer.answer, data.answer.id, parseInt(questionId)))
         return data
     } else {

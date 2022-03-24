@@ -89,7 +89,6 @@ export const postQuestion = (question) => async (dispatch) => {
 }
 
 export const patchQuestion = (question, id) => async (dispatch) => {
-    console.log('thunk', question, id)
     const res = await fetch('/api/questions/', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },

@@ -9,8 +9,7 @@ export const PostQuestion = ({ setShowQuestionModal, setShowEditQuestionModal, c
     const history = useHistory()
     const [question, setQuestion] = useState('')
     const [errors, setErrors] = useState([])
-
-    console.log(question)
+    
     useEffect(() => {
         if (currentQuestion) {
             setQuestion(currentQuestion)

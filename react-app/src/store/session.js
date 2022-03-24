@@ -136,7 +136,6 @@ export const patchUser = (credentials) => async (dispatch) => {
 }
 
 export const addProfileImg = (profileImg) => async (dispatch) => {
-    // console.log('in thunk, pre fetch', profileImg)
     const formData = new FormData();
     formData.append('profile_img', profileImg);
 
@@ -145,7 +144,6 @@ export const addProfileImg = (profileImg) => async (dispatch) => {
         body: formData
     })
     const data = await response.json();
-    console.log('in thunk after fetch',data)
     if (response.ok) {
         dispatch(addProfileImgAction(data))
         dispatch(patchProfileImg(data))
@@ -168,7 +166,6 @@ export default function reducer(state = initialState, action) {
         case PATCH_PROFILE:
             newState = {...state}
             newState.user.profile_img = action.payload
-            console.log('in session reducer',newState.user.profile_img)
             return newState
         default:
             return state;
