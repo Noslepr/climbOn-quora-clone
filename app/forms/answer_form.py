@@ -9,6 +9,8 @@ def answer_long_enough(form, field):
     if len(answer) < 15:
         raise ValidationError('Please provide a longer, more detailed answer.')
 
+    if len(answer) > 1000:
+        raise ValidationError('Please keep your answer under 1000 characters.')
 
 class AnswerForm(FlaskForm):
     answer = StringField('answer', validators=[

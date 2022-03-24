@@ -36,6 +36,6 @@ def repeat_password(form, field):
 
 class SignUpForm(FlaskForm):
     full_name = StringField('full_name', validators=[DataRequired(), full_name_length])
-    email = StringField('email', validators=[DataRequired(), Email(message="Must be a valid email."), user_exists])
+    email = StringField('email', validators=[DataRequired(), Email(message="Must be a valid email, no greater than 100 characters."), user_exists])
     password = StringField('password', validators=[DataRequired(), password_check])
     repeat_password = StringField('repeat_password', validators=[DataRequired(), repeat_password])

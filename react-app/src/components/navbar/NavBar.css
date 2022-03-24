@@ -52,6 +52,9 @@
     padding-left: 40px;
 }
 
+.no-click {
+    pointer-events: none;
+}
 /* #search-btn {
     height: 80%;
     width: 70px;
