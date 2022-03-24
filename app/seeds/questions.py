@@ -14,6 +14,7 @@ def seed_questions():
         Question(user_id = 7, question = 'Where are the best places to climb outdoors?'),
         Question(user_id = 9, question = 'How does the grading system work in the US?'),
         Question(user_id = 1, question = 'What is the point of brushing holds?'),
+        Question(user_id = 2, question = 'What should I do for training outside of just climbing?'),
         Question(user_id = 3, question = 'How do I begin trad climbing?'),
         Question(user_id = 5, question = 'What is the difference in equipment for ice climbing and trad climbing?'),
         Question(user_id = 1, question = 'What is trad climbing considered so expensive?'),
@@ -25,9 +26,6 @@ def seed_questions():
         Question(user_id = 1, question = 'What time of day is usually best to go climbing outdoors?'),
 
 
-
-        # Intermediate questions
-        Question(user_id = 2, question = 'What should I do for training outside of just climbing?'),
 
     ]
 
