@@ -95,6 +95,7 @@
     display: flex;
     align-items: center;
     padding: 5px 20px;
+    overflow-x: hidden;
 }
 
 .search-gray {
@@ -130,6 +131,7 @@
 
 .searched-questions {
     font-weight: 600;
+    overflow-x: hidden;
 }
 
 .search-list-item:last-child {
