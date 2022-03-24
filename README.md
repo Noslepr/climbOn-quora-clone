@@ -101,6 +101,11 @@ Here users can log in with an existing account, sign-up for an account, or login
 ## Home Page
 The home page is where the user will be navigated to after initial login. Here they will be shown a list of questions that will be randomized each time they navigate home.
 
+- As a logged in user I can click on any question to see all answers for a question.
+- If I am the owner of any of the questions, I will have the option to edit or delete that quesiton.
+
+<img src='react-app/public/ReadMe-Screenshots/home-page.png' width='400'>
+
 ## Navigation Bar
 The Nav bar is visable from every part of the site once you are logged in.
 

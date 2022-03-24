@@ -142,7 +142,7 @@ export const NavBar = ({ }) => {
                                     setShowProfileDropdown(false)
                                 }}><i className="fa-light fa-id-card"></i>Edit Your Credentials</li>
                                 <li onClick={handleButton}>
-                                    <i class="fa-light fa-square-user edit-profile-icon"></i>Edit Your Profile Image
+                                    <i className="fa-light fa-square-user edit-profile-icon"></i>Edit Your Profile Image
                                 </li>
                             </ul>
                             <div id='logout-container'>
