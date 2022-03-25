@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { postAnswer, patchAnswer } from "../../../store/answers";
-// import img from '../../../images/defaultUser.jpg'
+import img from '../../../images/defaultUser.jpg'
 
 
-export const AnswerBox = ({ user, questionId, answerObj, closeAnswerBox, closeEditAnswerBox, option }) => {
+export const AnswerBox = ({ user, questionId, answerObj, closeAnswerBox, closeEditAnswerBox, setShowAnswerCredModal, option }) => {
 
     const dispatch = useDispatch()
     const [answerId] = useState(answerObj ? answerObj.id : null)
@@ -60,10 +60,23 @@ export const AnswerBox = ({ user, questionId, answerObj, closeAnswerBox, closeEd
     return (
         <div id="post-answer-box-container">
             <div id="post-answer-box-header">
-                {/* <img src={img} alt='profie'></img> */}
+                {user.profile_img ?
+                    <img src={user.profile_img} alt='profile' className="answer-profile-img"></img>
+                    :
+                    <img src={img} alt='profile' className="answer-profile-img"></img>
+                }
                 <div id='post-answer-box-text'>
                     <div id='box-name'>{user.full_name}</div>
                     {/* <div>Edit credential</div> */}
+                    {!user.credentials ?
+                        <div className='home-question-credentials' id='add-credentials' onClick={() => setShowAnswerCredModal(true)}>
+                            Add Credentials
+                        </div>
+                        :
+                        <div className='home-question-credentials'>
+                            {user.credentials}
+                        </div>
+                    }
                 </div>
             </div>
             {showErrors && (
