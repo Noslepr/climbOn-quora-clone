@@ -67,7 +67,6 @@ export const AnswerBox = ({ user, questionId, answerObj, closeAnswerBox, closeEd
                 }
                 <div id='post-answer-box-text'>
                     <div id='box-name'>{user.full_name}</div>
-                    {/* <div>Edit credential</div> */}
                     {!user.credentials ?
                         <div className='home-question-credentials' id='add-credentials' onClick={() => setShowAnswerCredModal(true)}>
                             Add Credentials
