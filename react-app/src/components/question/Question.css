@@ -81,12 +81,8 @@
     padding: 20px;
 }
 
-#box-name {
-    padding-bottom: 15px;
-}
-
 #post-answer-box-text {
-    margin-left: 50px;
+    margin-left: 20px;
 }
 
 #error {

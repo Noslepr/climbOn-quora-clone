@@ -130,6 +130,7 @@ export const Question = ({ user }) => {
                                     user={user}
                                     questionId={questionId}
                                     closeAnswerBox={closeAnswerBox}
+                                    setShowAnswerCredModal={setShowAnswerCredModal}
                                     option='post'
                                 />
                             )}
@@ -154,7 +155,8 @@ export const Question = ({ user }) => {
                                             <div className="answer-header-text">
                                                 <div className="list-answer-user">{answerObj.user.full_name}</div>
                                                 {((answerObj.user.id === user.id) && !answerObj.user.credentials) ?
-                                                    <div className='home-question-credentials' id='add-credentials' onClick={() => setShowAnswerCredModal(true)}>Add Credentials</div> :
+                                                    <div className='home-question-credentials' id='add-credentials' onClick={() => setShowAnswerCredModal(true)}>Add Credentials</div>
+                                                    :
                                                     <div className='home-question-credentials'>{answerObj.user.credentials}</div>
                                                 }
                                             </div>
@@ -186,6 +188,7 @@ export const Question = ({ user }) => {
                                             questionId={questionId}
                                             answerObj={answerObj}
                                             closeEditAnswerBox={closeEditAnswerBox}
+                                            setShowAnswerCredModal={setShowAnswerCredModal}
                                             option='edit'
                                         />
                                     )}
