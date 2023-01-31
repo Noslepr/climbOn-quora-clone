@@ -116,7 +116,7 @@ export const Question = ({ user }) => {
                                                 handleEdit(e)
                                                 setShowDropdown(null)
                                             }}>
-                                                <i className="fa-light fa-pen icon"></i>Edit question
+                                                <i className="fa-solid fa-pen icon"></i>Edit question
                                             </li>
                                             <li className="dropdown-list-item red" onClick={handleDeleteQuestion}>
                                                 <i className="fa-regular fa-trash-can icon"></i>Delete question
@@ -172,7 +172,7 @@ export const Question = ({ user }) => {
                                                         setShowEditAnswerBox(idx)
                                                         setShowDropdown(null)
                                                     }}>
-                                                        <i className="fa-light fa-pen icon"></i>Edit answer
+                                                        <i className="fa-solid fa-pen icon"></i>Edit answer
                                                     </li>
                                                     <li className="dropdown-list-item red" onClick={() => handleDelete(answerObj.id)}><i className="fa-regular fa-trash-can icon"></i>Delete answer</li>
                                                 </ul>

@@ -45,7 +45,7 @@ export const AddCredentials = ({ user, option, setShowCredModal, setShowNavCredM
             <div>
                 <div id='add-question-modal-header'>
                     <div className='x-continaer'>
-                        <i className="fa-light fa-xmark x" onClick={handleCancel}></i>
+                        <i className="fa-solid fa-xmark x" onClick={handleCancel}></i>
                     </div>
                     <div id='bubble-container'>
                         <i className="fa-light fa-id-card cred-icon"></i>

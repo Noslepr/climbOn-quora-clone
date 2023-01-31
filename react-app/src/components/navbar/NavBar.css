@@ -249,6 +249,7 @@ li > i {
     padding: 8px 0px;
 }
 
+
 #nav-dropdown-your-list > li, #my-questions {
     padding: 0px 20px;
     list-style: none;
@@ -263,13 +264,22 @@ li > i {
     margin-right: 10px;
 }
 
+.your-questions {
+    margin-right: 25px;
+}
+
 .edit-profile-icon {
-    margin-right: 19px;
+    margin-right: 12px;
 }
 
 #logout-container {
     font-size: 15px;
     border-bottom: 1px solid rgb(205, 208, 209);
+}
+
+.logout-icon {
+    margin-right: 10px;
+    font-size: 23px;
 }
 
 #logout {

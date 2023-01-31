@@ -85,13 +85,13 @@ export const NavBar = ({ }) => {
                     onChange={(e) => setSearch(e.target.value)}
                 />
                 <div id='overlay'></div>
-                <i className="fa-regular fa-magnifying-glass search-icon"></i>
+                <i className="fa-solid fa-magnifying-glass search-icon"></i>
                 {searchResults &&
                     <ul id='search-list'>
                         <div id='no-click' className='no-click'>
                             <NavLink to={`/search`}>
                                 <li id='search-field' onClick={makeDisappear}>
-                                    <i className="fa-regular fa-magnifying-glass" style={{color:'rgb(160, 160, 160)'}}></i>
+                                    <i className="fa-solid fa-magnifying-glass" style={{color:'rgb(160, 160, 160)'}}></i>
                                     <div className='search-gray'>Search:</div>
                                     {search}
                                 </li>
@@ -103,7 +103,7 @@ export const NavBar = ({ }) => {
                                 return (
                                 <NavLink to={`/question/${question.id}`}>
                                     <li className='search-list-item' onClick={() => setSearch('')}>
-                                        <i className="fa-light fa-message-question" style={{color:'rgb(160, 160, 160)'}}></i>
+                                        <i className="fa-solid fa-question" style={{color:'rgb(160, 160, 160)'}}></i>
                                         <div className='search-gray'>Question:</div>
                                         <div className='searched-questions'>{question.question}</div>
                                     </li>
@@ -139,25 +139,25 @@ export const NavBar = ({ }) => {
                                     <img src={img} id='dropdown-profile-img' alt='profile'></img>
                                 }
                                 <div id='edit-container' onClick={handleButton}>
-                                    <i className="fa-light fa-pencil edit"></i>
+                                    <i className="fa-solid fa-pencil edit"></i>
                                 </div>
                                 <div id='dropdown-name'>{user.full_name}</div>
                             </div>
                             <ul id='nav-dropdown-your-list'>
                                 <NavLink to='/myQuestions'>
-                                    <li id='my-questions' onClick={(() => setShowProfileDropdown(false))}><i className="fa-light fa-message-question"></i>Your Questions</li>
+                                    <li id='my-questions' onClick={(() => setShowProfileDropdown(false))}><i className="fa-solid fa-question your-questions"></i>Your Questions</li>
                                 </NavLink>
-                                {/* <li><i className="fa-light fa-pen-field your-answers"></i>Your Answers</li> */}
+                                {/* <li><i className="fa-solid fa-pen-field your-answers"></i>Your Answers</li> */}
                                 <li onClick={() => {
                                     setShowNavCredModal(true)
                                     setShowProfileDropdown(false)
-                                }}><i className="fa-light fa-id-card"></i>Edit Your Credentials</li>
+                                }}><i className="fa-regular fa-id-card"></i>Edit Your Credentials</li>
                                 <li onClick={handleButton}>
-                                    <i className="fa-light fa-square-user edit-profile-icon"></i>Edit Your Profile Image
+                                    <i className="fa-solid fa-user-pen edit-profile-icon"></i>Edit Your Profile Image
                                 </li>
                             </ul>
                             <div id='logout-container'>
-                                <div id='logout' onClick={handleLogout}>Logout</div>
+                                <div id='logout' onClick={handleLogout}><i className="fa-solid fa-arrow-right-from-bracket logout-icon"></i>Logout</div>
                             </div>
                             <ul id='dropdown-about'>
                                 <li>About me</li>

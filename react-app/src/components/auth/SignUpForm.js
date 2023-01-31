@@ -49,7 +49,7 @@ const SignUpForm = ({ setShowSignupModal }) => {
     return (
         <div id='signup-form-modal'>
             <div className='x-continaer'>
-                <i className="fa-light fa-xmark" id='x' onClick={handleCancel}></i>
+                <i className="fa-solid fa-xmark" id='x' onClick={handleCancel}></i>
             </div>
             <div id='signup-form-header'>Sign up</div>
             <form>
