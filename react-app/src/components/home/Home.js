@@ -100,7 +100,7 @@ export const HomePage = ({ user }) => {
                                             handleEdit(e, currentQuestionId)
                                             setShowDropdown(null)
                                         }}>
-                                            <i className="fa-light fa-pen icon"></i>Edit question
+                                            <i className="fa-solid fa-pen icon"></i>Edit question
                                         </li>
                                         <li className="dropdown-list-item red" onClick={(e) => handleDelete(e, currentQuestionId)}>
                                             <i className="fa-regular fa-trash-can icon"></i>Delete question
@@ -145,7 +145,7 @@ export const HomePage = ({ user }) => {
                                             handleEdit(e, newQuestionId)
                                             setShowDropdown(null)
                                         }}>
-                                            <i className="fa-light fa-pen icon"></i>Edit question
+                                            <i className="fa-solid fa-pen icon"></i>Edit question
                                         </li>
                                         <li className="dropdown-list-item red" onClick={(e) => handleDelete(e, newQuestionId)}>
                                             <i className="fa-regular fa-trash-can icon"></i>Delete question
@@ -193,7 +193,7 @@ export const HomePage = ({ user }) => {
                                                         handleEdit(e, id)
                                                         setShowDropdown(null)
                                                     }}>
-                                                        <i className="fa-light fa-pen icon"></i>Edit question
+                                                        <i className="fa-solid fa-pen icon"></i>Edit question
                                                     </li>
                                                     <li className="dropdown-list-item red" onClick={(e) => handleDelete(e, id)}>
                                                         <i className="fa-regular fa-trash-can icon"></i>Delete question

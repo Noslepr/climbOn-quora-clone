@@ -94,7 +94,7 @@ export const MyQuestions = ({ user }) => {
                                                 handleEdit(e, question.id, question.question)
                                                 setShowDropdown(null)
                                             }}>
-                                                <i className="fa-light fa-pen icon"></i>Edit question
+                                                <i className="fa-solid fa-pen icon"></i>Edit question
                                             </li>
                                             <li className="dropdown-list-item red" onClick={(e) => handleDelete(e, question.id)}>
                                                 <i className="fa-regular fa-trash-can icon"></i>Delete question

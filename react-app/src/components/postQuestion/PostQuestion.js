@@ -9,7 +9,7 @@ export const PostQuestion = ({ setShowQuestionModal, setShowEditQuestionModal, c
     const history = useHistory()
     const [question, setQuestion] = useState('')
     const [errors, setErrors] = useState([])
-    
+
     useEffect(() => {
         if (currentQuestion) {
             setQuestion(currentQuestion)
@@ -55,10 +55,10 @@ export const PostQuestion = ({ setShowQuestionModal, setShowEditQuestionModal, c
             <div>
                 <div id='add-question-modal-header'>
                     <div className='x-continaer'>
-                        <i className="fa-light fa-xmark x" onClick={handleCancel}></i>
+                        <i className="fa-solid fa-xmark x" onClick={handleCancel}></i>
                     </div>
                     <div id='bubble-container'>
-                        <i className="fa-light fa-message-question question"></i>
+                        <i className="fa-solid fa-question question"></i>
                         {option === 'edit' ?
                             <div id='add-header-text'>Edit Question</div>
                             :
